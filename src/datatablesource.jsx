@@ -1,3 +1,8 @@
+import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
+import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
+
 export const userColumns = [
   { field: "id", headerName: "ID", width: 70 },
   {
@@ -45,86 +50,70 @@ export const userColumns = [
   },
 ];
 
-//temporary data
-export const userRows = [
+
+
+
+
+export const widgetData = [
   {
-    id: 1,
-    username: "Snow",
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    status: "active",
-    email: "1snow@gmail.com",
-    age: 35,
+    type: "user",
+    title: "USERS",
+    isMoney: false,
+    link: "See all users",
+    query: "users",
+    icon: (
+      <PersonOutlinedIcon
+        className="icon"
+        style={{
+          color: "crimson",
+          backgroundColor: "rgba(255, 0, 0, 0.2)",
+        }}
+      />
+    ),
   },
   {
-    id: 2,
-    username: "Jamie Lannister",
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "2snow@gmail.com",
-    status: "passive",
-    age: 42,
+    type: "order",
+    title: "ORDERS",
+    isMoney: false,
+    link: "View all orders",
+    query: "orders",
+    icon: (
+      <ShoppingCartOutlinedIcon
+        className="icon"
+        style={{
+          backgroundColor: "rgba(218, 165, 32, 0.2)",
+          color: "goldenrod",
+        }}
+      />
+    ),
   },
   {
-    id: 3,
-    username: "Lannister",
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "3snow@gmail.com",
-    status: "pending",
-    age: 45,
+    type: "earning",
+    title: "EARNINGS",
+    isMoney: true,
+    link: "View net earnings",
+    query: "earnings",
+    icon: (
+      <MonetizationOnOutlinedIcon
+        className="icon"
+        style={{ backgroundColor: "rgba(0, 128, 0, 0.2)", color: "green" }}
+      />
+    ),
   },
   {
-    id: 4,
-    username: "Stark",
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "4snow@gmail.com",
-    status: "active",
-    age: 16,
-  },
-  {
-    id: 5,
-    username: "Targaryen",
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "5snow@gmail.com",
-    status: "passive",
-    age: 22,
-  },
-  {
-    id: 6,
-    username: "Melisandre",
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "6snow@gmail.com",
-    status: "active",
-    age: 15,
-  },
-  {
-    id: 7,
-    username: "Clifford",
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "7snow@gmail.com",
-    status: "passive",
-    age: 44,
-  },
-  {
-    id: 8,
-    username: "Frances",
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "8snow@gmail.com",
-    status: "active",
-    age: 36,
-  },
-  {
-    id: 9,
-    username: "Roxie",
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "snow@gmail.com",
-    status: "pending",
-    age: 65,
-  },
-  {
-    id: 10,
-    username: "Roxie",
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "snow@gmail.com",
-    status: "active",
-    age: 65,
+    type: "balance",
+    title: "BALANCE",
+    isMoney: true,
+    link: "See details",
+    query: "balances",
+    icon: (
+      <AccountBalanceWalletOutlinedIcon
+        className="icon"
+        style={{
+          backgroundColor: "rgba(128, 0, 128, 0.2)",
+          color: "purple",
+        }}
+      />
+    ),
   },
 ];
