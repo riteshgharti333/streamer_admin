@@ -9,7 +9,7 @@ import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyC2DsbO5QLVBuNGhZ1TZDLUSgMlE_ZK8Js",
+  apiKey: import.meta.env.VITE_SOME_KEY,
   authDomain: "streamer-admin.firebaseapp.com",
   projectId: "streamer-admin",
   storageBucket: "streamer-admin.appspot.com",
