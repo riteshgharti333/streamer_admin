@@ -1,7 +1,9 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { userColumns, userRows } from "../../datatablesource.jsx";
-import { Link } from "react-router-dom";
+import { userColumns } from "../../datatablesource.jsx";
+import { moviesColumns } from "../../datatablesource.jsx";
+
+import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
   collection,
@@ -11,9 +13,27 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import { db } from "../../firebase.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import { getAsyncMovies } from "../../redux/asyncThunks/movieThunks.jsx";
 
-const Datatable = () => {
+const Datatable = ({title,type}) => {
   const [data, setData] = useState([]);
+
+  const location = useLocation();
+  
+  const path = location.pathname;
+
+ 
+  const dispatch = useDispatch();
+
+  const movies = useSelector((state) => state.movies.movies);
+   
+  useEffect(() =>{
+    dispatch(getAsyncMovies()); 
+  },[])
+
+   
+
 
   useEffect(() => {
     // const fetchData = async () => {
@@ -87,10 +107,11 @@ const Datatable = () => {
   return (
     <div className="datatable">
       <div className="datatableTitle">
-        Add New User
-        <Link to="/users/new" className="link">
+        {title}
+        {path !== '/users' && <Link to={`/${type}/new`} className="link">
           Add New
-        </Link>
+        </Link> }
+        
       </div>
       <DataGrid
         className="datagrid"

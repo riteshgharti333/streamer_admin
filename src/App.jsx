@@ -2,25 +2,22 @@ import Home from "./pages/home/Home";
 import Login from "./pages/Login/Login";
 import List from "./pages/list/List";
 import Single from "./pages/single/Single";
-import New from "./pages/new/New";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { productInputs, userInputs } from "./formSource";
+import { movieInputs } from "./formSource";
 import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/AuthContext";
+import NewMovie from "./pages/newMovie/NewMovie";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
 
-  const {currentUser} = useContext(AuthContext);
-  
+  const { currentUser } = useContext(AuthContext);
 
   const RequireAuth = ({ children }) => {
     return currentUser ? children : <Navigate to="login" />;
   };
-
-
 
   return (
     <div className={darkMode ? "app dark" : "app"}>
@@ -36,12 +33,15 @@ function App() {
                 </RequireAuth>
               }
             />
+
+        {/* users */}
+
             <Route path="users">
               <Route
                 index
                 element={
                   <RequireAuth>
-                    <List />
+                    <List title="Users"/>
                   </RequireAuth>
                 }
               />
@@ -53,26 +53,20 @@ function App() {
                   </RequireAuth>
                 }
               />
-              <Route
-                path="new"
-                element={
-                  <RequireAuth>
-                    <New inputs={userInputs} title="Add New User" />
-                  </RequireAuth>
-                }
-              />
             </Route>
-            <Route path="products">
+
+            movies
+            <Route path="movies">
               <Route
                 index
                 element={
                   <RequireAuth>
-                    <List />
+                    <List  title="Add New Movie" type="movies" />
                   </RequireAuth>
                 }
               />
               <Route
-                path=":productId"
+                path=":moivieId"
                 element={
                   <RequireAuth>
                     <Single />
@@ -83,11 +77,40 @@ function App() {
                 path="new"
                 element={
                   <RequireAuth>
-                    <New inputs={productInputs} title="Add New Product" />
+                    <NewMovie inputs={movieInputs} title="Add New Movie" />
                   </RequireAuth>
                 }
               />
             </Route>
+
+            {/* webseries */}
+            <Route path="webseries">
+              <Route
+                index
+                element={
+                  <RequireAuth>
+                    <List  title="Add New Webseries" type="webseries" />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path=":moivieId"
+                element={
+                  <RequireAuth>
+                    <Single />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="new"
+                element={
+                  <RequireAuth>
+                    <NewMovie inputs={movieInputs} title="Add New Webseries" />
+                  </RequireAuth>
+                }
+              />
+            </Route>
+
           </Route>
         </Routes>
       </BrowserRouter>

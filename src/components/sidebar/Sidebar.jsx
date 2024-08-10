@@ -1,11 +1,12 @@
 import "./sidebar.scss";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
-import CreditCardIcon from "@mui/icons-material/CreditCard";
-import StoreIcon from "@mui/icons-material/Store";
+import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
+import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
+import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import InsertChartIcon from "@mui/icons-material/InsertChart";
 import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
+import ViewListIcon from "@mui/icons-material/ViewList";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import SettingsSystemDaydreamOutlinedIcon from "@mui/icons-material/SettingsSystemDaydreamOutlined";
@@ -42,21 +43,30 @@ const Sidebar = () => {
               <span>Users</span>
             </li>
           </Link>
-          <Link to="/products" style={{ textDecoration: "none" }}>
+          <Link to="/movies" style={{ textDecoration: "none" }}>
             <li>
-              <StoreIcon className="icon" />
-              <span>Products</span>
+              <LocalMoviesIcon className="icon" />
+              <span>Movies</span>
             </li>
           </Link>
-          <li>
-            <CreditCardIcon className="icon" />
-            <span>Orders</span>
-          </li>
-          <li>
-            <LocalShippingIcon className="icon" />
-            <span>Delivery</span>
-          </li>
+          <Link to="/webseries" style={{ textDecoration: "none" }}>
+            <li>
+              <OndemandVideoIcon className="icon" />
+              <span>Webseries</span>
+            </li>
+          </Link>
+          <Link to="/lists" style={{ textDecoration: "none" }}>
+            <li>
+              <ViewListIcon className="icon" />
+              <span>Lists</span>
+            </li>
+          </Link>
+
           <p className="title">USEFUL</p>
+          <li>
+            <AccountBalanceWalletOutlinedIcon className="icon" />
+            <span>Earnings</span>
+          </li>
           <li>
             <InsertChartIcon className="icon" />
             <span>Stats</span>
@@ -66,14 +76,14 @@ const Sidebar = () => {
             <span>Notifications</span>
           </li>
           <p className="title">SERVICE</p>
-          <li>
+          {/* <li>
             <SettingsSystemDaydreamOutlinedIcon className="icon" />
             <span>System Health</span>
-          </li>
-          <li>
+          </li> */}
+          {/* <li>
             <PsychologyOutlinedIcon className="icon" />
             <span>Logs</span>
-          </li>
+          </li> */}
           <li>
             <SettingsApplicationsIcon className="icon" />
             <span>Settings</span>
