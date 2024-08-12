@@ -9,6 +9,9 @@ import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/AuthContext";
 import NewMovie from "./pages/newMovie/NewMovie";
+import SingleMovie from "./pages/SingleMovie/SingleMovie";
+import { movieColumns, userColumns } from "./datatablesource";
+
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -33,15 +36,13 @@ function App() {
                 </RequireAuth>
               }
             />
-
-        {/* users */}
-
+            {/* users */}
             <Route path="users">
               <Route
                 index
                 element={
                   <RequireAuth>
-                    <List title="Users"/>
+                    <List title="Users" listColumns={userColumns} />
                   </RequireAuth>
                 }
               />
@@ -54,14 +55,14 @@ function App() {
                 }
               />
             </Route>
-
-            movies
+            
+            {/* movies */}
             <Route path="movies">
               <Route
                 index
                 element={
                   <RequireAuth>
-                    <List  title="Add New Movie" type="movies" />
+                    <List title="Add New Movie" type="movies" listColumns={movieColumns} movieType="movies"/>
                   </RequireAuth>
                 }
               />
@@ -69,7 +70,7 @@ function App() {
                 path=":moivieId"
                 element={
                   <RequireAuth>
-                    <Single />
+                    <SingleMovie />
                   </RequireAuth>
                 }
               />
@@ -82,14 +83,13 @@ function App() {
                 }
               />
             </Route>
-
             {/* webseries */}
             <Route path="webseries">
               <Route
                 index
                 element={
                   <RequireAuth>
-                    <List  title="Add New Webseries" type="webseries" />
+                    <List title="Add New Webseries" type="webseries" listColumns={movieColumns}  movieType="webseries"/>
                   </RequireAuth>
                 }
               />
@@ -97,7 +97,7 @@ function App() {
                 path=":moivieId"
                 element={
                   <RequireAuth>
-                    <Single />
+                    <SingleMovie />
                   </RequireAuth>
                 }
               />
@@ -110,7 +110,6 @@ function App() {
                 }
               />
             </Route>
-
           </Route>
         </Routes>
       </BrowserRouter>

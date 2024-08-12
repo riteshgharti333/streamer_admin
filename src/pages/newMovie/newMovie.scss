@@ -7,6 +7,8 @@
     
     .top,
     .bottom {
+      
+
       -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
       box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
       padding: 10px;
@@ -17,6 +19,7 @@
         color: lightgray;
         font-size: 20px;
       }
+      form {
 
       .left {
         display: flex;
@@ -37,7 +40,6 @@
       .right {
         flex: 2;
         margin-top: 30px;
-        form {
           display: flex;
           flex-wrap: wrap;
           gap: 30px;
@@ -84,7 +86,8 @@
             }
           }
         }
-      }
+      
+    }
     }
   }
 }

@@ -3,8 +3,25 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import Chart from "../../components/chart/Chart";
 import List from "../../components/table/Table";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { deleteAsyncSigleMovie, getAsyncSigleMovie } from "../../redux/asyncThunks/movieThunks";
 
 const Single = () => {
+
+  const dispatch = useDispatch();
+    // const { singleMovie, status, error } = useSelector((state) => state.movies);
+
+    useEffect(() => {
+        dispatch(getAsyncSigleMovie("654167a6dc7c4b2892e89827"));
+    }, [dispatch]);
+
+
+    const handleDelete = () => {
+      console.log("hello")
+      dispatch(deleteAsyncSigleMovie("66b8473e877260a2f799d612"));
+    }
+
   return (
     <div className="single">
       <Sidebar />
@@ -12,7 +29,12 @@ const Single = () => {
         <Navbar />
         <div className="top">
           <div className="left">
-            <div className="editButton">Edit</div>
+            <div className="leftButton">
+            <button className="editButton" >Edit</button>
+            <button className="editButton" onClick={handleDelete}>Delete</button>
+            </div>
+    
+
             <h1 className="title">Information</h1>
             <div className="item">
               <img

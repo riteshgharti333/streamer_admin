@@ -1,9 +1,9 @@
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
 import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
+
+
 
 export const userColumns = [
   { field: "id", headerName: "ID", width: 70 },
@@ -52,51 +52,56 @@ export const userColumns = [
   },
 ];
 
-export const moviesColumns = [
+export const movieColumns = [
   { field: "id", headerName: "ID", width: 70 },
+  // {
+  //   field: "movies",
+  //   headerName: "Movies",
+  //   width: 230,
+  //   renderCell: (params) => {
+  //     return (
+  //       <div className="cellWithImg">
+  //         <img className="cellImg" src={params.row.img} alt="avatar" />
+  //         {params.row.username}
+  //       </div>
+  //     );
+  //   },
+  // },
   {
-    field: "movies",
-    headerName: "Movies",
-    width: 230,
-    renderCell: (params) => {
-      return (
-        <div className="cellWithImg">
-          <img className="cellImg" src={params.row.img} alt="avatar" />
-          {params.row.username}
-        </div>
-      );
-    },
-  },
-  {
-    field: "name",
-    headerName: "Name",
+    field: "title",
+    headerName: "Title",
     width: 230,
   },
 
   {
     field: "genre",
     headerName: "Genre",
-    width: 100,
+    width: 200,
   },
 
   
   {
     field: "year",
     headerName: "Year",
-    width: 100,
+    width: 200,
   },
   {
-    field: "status",
-    headerName: "Status",
-    width: 160,
-    renderCell: (params) => {
-      return (
-        <div className={`cellWithStatus ${params.row.status}`}>
-          {params.row.status}
-        </div>
-      );
-    },
+    field: "age",
+    headerName: "Age",
+    width: 100,
   },
+  // {
+  //   field: "status",
+  //   headerName: "Status",
+  //   width: 160,
+  //   renderCell: (params) => {
+  //     return (
+  //       <div className={`cellWithStatus ${params.row.status}`}>
+  //         {params.row.status}
+  //       </div>
+  //     );
+  //   },
+  // },
 ];
 
 
@@ -163,3 +168,21 @@ export const widgetData = [
     ),
   },
 ];
+
+
+export const genre = [
+  "Action",
+  "Adventure",
+  "Anime",
+  "Animation",
+  "Comedies",
+  "Documentaries",
+  "Horror",
+  "Romantic",
+  "Sci-fi & Fantasy",
+  "Sports",
+  "Thrillers"
+]
+
+
+export const ageRestrictions = ["12", "15", "18"];
