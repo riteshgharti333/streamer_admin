@@ -13,6 +13,7 @@ import SingleMovie from "./pages/SingleMovie/SingleMovie";
 import { movieColumns, userColumns } from "./datatablesource";
 
 
+
 function App() {
   const { darkMode } = useContext(DarkModeContext);
 
