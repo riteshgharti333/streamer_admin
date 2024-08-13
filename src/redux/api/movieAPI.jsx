@@ -28,6 +28,6 @@ export const createSingleMovie = (newMovie) => {
 };
 
 //UPDATE MOVIE
-// export const updateSingleMovie = (id,updateMovie) => {
-//   return axios.delete(`${baseUrl}/movies/${id}, upda`);
-// };
+export const updateSingleMovie = (id,updateMovie) => {
+  return axios.put(`${baseUrl}/movies/${id}`,updateMovie);
+};

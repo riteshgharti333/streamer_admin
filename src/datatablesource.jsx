@@ -1,9 +1,7 @@
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
-import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
-import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
-
-
+import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
+import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 
 export const userColumns = [
   { field: "id", headerName: "ID", width: 70 },
@@ -32,7 +30,6 @@ export const userColumns = [
     width: 100,
   },
 
-  
   {
     field: "country",
     headerName: "Country",
@@ -53,20 +50,8 @@ export const userColumns = [
 ];
 
 export const movieColumns = [
-  { field: "id", headerName: "ID", width: 70 },
-  // {
-  //   field: "movies",
-  //   headerName: "Movies",
-  //   width: 230,
-  //   renderCell: (params) => {
-  //     return (
-  //       <div className="cellWithImg">
-  //         <img className="cellImg" src={params.row.img} alt="avatar" />
-  //         {params.row.username}
-  //       </div>
-  //     );
-  //   },
-  // },
+  { field: "_id", headerName: "ID", width: 70 },
+
   {
     field: "title",
     headerName: "Title",
@@ -79,7 +64,6 @@ export const movieColumns = [
     width: 200,
   },
 
-  
   {
     field: "year",
     headerName: "Year",
@@ -103,10 +87,6 @@ export const movieColumns = [
   //   },
   // },
 ];
-
-
-
-
 
 export const widgetData = [
   {
@@ -169,7 +149,6 @@ export const widgetData = [
   },
 ];
 
-
 export const genre = [
   "Action",
   "Adventure",
@@ -181,8 +160,7 @@ export const genre = [
   "Romantic",
   "Sci-fi & Fantasy",
   "Sports",
-  "Thrillers"
-]
-
+  "Thrillers",
+];
 
 export const ageRestrictions = ["12", "15", "18"];

@@ -5,6 +5,7 @@ import {
   getMovies,
   getQueryMovies,
   getSingleMovie,
+  updateSingleMovie,
 } from "../api/movieAPI";
 
 //GET ALL MOVIES
@@ -50,18 +51,15 @@ export const getAsyncSigleMovie = createAsyncThunk(
       return rejectWithValue(error.message || "Failed to fetch movies");
     }
   }
+  
 );
 
 //DELETE MOVIE
 export const deleteAsyncSigleMovie = createAsyncThunk(
   "movies/deleteSingleMovie",
   async (id, { rejectWithValue }) => {
-    console.log("Fetching movie with ID:", id);
-
     try {
-      console.log("hello");
       await deleteSingleMovie(id);
-      console.log("deleted id" + id);
       return id;
     } catch (error) {
       console.error("Failed to fetch movies:", error);
@@ -104,8 +102,6 @@ export const createAsyncSingleMovie = createAsyncThunk(
         video,
       };
       const response = await createSingleMovie(newMovie);
-      console.log(response.data);
-      console.log("Movie Create yeeeeeeeeeeeeeeeeeee..")
       return response.data;
     
  
@@ -117,3 +113,17 @@ export const createAsyncSingleMovie = createAsyncThunk(
 );
 
 //UPDATE MOVIE
+export const updateAsyncSingleMovie = createAsyncThunk(
+  "movies/updateSingleMovie",
+  async ({id,updateMovie}, { rejectWithValue }) => {
+    try {
+      const response = await updateSingleMovie(id,updateMovie);
+      console.log("Hello")
+      return response.data;
+  
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.message || "Failed to create movie");
+    }
+  }
+);

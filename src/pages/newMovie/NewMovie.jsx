@@ -99,7 +99,7 @@ const NewMovie = ({title }) => {
     e.preventDefault();
     try {
       await dispatch(createAsyncSingleMovie(data)).unwrap();
-      // navigate(-1);
+      navigate(-1);
     } catch (err) {
       console.log(err);
     }

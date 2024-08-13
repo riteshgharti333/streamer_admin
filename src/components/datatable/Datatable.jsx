@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  deleteAsyncSigleMovie,
   getAsyncMovies,
   getQueryAsyncMovies,
 } from "../../redux/asyncThunks/movieThunks.jsx";
@@ -22,17 +23,24 @@ const Datatable = ({ title, type, listColumns, movieType }) => {
 
   useEffect(() => {
     dispatch(getQueryAsyncMovies(movieType));
-  }, [dispatch,movieType]);
+  }, [dispatch, movieType]);
 
-  useEffect(() => {
-    if (movies) {
-      setData(movies.movies);
-      // console.log(movies.movies)
-      console.log(data);
+  // useEffect(() => {
+  //   // if (movies) {
+  //     console.log(movies.movies)
+  //     setData(movies.movies);
+  //   // }
+  // }, [movies.movies]);
+
+  const handleDelete = (id) => {
+    try {
+      console.log(id);
+      dispatch(deleteAsyncSigleMovie(id));
+      console.log("movie deleted");
+    } catch (error) {
+      console.log(error);
     }
-  }, [movies]);
-
-
+  };
 
   const actionColumn = [
     {
@@ -46,10 +54,7 @@ const Datatable = ({ title, type, listColumns, movieType }) => {
             <Link to={`/movies/${_id}`} style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
-            <div
-              className="deleteButton"
-              onClick={() => handleDelete(params.row.id)}
-            >
+            <div className="deleteButton" onClick={() => handleDelete(_id)}>
               Delete
             </div>
           </div>
@@ -68,9 +73,10 @@ const Datatable = ({ title, type, listColumns, movieType }) => {
           </Link>
         )}
       </div>
+    
       <DataGrid
         className="datagrid"
-        rows={data}
+        rows={movies.movies}
         columns={listColumns.concat(actionColumn)}
         pageSize={9}
         getRowId={(row) => row._id}

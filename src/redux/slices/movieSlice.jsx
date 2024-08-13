@@ -5,6 +5,7 @@ import {
   getAsyncMovies,
   getAsyncSigleMovie,
   getQueryAsyncMovies,
+  updateAsyncSingleMovie,
 } from "../asyncThunks/movieThunks";
 
 const initialState = {
@@ -72,16 +73,21 @@ const movieSlice = createSlice({
         state.status = "loading";
         state.error = null;
       })
-      .addCase(deleteAsyncSigleMovie.fulfilled, (state, action) => {
-        state.status = "idle";
-        const deletedMovieId = action.payload; 
-        state.movies = state.movies.filter(movie => movie.id !== deletedMovieId);
 
-        // Clear singleMovie if it was the deleted movie
-        if (state.singleMovie && state.singleMovie.id === deletedMovieId) {
+      .addCase(deleteAsyncSigleMovie.fulfilled, (state, action) => {
+        state.status = 'idle';
+        const deletedMovieId = action.payload; 
+        console.log('Deleted movie ID:', deletedMovieId);
+        
+        if (Array.isArray(state.movies.movies)) {
+          state.movies.movies = state.movies.movies.filter(movie => movie._id !== deletedMovieId);
+        }
+      
+        if (state.singleMovie && state.singleMovie._id === deletedMovieId) {
           state.singleMovie = null;
         }
       })
+      
       .addCase(deleteAsyncSigleMovie.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
@@ -98,6 +104,29 @@ const movieSlice = createSlice({
       state.movies.push(action.payload)
     })
     .addCase(createAsyncSingleMovie.rejected, (state, action) => {
+      state.status = "failed";
+      state.error = action.payload;
+    });
+
+    //  Update Single Movie
+    builder
+    .addCase(updateAsyncSingleMovie.pending, (state) => {
+      state.status = "loading";
+      state.error = null;
+    })
+   
+    .addCase(updateAsyncSingleMovie.fulfilled, (state, action) => {
+      state.status = 'idle';
+      const updatedMovie = action.payload.updateMovie;
+      
+      if (Array.isArray(state.movies.movies)) {
+        const index = state.movies.movies.findIndex(movie => movie._id === updatedMovie._id);
+          state.movies.movies[index] = updatedMovie;
+      }
+    })
+
+    
+    .addCase(updateAsyncSingleMovie.rejected, (state, action) => {
       state.status = "failed";
       state.error = action.payload;
     });
