@@ -10,9 +10,9 @@ import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/AuthContext";
 import NewMovie from "./pages/newMovie/NewMovie";
 import SingleMovie from "./pages/SingleMovie/SingleMovie";
-import { movieColumns, userColumns } from "./datatablesource";
-
-
+import SingleList from "./pages/SingleList/SingleList"
+import { movieColumns, MovieListColumns, userColumns } from "./datatablesource";
+import NewList from "./pages/NewList/NewList";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -43,7 +43,12 @@ function App() {
                 index
                 element={
                   <RequireAuth>
-                    <List title="Users" listColumns={userColumns} />
+                    <List
+                      title="Users"
+                      listColumns={userColumns}
+                      type="users"
+                      movieType="users"
+                    />
                   </RequireAuth>
                 }
               />
@@ -56,14 +61,19 @@ function App() {
                 }
               />
             </Route>
-            
+
             {/* movies */}
             <Route path="movies">
               <Route
                 index
                 element={
                   <RequireAuth>
-                    <List title="Add New Movie" type="movies" listColumns={movieColumns} movieType="movies"/>
+                    <List
+                      title="Add New Movie"
+                      type="movies"
+                      listColumns={movieColumns}
+                      movieType="movies"
+                    />
                   </RequireAuth>
                 }
               />
@@ -84,13 +94,19 @@ function App() {
                 }
               />
             </Route>
+
             {/* webseries */}
             <Route path="webseries">
               <Route
                 index
                 element={
                   <RequireAuth>
-                    <List title="Add New Webseries" type="webseries" listColumns={movieColumns}  movieType="webseries"/>
+                    <List
+                      title="Add New Webseries"
+                      type="webseries"
+                      listColumns={movieColumns}
+                      movieType="webseries"
+                    />
                   </RequireAuth>
                 }
               />
@@ -107,6 +123,39 @@ function App() {
                 element={
                   <RequireAuth>
                     <NewMovie inputs={movieInputs} title="Add New Webseries" />
+                  </RequireAuth>
+                }
+              />
+            </Route>
+
+            {/* Lists */}
+            <Route path="lists">
+              <Route
+                index
+                element={
+                  <RequireAuth>
+                    <List
+                      title="Add New Lists"
+                      type="lists"
+                      listColumns={MovieListColumns}
+                      movieType="list"
+                    />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path=":listId"
+                element={
+                  <RequireAuth>
+                    <SingleList />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="new"
+                element={
+                  <RequireAuth>
+                    <NewList inputs={movieInputs} title="Add New Webseries" />
                   </RequireAuth>
                 }
               />

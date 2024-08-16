@@ -1,7 +1,6 @@
 import axios from "axios";
 
-const baseUrl = import.meta.env.VITE_SOME_KEY;
-
+const baseUrl = import.meta.env.VITE_API_KEY;
 
 //GET ALL MOVIES
 export const getMovies = () => {

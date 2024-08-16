@@ -1,121 +1,113 @@
-.singleMovie{
-    display: flex;
-    width: 100%;
+.singleMovie {
+  display: flex;
+  width: 100%;
 
-    .singleMovieContainer{
-        flex: 6;
+  .singleMovieContainer {
+    flex: 6;
 
-        .bottom {
-          
-    
-          -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
-          box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
-          padding: 10px;
-          margin: 20px;
-          // display: flex;
+    .bottom {
+      -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+      box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+      padding: 10px;
+      margin: 20px;
+      // display: flex;
 
-          .singleMovieButton{
-            display: flex;
-            justify-content: end;
+      .singleMovieButton {
+        display: flex;
+        justify-content: end;
 
-            button{
-              background-color: red;
-              border: none;
-              padding: 5px;
-              font-size: 15px;
-              font-weight: bold;
-              color: white;
-              border-radius: 3px;
-              cursor: pointer;
+        button {
+          background-color: red;
+          border: none;
+          padding: 5px;
+          font-size: 15px;
+          font-weight: bold;
+          color: white;
+          border-radius: 3px;
+          cursor: pointer;
 
-              &:hover{
-                background-color: rgba(255, 0, 0, 0.61);
-
-              }
-
-              &:first-child{
-                margin-right: 10px;
-                background-color: green;
-
-                &:hover{
-                  background-color: rgba(0, 128, 0, 0.616);
-
-                }
-              }
-
-            }
+          &:hover {
+            background-color: rgba(255, 0, 0, 0.61);
           }
 
-          form {
-    
-          .left {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-    
-            p{
+          &:first-child {
+            margin-right: 10px;
+            background-color: green;
+
+            &:hover {
+              background-color: rgba(0, 128, 0, 0.616);
+            }
+          }
+        }
+      }
+
+      form {
+        .left {
+          display: flex;
+          justify-content: space-between;
+          flex-wrap: wrap;
+
+          p {
+            margin-bottom: 10px;
+          }
+
+          img {
+            width: 300px;
+            height: 150px;
+            object-fit: cover;
+          }
+        }
+
+        .right {
+          flex: 2;
+          margin-top: 30px;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 30px;
+          // justify-content: space-around;
+
+          .formInput {
+            width: 40%;
+
+            p {
               margin-bottom: 10px;
             }
-    
-            img {
-              width: 300px;
-              height: 150px;
-              object-fit: cover;
+
+            label {
+              display: flex;
+              align-items: center;
+              gap: 10px;
+
+              .icon {
+                cursor: pointer;
+              }
+            }
+
+            input {
+              width: 100%;
+              padding: 5px;
+              border: none;
+              border-bottom: 1px solid gray;
             }
           }
-    
-          .right {
-            flex: 2;
-            margin-top: 30px;
-              display: flex;
-              flex-wrap: wrap;
-              gap: 30px;
-              // justify-content: space-around;
-    
-              .formInput {
-                width: 40%;
-    
-                p{
-                  margin-bottom: 10px;
-                }
-    
-                label {
-                  display: flex;
-                  align-items: center;
-                  gap: 10px;
-    
-                  .icon {
-                    cursor: pointer;
-                  }
-                }
-    
-                input {
-                  width: 100%;
-                  padding: 5px;
-                  border: none;
-                  border-bottom: 1px solid gray;
-                }
-              }
-    
-              button {
-                width: 150px;
-                padding: 10px;
-                border: none;
-                background-color: teal;
-                color: white;
-                font-weight: bold;
-                cursor: pointer;
-                margin-top: 10px;
-    
-                &:disabled{
-                  background-color: rgba(0, 128, 128, 0.459);
-                  cursor: not-allowed;
-                }
-              }
+
+          button {
+            width: 150px;
+            padding: 10px;
+            border: none;
+            background-color: teal;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+
+            &:disabled {
+              background-color: rgba(0, 128, 128, 0.459);
+              cursor: not-allowed;
             }
-          
-        }
+          }
         }
       }
     }
-
+  }
+}

@@ -4,16 +4,16 @@ import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 
 export const userColumns = [
-  { field: "id", headerName: "ID", width: 70 },
+  { field: "_id", headerName: "ID", width: 100 },
   {
-    field: "user",
+    field: "name",
     headerName: "User",
-    width: 230,
+    width: 300,
     renderCell: (params) => {
       return (
         <div className="cellWithImg">
-          <img className="cellImg" src={params.row.img} alt="avatar" />
-          {params.row.username}
+          <img className="cellImg" src={params.row.profilePic} alt="avatar" />
+          {params.row.name}
         </div>
       );
     },
@@ -25,28 +25,28 @@ export const userColumns = [
   },
 
   {
-    field: "address",
-    headerName: "Address",
-    width: 100,
+    field: "isAdmin",
+    headerName: "Admin",
+    width: 200,
   },
 
-  {
-    field: "country",
-    headerName: "Country",
-    width: 100,
-  },
-  {
-    field: "status",
-    headerName: "Status",
-    width: 160,
-    renderCell: (params) => {
-      return (
-        <div className={`cellWithStatus ${params.row.status}`}>
-          {params.row.status}
-        </div>
-      );
-    },
-  },
+  // {
+  //   field: "createdAt",
+  //   headerName: "",
+  //   width: 100,
+  // },
+  // {
+  //   field: "status",
+  //   headerName: "Status",
+  //   width: 160,
+  //   renderCell: (params) => {
+  //     return (
+  //       <div className={`cellWithStatus ${params.row.status}`}>
+  //         {params.row.status}
+  //       </div>
+  //     );
+  //   },
+  // },
 ];
 
 export const movieColumns = [
@@ -86,6 +86,63 @@ export const movieColumns = [
   //     );
   //   },
   // },
+];
+
+export const MovieListColumns = [
+  { field: "_id", headerName: "ID", width: 70 },
+
+  {
+    field: "title",
+    headerName: "Title",
+    width: 230,
+  },
+
+  
+  {
+    field: "type",
+    headerName: "Type",
+    width: 200,
+  },
+  {
+    field: "genre",
+    headerName: "Genre",
+    width: 200,
+  },
+  // {
+  //   field: "status",
+  //   headerName: "Status",
+  //   width: 160,
+  //   renderCell: (params) => {
+  //     return (
+  //       <div className={`cellWithStatus ${params.row.status}`}>
+  //         {params.row.status}
+  //       </div>
+  //     );
+  //   },
+  // },
+];
+
+export const ListofListColumns = [
+  { field: "_id", headerName: "ID", width: 70 },
+
+  {
+    field: "title",
+    headerName: "Title",
+    width: 230,
+  },
+
+  
+  {
+    field: "year",
+    headerName: "Year",
+    width: 200,
+  },
+  {
+    field: "genre",
+    headerName: "Genre",
+    width: 200,
+  },
+ 
 ];
 
 export const widgetData = [

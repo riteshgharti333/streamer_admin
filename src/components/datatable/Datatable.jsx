@@ -1,46 +1,55 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteAsyncSigleMovie,
-  getAsyncMovies,
   getQueryAsyncMovies,
 } from "../../redux/asyncThunks/movieThunks.jsx";
+import { deleteAsyncSingleUser, getAsyncUsers } from "../../redux/asyncThunks/userThunks.jsx";
+import { deleteAsyncSingleList, getAsyncLists } from "../../redux/asyncThunks/listThunks.jsx";
 
 const Datatable = ({ title, type, listColumns, movieType }) => {
-  const [data, setData] = useState([]);
-
   const location = useLocation();
-
   const path = location.pathname;
-
   const dispatch = useDispatch();
 
   const movies = useSelector((state) => state.movies.movies);
+  const users = useSelector((state) => state.users.users);
 
+  const lists = useSelector((state) =>state.lists.lists);
+
+  
 
   useEffect(() => {
-    dispatch(getQueryAsyncMovies(movieType));
+    if (movieType === "movies") {
+      dispatch(getQueryAsyncMovies(movieType));
+    } else if (movieType === "users") {
+      dispatch(getAsyncUsers());
+    } else if (movieType === "webseries") {
+      dispatch(getQueryAsyncMovies(movieType))
+    }else if (movieType === "lists") {
+      console.log(lists.lists);
+      dispatch(getAsyncLists(movieType))
+     
+    }
   }, [dispatch, movieType]);
-
-  // useEffect(() => {
-  //   // if (movies) {
-  //     console.log(movies.movies)
-  //     setData(movies.movies);
-  //   // }
-  // }, [movies.movies]);
 
   const handleDelete = (id) => {
     try {
-      console.log(id);
-      dispatch(deleteAsyncSigleMovie(id));
-      console.log("movie deleted");
+      if (movieType === "movies") {
+        dispatch(deleteAsyncSigleMovie(id));
+      } else if (movieType === "users") {
+        dispatch(deleteAsyncSingleUser(id));
+      }else if (movieType === "lists") {
+        dispatch(deleteAsyncSingleList(id));
+      }
     } catch (error) {
       console.log(error);
     }
   };
+  
 
   const actionColumn = [
     {
@@ -51,7 +60,7 @@ const Datatable = ({ title, type, listColumns, movieType }) => {
         const { _id } = params.row;
         return (
           <div className="cellAction">
-            <Link to={`/movies/${_id}`} style={{ textDecoration: "none" }}>
+            <Link to={`/${movieType}/${_id}`} style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
             <div className="deleteButton" onClick={() => handleDelete(_id)}>
@@ -63,6 +72,20 @@ const Datatable = ({ title, type, listColumns, movieType }) => {
     },
   ];
 
+  // Determine which rows to use based on `movieType`
+  let rows ;
+  if (movieType === "movies") {
+    rows = movies.movies;
+  } else if (movieType === "webseries") {
+    rows = movies.movies; // Adjust if needed
+  } else if (movieType === "users") {
+    rows = users.users;
+  }else if (movieType === "lists") {
+    rows = lists.lists;
+  } else {
+    rows = [];
+  }
+
   return (
     <div className="datatable">
       <div className="datatableTitle">
@@ -73,10 +96,10 @@ const Datatable = ({ title, type, listColumns, movieType }) => {
           </Link>
         )}
       </div>
-    
+
       <DataGrid
         className="datagrid"
-        rows={movies.movies}
+        rows={rows}
         columns={listColumns.concat(actionColumn)}
         pageSize={9}
         getRowId={(row) => row._id}

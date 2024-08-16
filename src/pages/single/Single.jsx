@@ -3,23 +3,37 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import Chart from "../../components/chart/Chart";
 import List from "../../components/table/Table";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { deleteAsyncSigleMovie, getAsyncSigleMovie } from "../../redux/asyncThunks/movieThunks";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+
+import { useLocation, useNavigate } from "react-router-dom";
+import {getAsyncSingleUser,deleteAsyncSingleUser} from "../../redux/asyncThunks/userThunks"
 
 const Single = () => {
-
+  const [data,setData] = useState({});
   const dispatch = useDispatch();
-    // const { singleMovie, status, error } = useSelector((state) => state.movies);
+  const navigate = useNavigate();
+  
+  const location = useLocation();
+  const path = location.pathname.split("/")[2];
+
+
+  const users = useSelector((state) => state.users.users)
+
 
     useEffect(() => {
-        dispatch(getAsyncSigleMovie("654167a6dc7c4b2892e89827"));
-    }, [dispatch]);
+        dispatch(getAsyncSingleUser(path));
+    }, [dispatch,path]);
 
+    useEffect(() => {
+      if (users && users.getUser) {
+        setData(users.getUser);
+      }
+    }, [users]);
 
     const handleDelete = () => {
-      console.log("hello")
-      dispatch(deleteAsyncSigleMovie("66b8473e877260a2f799d612"));
+      dispatch(deleteAsyncSingleUser(path));
+      navigate(-1);
     }
 
   return (
@@ -43,25 +57,18 @@ const Single = () => {
                 className="itemImg"
               />
               <div className="details">
-                <h1 className="itemTitle">Jane Doe</h1>
+                <h1 className="itemTitle">{data.name}</h1>
                 <div className="detailItem">
                   <span className="itemKey">Email:</span>
-                  <span className="itemValue">janedoe@gmail.com</span>
+                  <span className="itemValue">{data.email}</span>
                 </div>
-                <div className="detailItem">
-                  <span className="itemKey">Phone:</span>
-                  <span className="itemValue">+1 2345 67 89</span>
-                </div>
-                <div className="detailItem">
-                  <span className="itemKey">Address:</span>
+                {/* <div className="detailItem">
+                  <span className="itemKey">Admin:</span>
                   <span className="itemValue">
-                    Elton St. 234 Garden Yd. NewYork
+                    {user.isAdmin}
+
                   </span>
-                </div>
-                <div className="detailItem">
-                  <span className="itemKey">Country:</span>
-                  <span className="itemValue">USA</span>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

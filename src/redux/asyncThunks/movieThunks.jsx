@@ -14,7 +14,6 @@ export const getAsyncMovies = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const res = await getMovies();
-      // console.log(res.data);
       return res.data;
     } catch (error) {
       console.error("Failed to fetch movies:", error);
@@ -33,7 +32,7 @@ export const getQueryAsyncMovies = createAsyncThunk(
       return res.data;
     } catch (error) {
       console.error("Failed to fetch movies:", error);
-      return rejectWithValue(error.message || "Failed to fetch movies");
+      return rejectWithValue(error.message || "Failed to fetch query movies");
     }
   }
 );
@@ -48,7 +47,7 @@ export const getAsyncSigleMovie = createAsyncThunk(
       return res.data;
     } catch (error) {
       console.error("Failed to fetch movies:", error);
-      return rejectWithValue(error.message || "Failed to fetch movies");
+      return rejectWithValue(error.message || "Failed to fetch movie");
     }
   }
   
@@ -63,7 +62,7 @@ export const deleteAsyncSigleMovie = createAsyncThunk(
       return id;
     } catch (error) {
       console.error("Failed to fetch movies:", error);
-      return rejectWithValue(error.message || "Failed to fetch movies");
+      return rejectWithValue(error.message || "Failed delete movie");
     }
   }
 );
@@ -123,7 +122,7 @@ export const updateAsyncSingleMovie = createAsyncThunk(
   
     } catch (error) {
       console.log(error);
-      return rejectWithValue(error.message || "Failed to create movie");
+      return rejectWithValue(error.message || "Failed to update movie");
     }
   }
 );

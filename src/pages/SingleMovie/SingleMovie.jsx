@@ -126,6 +126,7 @@ const SingleMovie = () => {
     navigate(-1);
   };
 
+  console.log(data.isSeries)
   return (
     <div className="singleMovie">
       <Sidebar />
@@ -275,11 +276,11 @@ const SingleMovie = () => {
 
               <div className="formInput">
                 <label>Type</label>
-                <select id="isSeries" onChange={handleInput} name="isSeries">
-                  <option value="false" selected={data.isSeries === "false"}>
+                <select id="isSeries" onChange={handleInput} name="isSeries" value={data.isSeries}>
+                  <option value="false">
                     Movie
                   </option>
-                  <option value="true" selected={data.isSeries === "true"}>
+                  <option value="true">
                     Series
                   </option>
                 </select>
