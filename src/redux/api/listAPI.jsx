@@ -19,5 +19,11 @@ export const getSingleList = (id) => {
 
 //DELETE LISTS
 export const deleteSingleList = (id) => {
-    return axios.get(`${baseUrl}/list/${id}`);
+    return axios.delete(`${baseUrl}/list/${id}`);
   };
+
+
+//UPDATE LIST
+export const updateSingleList = (id,updateList) => {
+  return axios.put(`${baseUrl}/list/${id}`,updateList);
+};

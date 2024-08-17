@@ -136,9 +136,9 @@ function App() {
                   <RequireAuth>
                     <List
                       title="Add New Lists"
-                      type="lists"
+                      type="list"
                       listColumns={MovieListColumns}
-                      movieType="list"
+                      movieType="lists"
                     />
                   </RequireAuth>
                 }
@@ -155,7 +155,7 @@ function App() {
                 path="new"
                 element={
                   <RequireAuth>
-                    <NewList inputs={movieInputs} title="Add New Webseries" />
+                    <NewList inputs={movieInputs} title="Add New List" />
                   </RequireAuth>
                 }
               />

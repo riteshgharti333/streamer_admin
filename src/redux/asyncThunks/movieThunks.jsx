@@ -117,7 +117,6 @@ export const updateAsyncSingleMovie = createAsyncThunk(
   async ({id,updateMovie}, { rejectWithValue }) => {
     try {
       const response = await updateSingleMovie(id,updateMovie);
-      console.log("Hello")
       return response.data;
   
     } catch (error) {

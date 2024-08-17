@@ -8,36 +8,25 @@ import AddIcon from "@mui/icons-material/Add";
 import { ListofListColumns } from "../../datatablesource";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getAsyncSingleList } from "../../redux/asyncThunks/listThunks";
-import { useLocation } from "react-router-dom";
+import {
+  deleteAsyncSingleList,
+  getAsyncSingleList,
+} from "../../redux/asyncThunks/listThunks";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   deleteAsyncSigleMovie,
   getAsyncSigleMovie,
 } from "../../redux/asyncThunks/movieThunks";
 
 const SingleList = () => {
+
   const [add, setAdd] = useState(false);
   const [list, setList] = useState({});
   const [moviesListId, setMoviesListId] = useState([]);
   const [rows, setRows] = useState([]);
 
-  // const rows = [
-  //   { _id: "1", title: "Movie 1", genre: "Action", year: 2021 },
-  //   { _id: "2", title: "Movie 2", genre: "Comedy", year: 2022 },
-  //   { _id: "3", title: "Movie 3", genre: "Drama", year: 2023 },
-  //   { _id: "4", title: "Movie 4", genre: "Horror", year: 2024 },
-  //   { _id: "5", title: "Movie 5", genre: "Sci-Fi", year: 2025 },
-  //   { _id: "6", title: "Movie 6", genre: "Romance", year: 2026 },
-  //   { _id: "7", title: "Movie 6", genre: "Romance", year: 2026 },
-  //   { _id: "8", title: "Movie 6", genre: "Romance", year: 2026 },
-  //   { _id: "9", title: "Movie 6", genre: "Romance", year: 2026 },
-  //   // Add more rows as needed
-  // ];
-
-  // Action column with buttons
- 
-
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleOpen = () => {
     setAdd(!add);
@@ -56,13 +45,11 @@ const SingleList = () => {
     dispatch(getAsyncSingleList(path));
   }, [dispatch, path]);
 
-  // console.log(moviesListId);
-
   useEffect(() => {
-    lists.list  && setList(lists.list);
-
-    lists.list && setMoviesListId(lists.list.content);
-  
+    if (lists.list) {
+      setList(lists.list);
+      setMoviesListId(lists.list.content);
+    }
   }, [lists]);
 
   useEffect(() => {
@@ -78,8 +65,7 @@ const SingleList = () => {
         const movies = movieResponses.map(
           (response) => response.payload.getMovie
         ); // Adjust based on actual response structure
-        // console.log(movies);
-        setRows(movies); // Set the state with the fetched movies
+        setRows(movies);
       } catch (error) {
         console.error("Failed to fetch movies:", error);
       }
@@ -88,20 +74,12 @@ const SingleList = () => {
     fetchMovies();
   }, [dispatch, moviesListId]);
 
-  console.log(rows);
+  const deleteList = async (id) => {
+    dispatch(deleteAsyncSingleList(id));
+    console.log("list deleted");
+    navigate(-1);
+  };
 
-
-  // const deleteMovie = async (id) => {
-  //   try {
-  //     await dispatch(deleteAsyncSigleMovie(id));
-  //     fetchMovies();
-  //   } catch (error) {
-  //     console.error("Error deleting movie:", error);
-  //   }
-  // };
-
-
-    
   const actionColumn = [
     {
       field: "actions",
@@ -109,9 +87,7 @@ const SingleList = () => {
       width: 150,
       renderCell: (params) => (
         <div className="actions">
-          <DeleteIcon className="deleteIcon" 
-          //  onClick={() => deleteMovie(id)}
-          />
+          <DeleteIcon className="deleteIcon" />
         </div>
       ),
     },
@@ -124,7 +100,7 @@ const SingleList = () => {
       width: 150,
       renderCell: (params) => (
         <div className="actions">
-          <AddIcon className="deleteIcon"/>
+          <AddIcon className="deleteIcon" />
         </div>
       ),
     },
@@ -139,7 +115,7 @@ const SingleList = () => {
           <div className="bottom">
             <div className="singleListButton">
               <button>Edit</button>
-              <button>Delete</button>
+              <button onClick={() => deleteList(list._id)}>Delete</button>
             </div>
             <form className="addlistForm" onChange={handleChange}>
               <h1 className="addlistTitle">New List</h1>
