@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  createAsyncSingleList,
   deleteAsyncSingleList,
   getAsyncLists,
   getAsyncQueryLists,
@@ -106,6 +107,21 @@ const listSlice = createSlice({
         state.status = "failed";
         state.error = action.payload;
       });
+
+          //  Create Single List
+    builder
+    .addCase(createAsyncSingleList.pending, (state) => {
+      state.status = "loading";
+      state.error = null;
+    })
+    .addCase(createAsyncSingleList.fulfilled, (state, action) => {
+      state.status = "idle";
+      state.lists.push(action.payload);
+    })
+    .addCase(createAsyncSingleList.rejected, (state, action) => {
+      state.status = "failed";
+      state.error = action.payload;
+    });
   },
 });
 

@@ -6,40 +6,67 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { DataGrid } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import { ListofListColumns } from "../../datatablesource";
+import { ListofListSColumns } from "../../datatablesource";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import {
   deleteAsyncSingleList,
   getAsyncSingleList,
-} from "../../redux/asyncThunks/listThunks";
+  updateAsyncSingleList,
+} from "../../redux/asyncThunks/listThunks"; // Import the update thunk
 import { useLocation, useNavigate } from "react-router-dom";
 import {
-  deleteAsyncSigleMovie,
+  getAsyncMovies,
   getAsyncSigleMovie,
 } from "../../redux/asyncThunks/movieThunks";
+import { genre } from "../../datatablesource";
 
 const SingleList = () => {
-
   const [add, setAdd] = useState(false);
   const [list, setList] = useState({});
   const [moviesListId, setMoviesListId] = useState([]);
   const [rows, setRows] = useState([]);
+  const [allMovies, setAllMovies] = useState([]);
 
+  const [data, setData] = useState({});
+  const [selectedMovies, setSelectedMovies] = useState([]);
+
+
+  const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const path = location.pathname.split("/")[2];
+
+  const lists = useSelector((state) => state.lists.lists);
+  const movies = useSelector((state) => state.movies.movies);
+
+  useEffect(() => {
+    dispatch(getAsyncMovies());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (movies && movies.movies) {
+      const filtered = movies.movies.filter(
+        (movie) => !moviesListId.includes(movie._id)
+      );
+      setAllMovies(filtered);
+    }
+  }, [movies, moviesListId]);
+  
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setData({ ...data, [e.target.name]: value });
+    setList((prev) => ({
+      ...prev,
+      [e.target.name]: value,
+    }));
+  };
 
   const handleOpen = () => {
     setAdd(!add);
   };
-
-  const handleChange = (e) => {
-    e.preventDefault();
-  };
-
-  const location = useLocation();
-  const path = location.pathname.split("/")[2];
-
-  const lists = useSelector((state) => state.lists.lists);
 
   useEffect(() => {
     dispatch(getAsyncSingleList(path));
@@ -55,16 +82,13 @@ const SingleList = () => {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        // Fetch all movies using Promise.all
         const moviePromises = moviesListId.map((id) =>
           dispatch(getAsyncSigleMovie(id))
         );
-        // Wait for all promises to resolve
         const movieResponses = await Promise.all(moviePromises);
-        // Extract payloads from responses
         const movies = movieResponses.map(
           (response) => response.payload.getMovie
-        ); // Adjust based on actual response structure
+        );
         setRows(movies);
       } catch (error) {
         console.error("Failed to fetch movies:", error);
@@ -80,6 +104,46 @@ const SingleList = () => {
     navigate(-1);
   };
 
+  
+
+  const handleRowSelection = (selectionModel) => {
+    setSelectedMovies(selectionModel);
+  };
+
+  const handleAddMovies = () => {
+    const updatedContent = [...moviesListId, ...selectedMovies];
+    setMoviesListId(updatedContent);
+
+    setList({ ...list, content: updatedContent });
+    setAdd(false);
+
+    console.log(selectedMovies);
+    setAdd(!add);
+  };
+
+  const deleteMovieFromList = (id) => {
+    const updatedContent = moviesListId.filter((movieId) => movieId !== id);
+    setMoviesListId(updatedContent);
+    setList({ ...list, content: updatedContent });
+  };
+
+
+  const updateList = async () => {
+    const updateList = {
+      ...list,
+      content: moviesListId, 
+    };
+    try {
+      dispatch(updateAsyncSingleList({ id: list._id, updateList }));      
+      navigate(0)
+    } catch (error) {
+      console.log(error);
+    }
+  
+  };
+
+ 
+
   const actionColumn = [
     {
       field: "actions",
@@ -87,20 +151,10 @@ const SingleList = () => {
       width: 150,
       renderCell: (params) => (
         <div className="actions">
-          <DeleteIcon className="deleteIcon" />
-        </div>
-      ),
-    },
-  ];
-
-  const AddColumn = [
-    {
-      field: "actions",
-      headerName: "Actions",
-      width: 150,
-      renderCell: (params) => (
-        <div className="actions">
-          <AddIcon className="deleteIcon" />
+          <DeleteIcon
+            className="deleteIcon"
+            onClick={() => deleteMovieFromList(params.row._id)}
+          />
         </div>
       ),
     },
@@ -114,7 +168,6 @@ const SingleList = () => {
           <Navbar />
           <div className="bottom">
             <div className="singleListButton">
-              <button>Edit</button>
               <button onClick={() => deleteList(list._id)}>Delete</button>
             </div>
             <form className="addlistForm" onChange={handleChange}>
@@ -126,24 +179,26 @@ const SingleList = () => {
                     type="text"
                     placeholder="popular movies"
                     name="title"
-                    value={list.title}
-                    // onChange={handleChange}
+                    value={list.title || ""}
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="addlistItem">
                   <label>Genre</label>
-                  <input
-                    type="text"
-                    placeholder="action"
+                  <select
                     name="genre"
-                    // onChange={handleChange}
                     value={list.genre}
-                  />
+                    onChange={handleChange}
+                  >
+                    {genre.map((g) => (
+                      <option key={g}>{g}</option>
+                    ))}
+                  </select>
                 </div>
                 <div className="addlistItem">
                   <label>Type</label>
-                  <select name="type" value={list.type}>
-                    <option>Type</option>
+
+                  <select name="type" value={list.type} onChange={handleChange}>
                     <option value="movie">Movie</option>
                     <option value="series">Series</option>
                   </select>
@@ -163,7 +218,7 @@ const SingleList = () => {
                         },
                       }}
                       getRowId={(row) => row._id}
-                      rowsPerPageOptions={[5]}
+                      pageSizeOptions={[5, 10, 20]}
                       checkboxSelection
                     />
                   </div>
@@ -177,7 +232,13 @@ const SingleList = () => {
               >
                 Add
               </button>
-              <button className="addlistButton">Create</button>
+              <button
+                className="addlistButton"
+                type="button"
+                onClick={updateList}
+              >
+                Update
+              </button>
             </form>
           </div>
         </div>
@@ -186,8 +247,8 @@ const SingleList = () => {
         <div className="AddMovies">
           <DataGrid
             className="datagrid"
-            rows={rows}
-            columns={ListofListColumns.concat(AddColumn)}
+            rows={allMovies}
+            columns={ListofListSColumns}
             initialState={{
               pagination: {
                 paginationModel: {
@@ -196,13 +257,14 @@ const SingleList = () => {
               },
             }}
             getRowId={(row) => row._id}
-            rowsPerPageOptions={[5]}
+            pageSizeOptions={[5, 10, 20]}
             checkboxSelection
             disableRowSelectionOnClick
+            onRowSelectionModelChange={handleRowSelection}
           />
           <div className="AddMoviesBtn">
-            <button>Add</button>
-            <button onClick={handleOpen}>Cencel</button>
+          <button onClick={handleAddMovies}>Add</button>
+            <button onClick={handleOpen}>Cancel</button>
           </div>
         </div>
       )}

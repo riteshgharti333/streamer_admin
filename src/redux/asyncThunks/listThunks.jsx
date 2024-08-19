@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
+  createSingleList,
   deleteSingleList,
   getLists,
   getQueryLists,
@@ -74,6 +75,36 @@ export const updateAsyncSingleList = createAsyncThunk(
     } catch (error) {
       console.log(error);
       return rejectWithValue(error.message || "Failed to update list");
+    }
+  }
+);
+
+// CREATING SINGLE MOVIE
+export const createAsyncSingleList = createAsyncThunk(
+  "movies/createSingleList",
+  async (list, { rejectWithValue }) => {
+    try {
+      const {
+        title,
+        genre,
+        type,
+        content
+      } = list;
+
+      // Prepare the new movie object
+      const newList = {
+        title,
+        genre,
+        type,
+        content
+      };
+      const response = await createSingleList(newList);
+      console.log(response.data);
+      return response.data;
+  
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.message || "Failed to create movie");
     }
   }
 );

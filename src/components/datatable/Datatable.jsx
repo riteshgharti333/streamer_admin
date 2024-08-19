@@ -97,7 +97,7 @@ const Datatable = ({ title, type, listColumns, movieType }) => {
       <div className="datatableTitle">
         {title}
         {path !== "/users" && (
-          <Link to={`/${type}/new`} className="link">
+          <Link to={`/${movieType}/new`} className="link">
             Add New
           </Link>
         )}

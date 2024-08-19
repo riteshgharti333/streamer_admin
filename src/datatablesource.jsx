@@ -2,9 +2,11 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
+import PersonIcon from "@mui/icons-material/Person";
 
 export const userColumns = [
   { field: "_id", headerName: "ID", width: 100 },
+
   {
     field: "name",
     headerName: "User",
@@ -12,12 +14,17 @@ export const userColumns = [
     renderCell: (params) => {
       return (
         <div className="cellWithImg">
-          <img className="cellImg" src={params.row.profilePic} alt="avatar" />
+          {params.row.profilePic ? (
+            <img className="cellImg" src={params.row.profilePic} alt="avatar" />
+          ) : (
+            <PersonIcon style={{ fontSize: 30 }} />
+          )}
           {params.row.name}
         </div>
       );
     },
   },
+
   {
     field: "email",
     headerName: "Email",
@@ -97,7 +104,6 @@ export const MovieListColumns = [
     width: 230,
   },
 
-  
   {
     field: "type",
     headerName: "Type",
@@ -131,18 +137,49 @@ export const ListofListColumns = [
     width: 230,
   },
 
-  
   {
-    field: "year",
-    headerName: "Year",
-    width: 200,
+    field: "isSeries",
+    headerName: "Web Series",
+    width: 230,
   },
+
+  // {
+  //   field: "year",
+  //   headerName: "Year",
+  //   width: 200,
+  // },
   {
     field: "genre",
     headerName: "Genre",
     width: 200,
   },
- 
+];
+
+export const ListofListSColumns = [
+  { field: "_id", headerName: "ID", width: 70 },
+
+  {
+    field: "title",
+    headerName: "Title",
+    width: 230,
+  },
+
+  {
+    field: "isSeries",
+    headerName: "Web Series",
+    width: 150,
+  },
+
+  // {
+  //   field: "year",
+  //   headerName: "Year",
+  //   width: 200,
+  // },
+  {
+    field: "genre",
+    headerName: "Genre",
+    width: 200,
+  },
 ];
 
 export const widgetData = [

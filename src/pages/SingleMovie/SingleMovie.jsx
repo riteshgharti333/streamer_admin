@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   deleteAsyncSigleMovie,
   getAsyncSigleMovie,
-  updateAsyncSingleMovie
+  updateAsyncSingleMovie,
 } from "../../redux/asyncThunks/movieThunks";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../../firebase";
@@ -55,7 +55,7 @@ const SingleMovie = () => {
   };
 
   const uploadFile = async (file, label) => {
-    if (!file) return '';
+    if (!file) return "";
 
     const fileName = new Date().getTime() + label + file.name;
     const storageRef = ref(storage, `/items/${fileName}`);
@@ -63,10 +63,11 @@ const SingleMovie = () => {
 
     return new Promise((resolve, reject) => {
       uploadTask.on(
-        'state_changed',
+        "state_changed",
         (snapshot) => {
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log('Upload is ' + progress + '% done');
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
           setPer(progress);
         },
         (error) => {
@@ -89,10 +90,10 @@ const SingleMovie = () => {
 
     try {
       const urls = await Promise.all([
-        uploadFile(featureImg, 'featureImg'),
-        uploadFile(featureSmImg, 'featureSmImg'),
-        uploadFile(smImg, 'smImg'),
-        uploadFile(video, 'video')
+        uploadFile(featureImg, "featureImg"),
+        uploadFile(featureSmImg, "featureSmImg"),
+        uploadFile(smImg, "smImg"),
+        uploadFile(video, "video"),
       ]);
 
       setData((prev) => ({
@@ -100,23 +101,23 @@ const SingleMovie = () => {
         featureImg: urls[0] || prev.featureImg,
         featureSmImg: urls[1] || prev.featureSmImg,
         smImg: urls[2] || prev.smImg,
-        video: urls[3] || prev.video
+        video: urls[3] || prev.video,
       }));
 
-      setUploaded(urls.filter(url => url).length);
+      setUploaded(urls.filter((url) => url).length);
     } catch (error) {
-      console.error('Error uploading files:', error);
+      console.error("Error uploading files:", error);
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     try {
-      console.log(data);
-      await dispatch(updateAsyncSingleMovie({id : path,updateMovie: data })).unwrap();
+      await dispatch(
+        updateAsyncSingleMovie({ id: path, updateMovie: data })
+      ).unwrap();
       dispatch(getAsyncSigleMovie(path));
     } catch (err) {
-      console.log('Error updating movie:', err);
+      console.log("Error updating movie:", err);
     }
   };
 
@@ -126,7 +127,7 @@ const SingleMovie = () => {
     navigate(-1);
   };
 
-  console.log(data.isSeries)
+
   return (
     <div className="singleMovie">
       <Sidebar />
@@ -276,13 +277,14 @@ const SingleMovie = () => {
 
               <div className="formInput">
                 <label>Type</label>
-                <select id="isSeries" onChange={handleInput} name="isSeries" value={data.isSeries}>
-                  <option value="false">
-                    Movie
-                  </option>
-                  <option value="true">
-                    Series
-                  </option>
+                <select
+                  id="isSeries"
+                  onChange={handleInput}
+                  name="isSeries"
+                  value={data.isSeries}
+                >
+                  <option value="false">Movie</option>
+                  <option value="true">Series</option>
                 </select>
               </div>
 

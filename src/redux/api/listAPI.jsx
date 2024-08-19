@@ -27,3 +27,8 @@ export const deleteSingleList = (id) => {
 export const updateSingleList = (id,updateList) => {
   return axios.put(`${baseUrl}/list/${id}`,updateList);
 };
+
+//CREATE MOVIE
+export const createSingleList = (newList) => {
+  return axios.post(`${baseUrl}/list/newlist`, newList);
+};
