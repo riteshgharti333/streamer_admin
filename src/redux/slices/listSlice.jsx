@@ -116,7 +116,9 @@ const listSlice = createSlice({
     })
     .addCase(createAsyncSingleList.fulfilled, (state, action) => {
       state.status = "idle";
+      if (Array.isArray(state.movies)) {
       state.lists.push(action.payload);
+      }
     })
     .addCase(createAsyncSingleList.rejected, (state, action) => {
       state.status = "failed";

@@ -1,48 +1,44 @@
 import "./Login.scss";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { IoMdMail } from "react-icons/io";
 import { BiSolidLock, BiShow, BiHide } from "react-icons/bi";
-import { Link, useNavigate} from "react-router-dom";
-import {signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase";
-import { AuthContext } from "../../context/AuthContext";
-
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { loginAsyncUser } from "../../redux/asyncThunks/authThunks"
+import { toast } from "react-toastify";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const {dispatch} = useContext(AuthContext);
-
+  const { status, error } = useSelector((state) => state.auth);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleLogin = (e) => {
-    e.preventDefault()
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    
+    try {
+      await dispatch(loginAsyncUser({ email, password })).unwrap();
+      toast.success("Login successful!");
+      navigate("/");
+    } catch (err) {
+      toast.error("Login failed: " + err);
+    }
+  };
 
-    signInWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-    const user = userCredential.user;
-    dispatch({type: "LOGIN" , payload:user})
-    navigate("/")
-  })
-  .catch((error) => {
-    setError(true)
-  });
-
-  }
-        
   return (
     <div className="login">
       <div className="top">
         <div className="wrapper">
-        <h1><span className="f">STRE</span><span className="s">AMER</span></h1>
+          <h1>
+            <span className="f">STRE</span>
+            <span className="s">AMER</span>
+          </h1>
         </div>
       </div>
       <div className="container">
@@ -57,7 +53,7 @@ export default function Login() {
                 autoComplete="off"
                 placeholder="Email"
                 name="email"
-                onChange={e => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
           </div>
@@ -69,8 +65,7 @@ export default function Login() {
                 placeholder="Password"
                 type={showPassword ? "text" : "password"}
                 name="password"
-                onChange={e => setPassword(e.target.value)}
-
+                onChange={(e) => setPassword(e.target.value)}
               />
               {showPassword ? (
                 <BiHide
@@ -86,7 +81,7 @@ export default function Login() {
             </div>
           </div>
 
-         {error &&  <span className="warning">Wrong email or password!</span>}
+          {error && <span className="warning">Wrong email or password!</span>}
 
           <button className="loginButton" type="submit">
             Login

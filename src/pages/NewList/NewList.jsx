@@ -13,6 +13,7 @@ import {
 import { getAsyncMovies } from "../../redux/asyncThunks/movieThunks";
 import "./NewList.scss";
 import { createAsyncSingleList } from "../../redux/asyncThunks/listThunks";
+import { toast } from "react-toastify";
 
 const NewList = ({ title }) => {
   const [add, setAdd] = useState(false);
@@ -88,7 +89,8 @@ const NewList = ({ title }) => {
     e.preventDefault();
     try {
       await dispatch(createAsyncSingleList({ ...data, content: moviesListId })).unwrap();
-      navigate("/lists"); // Navigate to the list page after successful creation
+      toast.success("Created Successfully")
+      navigate("/lists");
     } catch (error) {
       console.log(error);
     }

@@ -248,7 +248,7 @@ export const genre = [
   "Adventure",
   "Anime",
   "Animation",
-  "Comedies",
+  "TV Dramas",
   "Documentaries",
   "Horror",
   "Romantic",
@@ -257,4 +257,4 @@ export const genre = [
   "Thrillers",
 ];
 
-export const ageRestrictions = ["12", "15", "18"];
+export const ageRestrictions = ["All", "12", "15", "18"];

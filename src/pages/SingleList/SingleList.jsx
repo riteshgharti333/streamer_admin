@@ -20,6 +20,7 @@ import {
   getAsyncSigleMovie,
 } from "../../redux/asyncThunks/movieThunks";
 import { genre } from "../../datatablesource";
+import { toast } from "react-toastify";
 
 const SingleList = () => {
   const [add, setAdd] = useState(false);
@@ -100,7 +101,7 @@ const SingleList = () => {
 
   const deleteList = async (id) => {
     dispatch(deleteAsyncSingleList(id));
-    console.log("list deleted");
+    toast.success("list deleted");
     navigate(-1);
   };
 
@@ -134,7 +135,8 @@ const SingleList = () => {
       content: moviesListId, 
     };
     try {
-      dispatch(updateAsyncSingleList({ id: list._id, updateList }));      
+      dispatch(updateAsyncSingleList({ id: list._id, updateList }));     
+      toast.success("Updated Successfully") 
       navigate(0)
     } catch (error) {
       console.log(error);

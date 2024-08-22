@@ -7,6 +7,7 @@ import Chart from "../../components/chart/Chart";
 import Table from "../../components/table/Table";
 
 const Home = () => {
+
   return (
     <div className="home">
       <Sidebar />
@@ -15,7 +16,7 @@ const Home = () => {
         <div className="widgets">
           <Widget type="user" />
           <Widget type="movies" />
-          <Widget type="webseries" />
+          <Widget type="webseries"/>
           <Widget type="earnings" />
         </div>
         <div className="charts">

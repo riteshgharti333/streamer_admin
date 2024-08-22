@@ -12,22 +12,22 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../../firebase";
 import { useLocation, useNavigate } from "react-router-dom";
 import { genre, ageRestrictions } from "../../datatablesource";
+import { toast } from "react-toastify";
 
 const SingleMovie = () => {
   const [data, setData] = useState({});
   const [featureImg, setFeatureImg] = useState(null);
   const [featureSmImg, setFeatureSmImg] = useState(null);
   const [smImg, setSmImg] = useState(null);
-  const [video, setVideo] = useState(null);
-  const [per, setPer] = useState(null);
-  const [uploaded, setUploaded] = useState(0);
+  const [per, setPer] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const path = location.pathname.split("/")[2];
 
-  const { singleMovie, status, error } = useSelector((state) => state.movies);
+  const { singleMovie } = useSelector((state) => state.movies);
 
   useEffect(() => {
     dispatch(getAsyncSigleMovie(path));
@@ -47,7 +47,7 @@ const SingleMovie = () => {
       if (name === "featureImg") setFeatureImg(files[0]);
       if (name === "featureSmImg") setFeatureSmImg(files[0]);
       if (name === "smImg") setSmImg(files[0]);
-      if (name === "video") setVideo(files[0]);
+      // if (name === "video") setVideo(files[0]);
     } else {
       // Handle text and select inputs
       setData({ ...data, [name]: value });
@@ -55,7 +55,7 @@ const SingleMovie = () => {
   };
 
   const uploadFile = async (file, label) => {
-    if (!file) return "";
+    if (!file) return null;
 
     const fileName = new Date().getTime() + label + file.name;
     const storageRef = ref(storage, `/items/${fileName}`);
@@ -67,10 +67,10 @@ const SingleMovie = () => {
         (snapshot) => {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Upload is " + progress + "% done");
-          setPer(progress);
+            console.log(Math.round(progress))
         },
         (error) => {
+          setIsUploading(false);
           reject(error);
         },
         async () => {
@@ -85,48 +85,73 @@ const SingleMovie = () => {
     });
   };
 
-  const handleUpload = async (e) => {
+  // const handleUpload = async () => {
+  //   try {
+  //     setIsUploading(true);
+
+  //     const urls = await Promise.all([
+  //       uploadFile(featureImg, "featureImg"),
+  //       uploadFile(featureSmImg, "featureSmImg"),
+  //       uploadFile(smImg, "smImg"),
+  //       // uploadFile(video, "video"),
+  //     ]);
+
+  //     setData((prev) => ({
+  //       ...prev,
+  //       featureImg: urls[0] || prev.featureImg,
+  //       featureSmImg: urls[1] || prev.featureSmImg,
+  //       smImg: urls[2] || prev.smImg,
+  //       // video: urls[3] || prev.video,
+  //     }));
+
+  //     setIsUploading(false);
+  //   } catch (error) {
+  //     console.error("Error uploading files:", error);
+  //     setIsUploading(false);
+  //   }
+  // };
+
+  const handleUploadAndSubmit = async (e) => {
     e.preventDefault();
+    if (isUploading) return;
 
     try {
+      setIsUploading(true);
+
       const urls = await Promise.all([
         uploadFile(featureImg, "featureImg"),
         uploadFile(featureSmImg, "featureSmImg"),
         uploadFile(smImg, "smImg"),
-        uploadFile(video, "video"),
+        // uploadFile(video, "video"),
       ]);
 
-      setData((prev) => ({
-        ...prev,
-        featureImg: urls[0] || prev.featureImg,
-        featureSmImg: urls[1] || prev.featureSmImg,
-        smImg: urls[2] || prev.smImg,
-        video: urls[3] || prev.video,
-      }));
+      const updatedData = {
+        ...data,
+        featureImg: urls[0] || data.featureImg,
+        featureSmImg: urls[1] || data.featureSmImg,
+        smImg: urls[2] || data.smImg,
+      };
 
-      setUploaded(urls.filter((url) => url).length);
+      await dispatch(
+        updateAsyncSingleMovie({ id: path, updateMovie: updatedData })
+      );
+      toast.success("Updated Successfully");
+      navigate(0);
     } catch (error) {
       console.error("Error uploading files:", error);
+      setIsUploading(false);
     }
   };
 
-  const handleSubmit = async () => {
+  const handleDelete = async () => {
     try {
-      await dispatch(
-        updateAsyncSingleMovie({ id: path, updateMovie: data })
-      ).unwrap();
-      dispatch(getAsyncSigleMovie(path));
+      await dispatch(deleteAsyncSigleMovie(path));
+      toast.success("Deleted Successfully");
+      navigate(-1);
     } catch (err) {
-      console.log("Error updating movie:", err);
+      console.error("Error deleting movie:", err);
     }
   };
-
-  const handleDelete = (path) => {
-    dispatch(deleteAsyncSigleMovie(path));
-    console.log("movie deleted");
-    navigate(-1);
-  };
-
 
   return (
     <div className="singleMovie">
@@ -135,7 +160,9 @@ const SingleMovie = () => {
         <Navbar />
         <div className="bottom">
           <div className="singleMovieButton">
-            <button>Edit</button>
+            <button disabled={isUploading}>
+              {isUploading ? "Uploading..." : "Edit"}
+            </button>
             <button onClick={handleDelete}>Delete</button>
           </div>
           <form>
@@ -209,7 +236,6 @@ const SingleMovie = () => {
                 <input
                   type="text"
                   name="title"
-                  placeholder="Bih Hero 6"
                   value={data.title || ""}
                   onChange={handleInput}
                 />
@@ -220,8 +246,17 @@ const SingleMovie = () => {
                 <input
                   type="text"
                   name="desc"
-                  placeholder="Bih Hero 6 is doc. robot help the poor people"
                   value={data.desc || ""}
+                  onChange={handleInput}
+                />
+              </div>
+
+              <div className="formInput">
+                <label>Duration</label>
+                <input
+                  type="number"
+                  name="duration"
+                  value={data.duration || ""}
                   onChange={handleInput}
                 />
               </div>
@@ -281,7 +316,7 @@ const SingleMovie = () => {
                   id="isSeries"
                   onChange={handleInput}
                   name="isSeries"
-                  value={data.isSeries}
+                  value={data.isSeries || "false"}
                 >
                   <option value="false">Movie</option>
                   <option value="true">Series</option>
@@ -289,24 +324,23 @@ const SingleMovie = () => {
               </div>
 
               <div className="formInput">
-                <label>Video</label>
+                <label>Video URL</label>
                 <input
-                  type="file"
+                  type="text"
                   name="video"
+                  value={data.video || ""}
                   onChange={handleInput}
-                  // Note: The `value` attribute does not work for file inputs
+                  placeholder="Enter YouTube URL"
                 />
               </div>
 
-              {uploaded ? (
-                <button className="addProductButton" onClick={handleSubmit}>
-                  Update
-                </button>
-              ) : (
-                <button className="addProductButton" onClick={handleUpload}>
-                  Upload
-                </button>
-              )}
+              <button
+                className="addProductButton"
+                onClick={handleUploadAndSubmit}
+                disabled={isUploading}
+              >
+                {isUploading ? "Uploading..." : "Update"}
+              </button>
             </div>
           </form>
         </div>

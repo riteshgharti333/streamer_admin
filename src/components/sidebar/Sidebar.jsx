@@ -15,9 +15,26 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import { Link } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
+import { useDispatch } from "react-redux";
+import { logoutAsyncUser } from "../../redux/asyncThunks/authThunks"
 
 const Sidebar = () => {
   const { dispatch } = useContext(DarkModeContext);
+
+  const dispatchAuth = useDispatch();
+
+  const handleLogout = () => {
+    // Dispatch the logout action
+    dispatchAuth(logoutAsyncUser());
+    
+    // Remove user data from local storage
+    localStorage.removeItem("user");
+
+    // Redirect to login page
+    navigate("/login");
+  };
+
+
   return (
     <div className="sidebar">
       <div className="top">
@@ -76,24 +93,20 @@ const Sidebar = () => {
             <span>Notifications</span>
           </li>
           <p className="title">SERVICE</p>
-          {/* <li>
-            <SettingsSystemDaydreamOutlinedIcon className="icon" />
-            <span>System Health</span>
-          </li> */}
-          {/* <li>
-            <PsychologyOutlinedIcon className="icon" />
-            <span>Logs</span>
-          </li> */}
+        
           <li>
             <SettingsApplicationsIcon className="icon" />
             <span>Settings</span>
           </li>
           <p className="title">USER</p>
+          <Link to={"/profile"}>
           <li>
             <AccountCircleOutlinedIcon className="icon" />
             <span>Profile</span>
           </li>
-          <li>
+          </Link>
+          
+          <li onClick={handleLogout} style={{ cursor: "pointer" }}>
             <ExitToAppIcon className="icon" />
             <span>Logout</span>
           </li>

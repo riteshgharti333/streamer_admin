@@ -3,6 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import {
   deleteAsyncSigleMovie,
   getQueryAsyncMovies,
@@ -15,6 +16,9 @@ import {
   deleteAsyncSingleList,
   getAsyncLists,
 } from "../../redux/asyncThunks/listThunks.jsx";
+import { toast } from "react-toastify";
+
+
 
 const Datatable = ({ title, type, listColumns, movieType }) => {
   const location = useLocation();
@@ -22,10 +26,14 @@ const Datatable = ({ title, type, listColumns, movieType }) => {
   const dispatch = useDispatch();
 
   const movies = useSelector((state) => state.movies.movies);
+
+  const webseries = useSelector((state) => state.movies.webseries);
+
   const users = useSelector((state) => state.users.users);
 
   const lists = useSelector((state) => state.lists.lists);
 
+  //fetching the data 
   useEffect(() => {
     if (movieType === "movies") {
       dispatch(getQueryAsyncMovies(movieType));
@@ -38,21 +46,32 @@ const Datatable = ({ title, type, listColumns, movieType }) => {
     }
   }, [dispatch, movieType]);
 
-  const handleDelete = (id) => {
+  // deleting from datatable
+  const handleDelete = async (id) => {
     try {
-    if (movieType === "movies") {
-        dispatch(deleteAsyncSigleMovie(id));
+      let response;
+  
+      if (movieType === "movies") {
+        response = await dispatch(deleteAsyncSigleMovie(id));
       } else if (movieType === "users") {
-        dispatch(deleteAsyncSingleUser(id));
+        response = await dispatch(deleteAsyncSingleUser(id));
       } else if (movieType === "webseries") {
-        dispatch(deleteAsyncSigleMovie(id));
+        response = await dispatch(deleteAsyncSigleMovie(id));
       } else if (movieType === "lists") {
-        dispatch(deleteAsyncSingleList(id));
+        response = await dispatch(deleteAsyncSingleList(id));
+      }
+
+      if (response.meta.requestStatus === 'fulfilled') {
+        toast.success('Item deleted successfully!');
+      } else {
+        toast.error('Failed to delete item.');
       }
     } catch (error) {
+      toast.error('An error occurred while deleting the item.');
       console.log(error);
     }
   };
+  
 
   const actionColumn = [
     {
@@ -83,7 +102,7 @@ const Datatable = ({ title, type, listColumns, movieType }) => {
   if (movieType === "movies") {
     rows = movies.movies;
   } else if (movieType === "webseries") {
-    rows = movies.movies; // Adjust if needed
+    rows = webseries.movies;
   } else if (movieType === "users") {
     rows = users.users;
   } else if (movieType === "lists") {

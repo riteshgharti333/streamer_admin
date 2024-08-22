@@ -56,11 +56,12 @@ const userSlice = createSlice({
 
       .addCase(deleteAsyncSingleUser.fulfilled, (state, action) => {
         state.status = "idle";
-        const deletedUserId = action.payload;
-
+        const {id} = action.payload;
+        console.log(id);
+      
         if (Array.isArray(state.users.users)) {
           state.users.users = state.users.users.filter(
-            (user) => user._id !== deletedUserId
+            (user) => user._id !== id
           );
         }
       })

@@ -28,8 +28,7 @@ export const getQueryAsyncMovies = createAsyncThunk(
   async (query, { rejectWithValue }) => {
     try {
       const res = await getQueryMovies(query);
-      // console.log(res.data)
-      return res.data;
+      return { query, data: res.data }; 
     } catch (error) {
       console.error("Failed to fetch movies:", error);
       return rejectWithValue(error.message || "Failed to fetch query movies");
@@ -76,6 +75,7 @@ export const createAsyncSingleMovie = createAsyncThunk(
         title,
         desc,
         year,
+        duration,
         age,
         genre,
         isSeries,
@@ -91,6 +91,7 @@ export const createAsyncSingleMovie = createAsyncThunk(
         title,
         desc,
         year,
+        duration,
         age,
         genre,
         isSeries,

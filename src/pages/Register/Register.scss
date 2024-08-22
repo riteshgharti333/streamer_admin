@@ -1,4 +1,4 @@
-@import "../../styles/responsive.scss";
+@import "../../style/responsive.scss";
 
 .register {
   width: 100vw;
@@ -10,11 +10,12 @@
 
   .top {
     .wrapper {
-      padding: 10px;
+      padding-top: 10px;
       h1{
         font-family: "Agbalumo";
         color: yellow;
-        font-size: 40px;
+        font-size: 30px;
+        text-align: center;
   
           .f{
             &:hover{
@@ -37,8 +38,8 @@
     transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
-    padding:60px;
-    gap: 20px;
+    padding:40px;
+    gap: 10px;
     border-radius: 6px;
     box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 

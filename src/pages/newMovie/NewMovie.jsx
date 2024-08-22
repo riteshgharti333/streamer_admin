@@ -1,27 +1,24 @@
 import "./newMovie.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
-import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createAsyncSingleMovie } from "../../redux/asyncThunks/movieThunks";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../../firebase";
 import { useNavigate } from "react-router-dom";
-import { genre,ageRestrictions } from "../../datatablesource";
+import { genre, ageRestrictions } from "../../datatablesource";
+import { toast } from "react-toastify";
 
-const NewMovie = ({title }) => {
+const NewMovie = ({ title }) => {
   const [data, setData] = useState({});
   const [featureImg, setFeatureImg] = useState(null);
   const [featureSmImg, setFeatureSmImg] = useState(null);
   const [smImg, setSmImg] = useState(null);
   const [video, setVideo] = useState(null);
-
-  // const [video, setVideo] = useState("");
-  const [per, setPer] = useState(null);
-  // const [uploaded, setUploaded] = useState(0);
-  const [uploadsComplete, setUploadsComplete] = useState(0);
   const [uploaded, setUploaded] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
+  const [videoLink, setVideoLink] = useState(""); 
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -34,75 +31,85 @@ const NewMovie = ({title }) => {
   const uploadFile = async (items) => {
     if (!items) return;
 
+    setIsUploading(true); // Start uploading
+
     const storageRef = ref(storage);
 
-    items.forEach((item) => {
+    let uploadPromises = items.map((item) => {
+      if (!item.file) return Promise.resolve(); // Skip if no file
+
       const fileName = new Date().getTime() + item.label + item.file.name;
-
-      // const storageRef = ref(storage, `items/${fileName}`);
-
-      // const uploadTask = uploadBytesResumable(storageRef, file);
-
       const uploadTask = uploadBytesResumable(
         ref(storageRef, `/items/${fileName}`),
         item.file
       );
 
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Upload is " + progress + "% done");
-          setPer(progress);
-          switch (snapshot.state) {
-            case "paused":
-              console.log("Upload is paused");
-              break;
-            case "running":
-              console.log("Upload is running");
-              break;
+      return new Promise((resolve, reject) => {
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log(Math.round(progress))
+          },
+          (error) => {
+            console.log(error);
+            reject(error);
+          },
+          async () => {
+            try {
+              const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+              setData((prev) => ({ ...prev, [item.label]: downloadURL }));
+              setUploaded((prev) => prev + 1);
+              resolve();
+            } catch (error) {
+              console.log("Error getting download URL:", error);
+              reject(error);
+            }
           }
-        },
-        (error) => {
-          console.log(error);
-        },
-
-        async () => {
-          // Get the download URL after the upload is complete
-          try {
-            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-            setData((prev) => {
-              return { ...prev, [item.label]: downloadURL };
-            });
-            setUploaded((prev) => prev + 1);
-          } catch (error) {
-            console.log("Error getting download URL:", error);
-          }
-        }
-      );
+        );
+      });
     });
-  };
 
-  const handleUpload = (e) => {
-    e.preventDefault();
-
-    uploadFile([
-      { file: featureImg, label: "featureImg" },
-      { file: featureSmImg, label: "featureSmImg" },
-      { file: smImg, label: "smImg" },
-      { file: video, label: "video" },
-    ]);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
     try {
-      await dispatch(createAsyncSingleMovie(data)).unwrap();
-      navigate(-1);
-    } catch (err) {
-      console.log(err);
+      await Promise.all(uploadPromises);
+      setIsUploading(false);
+    } catch (error) {
+      setIsUploading(false);
     }
+  };
+
+  const handleUploadAndSubmit = async (e) => {
+    e.preventDefault();
+
+    if (uploaded < 3) {
+      await uploadFile([
+        { file: featureImg, label: "featureImg" },
+        { file: featureSmImg, label: "featureSmImg" },
+        { file: smImg, label: "smImg" },
+        { file: video, label: "video" },
+      ]);
+    }
+
+    if (uploaded === 3) {
+      try {
+        const movieData = { ...data, video: videoLink }; // Add video link to data
+        await dispatch(createAsyncSingleMovie(movieData)).unwrap();
+        toast.success("Created Successfully");
+        navigate(-1);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    // if (uploaded === 4) {
+    //   try {
+    //     await dispatch(createAsyncSingleMovie(data)).unwrap();
+    //     toast.success("Created Successfully");
+    //     navigate(-1);
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // }
   };
 
   return (
@@ -184,20 +191,6 @@ const NewMovie = ({title }) => {
             </div>
 
             <div className="right">
-              {/* {inputs.map((input) => (
-                <div className="formInput" key={input.id}>
-                  <label>{input.label}</label>
-                  <input
-                    id={input.id}
-                    type={input.type}
-                    required="true"
-                    placeholder={input.placeholder}
-                    onChange={handleInput}
-                    accept={input.accept}
-                  />
-                </div>
-              ))} */}
-
               <div className="formInput">
                 <label>Title</label>
                 <input
@@ -219,6 +212,16 @@ const NewMovie = ({title }) => {
               </div>
 
               <div className="formInput">
+                <label>Duration</label>
+                <input
+                  type="number"
+                  name="duration"
+                  placeholder="1h 25m"
+                  onChange={handleInput}
+                />
+              </div>
+
+              <div className="formInput">
                 <label>Year</label>
                 <input
                   type="number"
@@ -234,7 +237,7 @@ const NewMovie = ({title }) => {
                   id="genre"
                   onChange={handleInput}
                   name="genre"
-                  value={data.genre || "default"} // Set the default value here
+                  value={data.genre || "default"}
                 >
                   <option value="default" disabled>
                     Select a genre
@@ -255,18 +258,28 @@ const NewMovie = ({title }) => {
                   name="age"
                   value={data.age || "default"}
                 >
-                    <option value="default" disabled>
-                    Select a Age
+                  <option value="default" disabled>
+                    Select an Age
                   </option>
-                  {ageRestrictions.map((age) =>(
-                  <option value={age} key={age}>{age}</option>
+                  {ageRestrictions.map((age) => (
+                    <option value={age} key={age}>
+                      {age}
+                    </option>
                   ))}
                 </select>
               </div>
 
               <div className="formInput">
                 <label>Type</label>
-                <select id="isSeries" onChange={handleInput} name="isSeries">
+                <select
+                  id="isSeries"
+                  onChange={handleInput}
+                  name="isSeries"
+                  value={data.isSeries || "default"}
+                >
+                  <option value="default" disabled>
+                    Select Type
+                  </option>
                   <option value="false">Movie</option>
                   <option value="true">Series</option>
                 </select>
@@ -275,22 +288,21 @@ const NewMovie = ({title }) => {
               <div className="formInput">
                 <label>Video</label>
                 <input
-                  type="file"
-                  name="video"
-                  // accept="video/*"
-                  onChange={(e) => setVideo(e.target.files[0])}
+                  type="text"
+                  name="videoLink"
+                  placeholder="https://www.youtube.com/watch?v=..."
+                  value={videoLink}
+                  onChange={(e) => setVideoLink(e.target.value)}
                 />
               </div>
 
-              {uploaded === 4 ? (
-                <button className="addProductButton" onClick={handleSubmit}>
-                  Create
-                </button>
-              ) : (
-                <button className="addProductButton" onClick={handleUpload}>
-                  Upload
-                </button>
-              )}
+              <button
+                className="addProductButton"
+                onClick={handleUploadAndSubmit}
+                disabled={isUploading} // Disable when uploading
+              >
+                {isUploading ? "Uploading..." : (uploaded === 4 ? "Create" : "Upload")}
+              </button>
             </div>
           </form>
         </div>

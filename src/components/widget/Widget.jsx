@@ -1,56 +1,51 @@
 import "./widget.scss";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
 import { useEffect, useState } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { widgetData } from "../../datatablesource";
-// import { widgetData } from "../../datatablesource";
 
 import { db } from "../../firebase";
+import { useDispatch, useSelector } from "react-redux";
+import { getAsyncUsers } from "../../redux/asyncThunks/userThunks";
+import { getQueryAsyncMovies } from "../../redux/asyncThunks/movieThunks";
 
 const Widget = ({ type }) => {
-
   const [amount, setAmount] = useState(null);
   const [diff, setDiff] = useState(null);
+  const [userCount, setUserCount] = useState(0);
+  const [movieCount, setMovieCount] = useState(0);
+  const [seriesCount, setSeriesCount] = useState(0);
 
   const data = widgetData.find((item) => item.type === type);
 
+  const dispatch = useDispatch();
+  const movies = useSelector((state) => state.movies.movies);
 
-//  console.log(data.title)
+  const webseries = useSelector((state) => state.movies.webseries);
+  
+  const users = useSelector((state) => state.users.users);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const today = new Date();
-      const lastMonth = new Date(new Date().setMonth(today.getMonth() - 1));
-      const prevMonth = new Date(new Date().setMonth(today.getMonth() - 2));
+    if (type === "movies") {
+      dispatch(getQueryAsyncMovies("movies"));
+    } else if (type === "user") {
+      dispatch(getAsyncUsers());
+    } else if (type === "webseries") {
+      dispatch(getQueryAsyncMovies("webseries"));
+    }
+  }, [dispatch, type]);
 
-      const lastMonthQuery = query(
-        collection(db, data.query),
-        where("timeStamp", "<=", today),
-        where("timeStamp", ">", lastMonth)
-      );
-      const prevMonthQuery = query(
-        collection(db, data.query),
-        where("timeStamp", "<=", lastMonth),
-        where("timeStamp", ">", prevMonth)
-      );
-
-      const lastMonthData = await getDocs(lastMonthQuery);
-      const prevMonthData = await getDocs(prevMonthQuery);
-
-      setAmount(lastMonthData.docs.length);
-      // console.log(lastMonthData.docs.length)
-      setDiff(
-        ((lastMonthData.docs.length - prevMonthData.docs.length) / prevMonthData.docs.length) *
-          100
-      );
-    };
-    fetchData();
-  }, []);
+  useEffect(() => {
+    if (type === "movies" && movies.movies && Array.isArray(movies.movies)) {
+      setMovieCount(movies.movies.length);
+    } else if (type === "user" && users.users && Array.isArray(users.users)) {
+      setUserCount(users.users.length);
+    }
+    if (type === "webseries" && webseries && Array.isArray(movies.movies)) {
+      setSeriesCount(webseries.movies.length);
+    }
+  }, [movies, users, type]);
 
 
   return (
@@ -58,21 +53,22 @@ const Widget = ({ type }) => {
       <div className="left">
         <span className="title">{data.title}</span>
         <span className="counter">
-          {data.isMoney && "$"} {amount}
+          {data.isMoney && "$"}
+          {type === "user" && userCount}
+          {type === "movies" && movieCount}
+          {type === "webseries" && seriesCount}
         </span>
         <span className="link">{data.link}</span>
       </div>
       <div className="right">
-      {data.type !== "movies" && data.type !== "webseries" ? (
-    <div className={`percentage ${diff < 0 ? "negative" : "positive"}`}>
-      {diff < 0 ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
-      {diff} %
-    </div>
-  ) : (
-    <>
-    <h1>hi</h1>
-    </>
-  )}
+        {data.type !== "movies" && data.type !== "webseries" ? (
+          <div className={`percentage ${diff < 0 ? "negative" : "positive"}`}>
+            {diff < 0 ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
+            {diff} %
+          </div>
+        ) : (
+          <></>
+        )}
         {data.icon}
       </div>
     </div>

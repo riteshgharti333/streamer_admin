@@ -20,7 +20,6 @@ const movieSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    
     //  Get All Movies
     builder
       .addCase(getAsyncMovies.pending, (state) => {
@@ -43,8 +42,14 @@ const movieSlice = createSlice({
         state.error = null;
       })
       .addCase(getQueryAsyncMovies.fulfilled, (state, action) => {
-        state.status = "idle";
-        state.movies = action.payload;
+        const { query, data } = action.payload;
+        state.status = "succeeded";
+        if (query === "movies") {
+          state.movies = data;
+        } 
+        else if (query === "webseries") {
+          state.webseries = data;
+        }
       })
       .addCase(getQueryAsyncMovies.rejected, (state, action) => {
         state.status = "failed";
@@ -102,7 +107,9 @@ const movieSlice = createSlice({
       })
       .addCase(createAsyncSingleMovie.fulfilled, (state, action) => {
         state.status = "idle";
-        state.movies.push(action.payload);
+        if (Array.isArray(state.movies)) {
+          state.movies.push(action.payload);
+        }
       })
       .addCase(createAsyncSingleMovie.rejected, (state, action) => {
         state.status = "failed";

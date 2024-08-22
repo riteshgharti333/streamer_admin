@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 
 import { useLocation, useNavigate } from "react-router-dom";
 import {getAsyncSingleUser,deleteAsyncSingleUser} from "../../redux/asyncThunks/userThunks"
+import { toast } from "react-toastify";
 
 const Single = () => {
   const [data,setData] = useState({});
@@ -23,17 +24,26 @@ const Single = () => {
 
     useEffect(() => {
         dispatch(getAsyncSingleUser(path));
+        // toast.success("User Deleted")
     }, [dispatch,path]);
 
     useEffect(() => {
       if (users && users.getUser) {
         setData(users.getUser);
+    console.log(users);
+
       }
     }, [users]);
 
     const handleDelete = () => {
-      dispatch(deleteAsyncSingleUser(path));
-      navigate(-1);
+      try {
+        dispatch(deleteAsyncSingleUser(path));
+        navigate(-1);
+        toast.success("User Deleted!");   
+      } catch (error) {
+        console.log(error)
+      }
+     
     }
 
   return (

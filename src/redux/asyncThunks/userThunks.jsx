@@ -34,13 +34,13 @@ export const getAsyncSingleUser = createAsyncThunk(
 //DELETE USER
 export const deleteAsyncSingleUser = createAsyncThunk(
     "users/deleteSingleUser",
-    async(id, {rejectWithValue}) =>{
-        try {
-            await deleteSingleUser(id);
-            return id;
-        } catch (error) {
-            console.log(error);
-            return rejectWithValue(error.message || "Failed to fetch user");
-        }
+    async (id, { rejectWithValue }) => {
+      try {
+        const {data} = await deleteSingleUser(id);
+        return { id, message: data.message };
+      } catch (error) {
+        // Return backend error message if available, or a default message
+        return rejectWithValue(error.response?.data?.message || 'Failed to delete user.');
+      }
     }
-)
+  );

@@ -10,25 +10,37 @@ import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/AuthContext";
 import NewMovie from "./pages/newMovie/NewMovie";
 import SingleMovie from "./pages/SingleMovie/SingleMovie";
-import SingleList from "./pages/SingleList/SingleList"
+import SingleList from "./pages/SingleList/SingleList";
 import { movieColumns, MovieListColumns, userColumns } from "./datatablesource";
 import NewList from "./pages/NewList/NewList";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Register from "./pages/Register/Register";
+import { useDispatch, useSelector } from "react-redux";
+import Profile from "./pages/Profile/Profile";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
 
-  const { currentUser } = useContext(AuthContext);
+  const dispatch = useDispatch();
+
+  const { user } = useSelector((state) => state.auth)
+
 
   const RequireAuth = ({ children }) => {
-    return currentUser ? children : <Navigate to="login" />;
+    return user ? children : <Navigate to="login" />;
   };
+
 
   return (
     <div className={darkMode ? "app dark" : "app"}>
+
       <BrowserRouter>
         <Routes>
           <Route path="/">
             <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
+
             <Route
               index
               element={
@@ -37,6 +49,8 @@ function App() {
                 </RequireAuth>
               }
             />
+            <Route path="profile" element={<Profile />} />
+
             {/* users */}
             <Route path="users">
               <Route
@@ -163,6 +177,18 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
+      <ToastContainer
+        position="top-center"
+        autoClose={10}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 }
