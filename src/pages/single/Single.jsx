@@ -7,44 +7,43 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
 import { useLocation, useNavigate } from "react-router-dom";
-import {getAsyncSingleUser,deleteAsyncSingleUser} from "../../redux/asyncThunks/userThunks"
+import {
+  getAsyncSingleUser,
+  deleteAsyncSingleUser,
+} from "../../redux/asyncThunks/userThunks";
 import { toast } from "react-toastify";
 
 const Single = () => {
-  const [data,setData] = useState({});
+  const [data, setData] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   const location = useLocation();
   const path = location.pathname.split("/")[2];
 
+  const users = useSelector((state) => state.users.users);
 
-  const users = useSelector((state) => state.users.users)
+  useEffect(() => {
+    dispatch(getAsyncSingleUser(path));
+    // toast.success("User Deleted")
+  }, [dispatch, path]);
 
-
-    useEffect(() => {
-        dispatch(getAsyncSingleUser(path));
-        // toast.success("User Deleted")
-    }, [dispatch,path]);
-
-    useEffect(() => {
-      if (users && users.getUser) {
-        setData(users.getUser);
-    console.log(users);
-
-      }
-    }, [users]);
-
-    const handleDelete = () => {
-      try {
-        dispatch(deleteAsyncSingleUser(path));
-        navigate(-1);
-        toast.success("User Deleted!");   
-      } catch (error) {
-        console.log(error)
-      }
-     
+  useEffect(() => {
+    if (users && users.getUser) {
+      setData(users.getUser);
     }
+  }, [users]);
+
+  const handleDelete = async () => {
+    try {
+      await dispatch(deleteAsyncSingleUser(path)).unwrap();
+      navigate(-1);
+      toast.success("User Deleted!");
+    } catch (error) {
+      toast.error(error.message);
+      console.log(error);
+    }
+  };
 
   return (
     <div className="single">
@@ -54,10 +53,11 @@ const Single = () => {
         <div className="top">
           <div className="left">
             <div className="leftButton">
-            <button className="editButton" >Edit</button>
-            <button className="editButton" onClick={handleDelete}>Delete</button>
+              <button className="editButton">Edit</button>
+              <button className="editButton" onClick={handleDelete}>
+                Delete
+              </button>
             </div>
-    
 
             <h1 className="title">Information</h1>
             <div className="item">
@@ -72,13 +72,13 @@ const Single = () => {
                   <span className="itemKey">Email:</span>
                   <span className="itemValue">{data.email}</span>
                 </div>
-                {/* <div className="detailItem">
+                <div className="detailItem">
                   <span className="itemKey">Admin:</span>
                   <span className="itemValue">
-                    {user.isAdmin}
+                    {data.isAdmin && "True"}
 
                   </span>
-                </div> */}
+                </div>
               </div>
             </div>
           </div>
@@ -87,8 +87,8 @@ const Single = () => {
           </div>
         </div>
         <div className="bottom">
-        <h1 className="title">Last Transactions</h1>
-          <List/>
+          <h1 className="title">Last Transactions</h1>
+          <List />
         </div>
       </div>
     </div>

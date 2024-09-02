@@ -20,7 +20,7 @@ export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
-  
+
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth);
@@ -35,14 +35,15 @@ export default function Register() {
       validationSchema: signUpSchema,
       onSubmit: async (values) => {
         try {
-          const result = await dispatch(registerAsyncUser(values)).unwrap();
-
-          if (result) {
-            toast.success("Registration successful!");
-            navigate("/login"); // Redirect to login after successful registration
+          const response = await dispatch(registerAsyncUser(values)).unwrap();
+          if (response && response.message) {
+            console.log(response);
+            toast.success(response.message);
+            navigate("/login");
           }
         } catch (error) {
-          toast.error(`Registration failed: ${error}`);
+            toast.error(error.message);
+          console.error("Error Response:", error);
         }
       },
     });

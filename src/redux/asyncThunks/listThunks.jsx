@@ -17,7 +17,7 @@ export const getAsyncLists = createAsyncThunk(
       return res.data;
     } catch (error) {
       console.log(error);
-      return rejectWithValue(error.message || "Failed to fetch lists");
+      return rejectWithValue(error.response.data || "Failed to fetch lists");
     }
   }
 );
@@ -31,7 +31,9 @@ export const getAsyncQueryLists = createAsyncThunk(
       return res.data;
     } catch (error) {
       console.log(error);
-      return rejectWithValue(error.message || "Failed to fetch query lists");
+      return rejectWithValue(
+        error.response.data || "Failed to fetch query lists"
+      );
     }
   }
 );
@@ -45,7 +47,9 @@ export const getAsyncSingleList = createAsyncThunk(
       return res.data;
     } catch (error) {
       console.log(error);
-      return rejectWithValue(error.message || "Failed to fetch single list");
+      return rejectWithValue(
+        error.response.data || "Failed to fetch single list"
+      );
     }
   }
 );
@@ -60,7 +64,7 @@ export const deleteAsyncSingleList = createAsyncThunk(
       return id;
     } catch (error) {
       console.log(error);
-      return rejectWithValue(error.message || "Failed to delete list");
+      return rejectWithValue(error.response.data || "Failed to delete list");
     }
   }
 );
@@ -68,44 +72,35 @@ export const deleteAsyncSingleList = createAsyncThunk(
 //UPDATE LIST
 export const updateAsyncSingleList = createAsyncThunk(
   "movies/updateSingleList",
-  async ({id,updateList}, { rejectWithValue }) => {
+  async ({ id, updateList }, { rejectWithValue }) => {
     try {
-      const response = await updateSingleList(id,updateList);
+      const response = await updateSingleList(id, updateList);
       return response.data;
     } catch (error) {
       console.log(error);
-      return rejectWithValue(error.message || "Failed to update list");
+      return rejectWithValue(error.response.data || "Failed to update list");
     }
   }
 );
 
-// CREATING SINGLE MOVIE
+// CREATING SINGLE LIST
 export const createAsyncSingleList = createAsyncThunk(
   "movies/createSingleList",
   async (list, { rejectWithValue }) => {
     try {
-      const {
-        title,
-        genre,
-        type,
-        content
-      } = list;
-
-      // Prepare the new movie object
+      const { title, genre, type, content } = list;
       const newList = {
         title,
         genre,
         type,
-        content
+        content,
       };
       const response = await createSingleList(newList);
       console.log(response.data);
       return response.data;
-  
     } catch (error) {
       console.log(error);
-      return rejectWithValue(error.message || "Failed to create movie");
+      return rejectWithValue(error.response.data || "Failed to create movie");
     }
   }
 );
-

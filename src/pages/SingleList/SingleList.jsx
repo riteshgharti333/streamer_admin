@@ -32,7 +32,6 @@ const SingleList = () => {
   const [data, setData] = useState({});
   const [selectedMovies, setSelectedMovies] = useState([]);
 
-
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -54,7 +53,6 @@ const SingleList = () => {
       setAllMovies(filtered);
     }
   }, [movies, moviesListId]);
-  
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -100,12 +98,16 @@ const SingleList = () => {
   }, [dispatch, moviesListId]);
 
   const deleteList = async (id) => {
-    dispatch(deleteAsyncSingleList(id));
-    toast.success("list deleted");
-    navigate(-1);
+    try {
+      await  dispatch(deleteAsyncSingleList(id)).unwrap();
+      toast.success("list deleted");
+      navigate(-1);
+    } catch (error) {
+      toast.error(error.message);
+     console.log(error) 
+    }
+ 
   };
-
-  
 
   const handleRowSelection = (selectionModel) => {
     setSelectedMovies(selectionModel);
@@ -128,23 +130,21 @@ const SingleList = () => {
     setList({ ...list, content: updatedContent });
   };
 
-
   const updateList = async () => {
     const updateList = {
       ...list,
-      content: moviesListId, 
+      content: moviesListId,
     };
     try {
-      dispatch(updateAsyncSingleList({ id: list._id, updateList }));     
-      toast.success("Updated Successfully") 
-      navigate(0)
+      await dispatch(
+        updateAsyncSingleList({ id: list._id, updateList })
+      ).unwrap();
+      toast.success("Updated Successfully");
     } catch (error) {
+      toast.error(error.message);
       console.log(error);
     }
-  
   };
-
- 
 
   const actionColumn = [
     {
@@ -265,7 +265,7 @@ const SingleList = () => {
             onRowSelectionModelChange={handleRowSelection}
           />
           <div className="AddMoviesBtn">
-          <button onClick={handleAddMovies}>Add</button>
+            <button onClick={handleAddMovies}>Add</button>
             <button onClick={handleOpen}>Cancel</button>
           </div>
         </div>

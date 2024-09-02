@@ -4,7 +4,7 @@ import { IoMdMail } from "react-icons/io";
 import { BiSolidLock, BiShow, BiHide } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { loginAsyncUser } from "../../redux/asyncThunks/authThunks"
+import { loginAsyncUser } from "../../redux/asyncThunks/authThunks";
 import { toast } from "react-toastify";
 
 export default function Login() {
@@ -13,7 +13,6 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { status, error } = useSelector((state) => state.auth);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -21,13 +20,15 @@ export default function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    
+
     try {
-      await dispatch(loginAsyncUser({ email, password })).unwrap();
-      toast.success("Login successful!");
+     const response = await dispatch(loginAsyncUser({ email, password })).unwrap();
+      toast.success(response.message);
       navigate("/");
-    } catch (err) {
-      toast.error("Login failed: " + err);
+
+    } catch (error) {
+      toast.error(error.message);
+      console.log(error);
     }
   };
 
@@ -80,9 +81,6 @@ export default function Login() {
               )}
             </div>
           </div>
-
-          {error && <span className="warning">Wrong email or password!</span>}
-
           <button className="loginButton" type="submit">
             Login
           </button>

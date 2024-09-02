@@ -67,7 +67,7 @@ const SingleMovie = () => {
         (snapshot) => {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log(Math.round(progress))
+          console.log(Math.round(progress));
         },
         (error) => {
           setIsUploading(false);
@@ -134,10 +134,10 @@ const SingleMovie = () => {
 
       await dispatch(
         updateAsyncSingleMovie({ id: path, updateMovie: updatedData })
-      );
+      ).unwrap();
       toast.success("Updated Successfully");
-      navigate(0);
     } catch (error) {
+      toast.error(error.message);
       console.error("Error uploading files:", error);
       setIsUploading(false);
     }
@@ -145,11 +145,12 @@ const SingleMovie = () => {
 
   const handleDelete = async () => {
     try {
-      await dispatch(deleteAsyncSigleMovie(path));
+      await dispatch(deleteAsyncSigleMovie(path)).unwrap();
       toast.success("Deleted Successfully");
       navigate(-1);
-    } catch (err) {
-      console.error("Error deleting movie:", err);
+    } catch (error) {
+      toast.error(error.message);
+      console.error("Error deleting movie:", error);
     }
   };
 
@@ -160,9 +161,6 @@ const SingleMovie = () => {
         <Navbar />
         <div className="bottom">
           <div className="singleMovieButton">
-            <button disabled={isUploading}>
-              {isUploading ? "Uploading..." : "Edit"}
-            </button>
             <button onClick={handleDelete}>Delete</button>
           </div>
           <form>

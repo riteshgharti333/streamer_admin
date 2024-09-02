@@ -22,18 +22,21 @@ const Widget = ({ type }) => {
   const dispatch = useDispatch();
   const movies = useSelector((state) => state.movies.movies);
 
-  const webseries = useSelector((state) => state.movies.webseries);
-  
+  const webseries = useSelector((state) => state.movies.series);
+
   const users = useSelector((state) => state.users.users);
 
   useEffect(() => {
-    if (type === "movies") {
-      dispatch(getQueryAsyncMovies("movies"));
-    } else if (type === "user") {
-      dispatch(getAsyncUsers());
-    } else if (type === "webseries") {
-      dispatch(getQueryAsyncMovies("webseries"));
-    }
+    const fetchData = async () => {
+      if (type === "movies") {
+        await dispatch(getQueryAsyncMovies("movies")).unwrap();
+      } else if (type === "user") {
+        await dispatch(getAsyncUsers()).unwrap();
+      } else if (type === "webseries") {
+        await dispatch(getQueryAsyncMovies("webseries")).unwrap();
+      }
+    };
+    fetchData();
   }, [dispatch, type]);
 
   useEffect(() => {
@@ -42,11 +45,11 @@ const Widget = ({ type }) => {
     } else if (type === "user" && users.users && Array.isArray(users.users)) {
       setUserCount(users.users.length);
     }
-    if (type === "webseries" && webseries && Array.isArray(movies.movies)) {
+    if (type === "webseries" && movies && Array.isArray(movies.movies)) {
       setSeriesCount(webseries.movies.length);
+      console.log(webseries.movies.length);
     }
   }, [movies, users, type]);
-
 
   return (
     <div className="widget">

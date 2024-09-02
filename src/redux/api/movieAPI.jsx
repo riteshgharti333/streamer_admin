@@ -9,25 +9,31 @@ export const getMovies = () => {
 
 //GET QUERY MOVIES
 export const getQueryMovies = (query) => {
-  return axios.get(`${baseUrl}/movies/query?type=${query}`);
+  return axios.get(`${baseUrl}/movies/query?type=${query}`, {
+    withCredentials: true,
+  });
 };
 
 //GET SINLGE MOVIE
 export const getSingleMovie = (id) => {
-  return axios.get(`${baseUrl}/movies/${id}`);
+  return axios.get(`${baseUrl}/movies/${id}`, { withCredentials: true });
 };
 
 //DELETE MOVIE
 export const deleteSingleMovie = (id) => {
-  return axios.delete(`${baseUrl}/movies/${id}`);
+  return axios.delete(`${baseUrl}/movies/${id}`, { withCredentials: true });
 };
 
 //CREATE MOVIE
 export const createSingleMovie = (newMovie) => {
-  return axios.post(`${baseUrl}/movies/newmovie`, newMovie);
+  return axios.post(`${baseUrl}/movies/newmovie`, newMovie, {
+    withCredentials: true,
+  });
 };
 
 //UPDATE MOVIE
-export const updateSingleMovie = (id,updateMovie) => {
-  return axios.put(`${baseUrl}/movies/${id}`,updateMovie);
+export const updateSingleMovie = (id, updateMovie) => {
+  return axios.put(`${baseUrl}/movies/${id}`, updateMovie, {
+    withCredentials: true,
+  });
 };

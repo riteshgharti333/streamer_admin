@@ -7,7 +7,6 @@ import { movieInputs } from "./formSource";
 import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
-import { AuthContext } from "./context/AuthContext";
 import NewMovie from "./pages/newMovie/NewMovie";
 import SingleMovie from "./pages/SingleMovie/SingleMovie";
 import SingleList from "./pages/SingleList/SingleList";
@@ -22,7 +21,6 @@ import Profile from "./pages/Profile/Profile";
 function App() {
   const { darkMode } = useContext(DarkModeContext);
 
-  const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth)
 
@@ -179,7 +177,7 @@ function App() {
       </BrowserRouter>
       <ToastContainer
         position="top-center"
-        autoClose={10}
+        autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

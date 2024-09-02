@@ -96,8 +96,9 @@ const NewMovie = ({ title }) => {
         await dispatch(createAsyncSingleMovie(movieData)).unwrap();
         toast.success("Created Successfully");
         navigate(-1);
-      } catch (err) {
-        console.log(err);
+      } catch (error) {
+        toast.error(error.message)
+        console.log(error);
       }
     }
 

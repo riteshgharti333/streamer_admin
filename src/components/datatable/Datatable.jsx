@@ -27,23 +27,31 @@ const Datatable = ({ title, type, listColumns, movieType }) => {
 
   const movies = useSelector((state) => state.movies.movies);
 
-  const webseries = useSelector((state) => state.movies.webseries);
+  const webseries = useSelector((state) => state.movies.series);
 
   const users = useSelector((state) => state.users.users);
 
   const lists = useSelector((state) => state.lists.lists);
 
-  //fetching the data 
+  // Fetching the data
   useEffect(() => {
-    if (movieType === "movies") {
-      dispatch(getQueryAsyncMovies(movieType));
-    } else if (movieType === "users") {
-      dispatch(getAsyncUsers());
-    } else if (movieType === "webseries") {
-      dispatch(getQueryAsyncMovies(movieType));
-    } else if (movieType === "lists") {
-      dispatch(getAsyncLists(movieType));
-    }
+    const fetchData = async () => {
+      try {
+        if (movieType === "movies") {
+          await dispatch(getQueryAsyncMovies(movieType)).unwrap();
+        } else if (movieType === "users") {
+          await dispatch(getAsyncUsers()).unwrap();
+        } else if (movieType === "webseries") {
+          await dispatch(getQueryAsyncMovies(movieType)).unwrap()
+        } else if (movieType === "lists") {
+          await dispatch(getAsyncLists(movieType)).unwrap();
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
   }, [dispatch, movieType]);
 
   // deleting from datatable
@@ -52,22 +60,17 @@ const Datatable = ({ title, type, listColumns, movieType }) => {
       let response;
   
       if (movieType === "movies") {
-        response = await dispatch(deleteAsyncSigleMovie(id));
+        response = await dispatch(deleteAsyncSigleMovie(id)).unwrap();
       } else if (movieType === "users") {
-        response = await dispatch(deleteAsyncSingleUser(id));
+        response = await dispatch(deleteAsyncSingleUser(id)).unwrap();
       } else if (movieType === "webseries") {
-        response = await dispatch(deleteAsyncSigleMovie(id));
+        response = await dispatch(deleteAsyncSigleMovie(id)).unwrap();
       } else if (movieType === "lists") {
-        response = await dispatch(deleteAsyncSingleList(id));
+        response = await dispatch(deleteAsyncSingleList(id)).unwrap();
       }
-
-      if (response.meta.requestStatus === 'fulfilled') {
-        toast.success('Item deleted successfully!');
-      } else {
-        toast.error('Failed to delete item.');
-      }
+      toast.success("Item Deleted");
     } catch (error) {
-      toast.error('An error occurred while deleting the item.');
+      toast.error(error.message);
       console.log(error);
     }
   };

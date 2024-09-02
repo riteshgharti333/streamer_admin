@@ -17,7 +17,7 @@ export const getAsyncMovies = createAsyncThunk(
       return res.data;
     } catch (error) {
       console.error("Failed to fetch movies:", error);
-      return rejectWithValue(error.message || "Failed to fetch movies");
+      return rejectWithValue(error.response.data || "Failed to fetch movies");
     }
   }
 );
@@ -31,7 +31,7 @@ export const getQueryAsyncMovies = createAsyncThunk(
       return { query, data: res.data }; 
     } catch (error) {
       console.error("Failed to fetch movies:", error);
-      return rejectWithValue(error.message || "Failed to fetch query movies");
+      return rejectWithValue(error.response.data  || "Failed to fetch query movies");
     }
   }
 );
@@ -46,7 +46,7 @@ export const getAsyncSigleMovie = createAsyncThunk(
       return res.data;
     } catch (error) {
       console.error("Failed to fetch movies:", error);
-      return rejectWithValue(error.message || "Failed to fetch movie");
+      return rejectWithValue(error.response.data  || "Failed to fetch movie");
     }
   }
   
@@ -60,8 +60,8 @@ export const deleteAsyncSigleMovie = createAsyncThunk(
       await deleteSingleMovie(id);
       return id;
     } catch (error) {
-      console.error("Failed to fetch movies:", error);
-      return rejectWithValue(error.message || "Failed delete movie");
+      console.error("Failed to delete movies:", error);
+      return rejectWithValue(error.response.data  || "Failed delete movie");
     }
   }
 );
@@ -107,7 +107,7 @@ export const createAsyncSingleMovie = createAsyncThunk(
  
     } catch (error) {
       console.log(error);
-      return rejectWithValue(error.message || "Failed to create movie");
+      return rejectWithValue(error.response.data  || "Failed to create movie");
     }
   }
 );
@@ -122,7 +122,7 @@ export const updateAsyncSingleMovie = createAsyncThunk(
   
     } catch (error) {
       console.log(error);
-      return rejectWithValue(error.message || "Failed to update movie");
+      return rejectWithValue(error.response.data  || "Failed to update movie");
     }
   }
 );

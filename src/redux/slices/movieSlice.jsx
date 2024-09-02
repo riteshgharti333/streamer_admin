@@ -10,6 +10,7 @@ import {
 
 const initialState = {
   movies: [],
+  series:[],
   singleMovie: null,
   status: "idle",
   error: null,
@@ -48,7 +49,7 @@ const movieSlice = createSlice({
           state.movies = data;
         } 
         else if (query === "webseries") {
-          state.webseries = data;
+          state.series = data;
         }
       })
       .addCase(getQueryAsyncMovies.rejected, (state, action) => {

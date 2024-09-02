@@ -92,6 +92,7 @@ const NewList = ({ title }) => {
       toast.success("Created Successfully")
       navigate("/lists");
     } catch (error) {
+      toast.error(error.message);
       console.log(error);
     }
   };

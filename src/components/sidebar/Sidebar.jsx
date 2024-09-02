@@ -12,7 +12,7 @@ import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import SettingsSystemDaydreamOutlinedIcon from "@mui/icons-material/SettingsSystemDaydreamOutlined";
 import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
 import { useDispatch } from "react-redux";
@@ -22,6 +22,7 @@ const Sidebar = () => {
   const { dispatch } = useContext(DarkModeContext);
 
   const dispatchAuth = useDispatch();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     // Dispatch the logout action
