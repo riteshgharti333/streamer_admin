@@ -1,3 +1,6 @@
+import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { format } from "date-fns"; // You are using this library
 import "./chart.scss";
 import {
   AreaChart,
@@ -8,23 +11,76 @@ import {
   ResponsiveContainer,
   YAxis,
 } from "recharts";
+import { getAllSubscriptionAsync } from "../../redux/asyncThunks/subscriptionThunks"; // Adjust path accordingly
 
-const data = [
-  { name: "January", Total: 1200 },
-  { name: "February", Total: 2100 },
-  { name: "March", Total: 800 },
-  { name: "April", Total: 1600 },
-  { name: "May", Total: 900 },
-  { name: "June", Total: 1700 },
-  { name: "July", Total: 1900 },
-  { name: "August", Total: 3700 },
-  { name: "September", Total: 100 },
-  { name: "October", Total: 1300 },
-  { name: "November", Total: 1400 },
-  { name: "December", Total: 1800 },
+const monthsOrder = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
 ];
 
 const Chart = ({ aspect, title }) => {
+  const dispatch = useDispatch();
+  const [chartData, setChartData] = useState([]);
+
+  useEffect(() => {
+    const fetchSubscriptionData = async () => {
+      try {
+        const res = await dispatch(getAllSubscriptionAsync()).unwrap();
+        const prices = res.subscriptionData || [];
+
+        // Initialize a map to accumulate totals for each month
+        const monthMap = new Map();
+
+        // Iterate through the subscription data
+        prices.forEach((subscription) => {
+          const date = new Date(subscription.startDate);
+          const monthName = format(date, "MMMM"); // Get full month name (e.g., 'January')
+
+          // If the month is not already in the map, initialize it
+          if (!monthMap.has(monthName)) {
+            monthMap.set(monthName, { Total: 0, Subscriptions: 0 });
+          }
+
+          // Get current month data from the map
+          const monthData = monthMap.get(monthName);
+
+          // Increment the total price and subscription count
+          const price = parseFloat(subscription.price) || 0;
+          monthData.Total += price;
+          monthData.Subscriptions += 1; // Count each subscription
+
+          // Update the map with the new data
+          monthMap.set(monthName, monthData);
+        });
+
+        // Convert the map to an array suitable for recharts
+        let formattedData = Array.from(monthMap, ([name, values]) => ({
+          name,
+          ...values,
+        }));
+
+        // Ensure all months are present in the data
+        monthsOrder.forEach((month) => {
+          if (!formattedData.some(data => data.name === month)) {
+            formattedData.push({ name: month, Total: 0, Subscriptions: 0 });
+          }
+        });
+
+        // Sort the data by the month order
+        formattedData.sort((a, b) => {
+          return monthsOrder.indexOf(a.name) - monthsOrder.indexOf(b.name);
+        });
+
+        // Update the state with the formatted data
+        setChartData(formattedData);
+      } catch (error) {
+        console.error("Failed to fetch subscription data:", error);
+      }
+    };
+
+    fetchSubscriptionData();
+  }, [dispatch]);
+
   return (
     <div className="chart">
       <div className="title">{title}</div>
@@ -32,7 +88,7 @@ const Chart = ({ aspect, title }) => {
         <AreaChart
           width={730}
           height={250}
-          data={data}
+          data={chartData} // Use the dynamically fetched data here
           margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
         >
           <defs>
@@ -40,17 +96,42 @@ const Chart = ({ aspect, title }) => {
               <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
               <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
             </linearGradient>
+            <linearGradient id="subscriptions" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
+              <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+            </linearGradient>
           </defs>
-          <XAxis dataKey="name" stroke="gray" />
+
+          {/* Force displaying all months */}
+          <XAxis
+            dataKey="name"
+            stroke="gray"
+            interval={0} 
+            tick={{ angle: -45, textAnchor: 'end' }} 
+            // Ensures all months are displayed
+            height={70}
+          />
+
           <YAxis />
           <CartesianGrid strokeDasharray="3 3" className="chartGrid" />
           <Tooltip />
+
+          {/* Area for Total Subscription Price */}
           <Area
             type="monotone"
             dataKey="Total"
             stroke="#8884d8"
             fillOpacity={1}
             fill="url(#total)"
+          />
+
+          {/* Area for Subscriptions Count */}
+          <Area
+            type="monotone"
+            dataKey="Subscriptions"
+            stroke="#82ca9d"
+            fillOpacity={1}
+            fill="url(#subscriptions)"
           />
         </AreaChart>
       </ResponsiveContainer>

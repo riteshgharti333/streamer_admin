@@ -11,7 +11,7 @@
     padding: 20px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: end;
 
     .search {
       display: flex;
@@ -39,6 +39,13 @@
         align-items: center;
         margin-right: 20px;
         position: relative;
+
+        .userIcon{
+           background-color: aqua;
+           padding: 1px;
+           border-radius: 3px;
+           color: white;
+        }
 
         .icon {
           font-size: 20px;

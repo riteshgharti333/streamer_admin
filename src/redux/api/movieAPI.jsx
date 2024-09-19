@@ -26,7 +26,7 @@ export const deleteSingleMovie = (id) => {
 
 //CREATE MOVIE
 export const createSingleMovie = (newMovie) => {
-  return axios.post(`${baseUrl}/movies/newmovie`, newMovie, {
+  return axios.post(`${baseUrl}/movpies/newmovie`, newMovie, {
     withCredentials: true,
   });
 };

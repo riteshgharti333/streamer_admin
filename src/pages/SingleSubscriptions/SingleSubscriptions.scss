@@ -1,0 +1,58 @@
+.singleSubscriptions {
+  display: flex;
+  width: 100%;
+  font-family: "Gabarito", sans-serif;
+
+  .singleSubscriptionsContainer {
+    flex: 6;
+
+    .prevIcon {
+      margin: 20px;
+      display: flex;
+      justify-content: space-between;
+
+      .backIcon {
+        font-size: 30px;
+        cursor: pointer;
+      }
+
+      button {
+        background-color: red;
+        border: none;
+        color: white;
+        font-weight: bold;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 3px;
+      }
+    }
+    .singleSubscriptionsWrappper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      h1 {
+        font-size: 40px;
+      }
+
+      .subInfo {
+        margin-top: 20px;
+        background-color: #8ec5fc;
+        background-image: linear-gradient(62deg, #8ec5fc 0%, #e0c3fc 100%);
+        padding: 30px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        border-radius: 5px;
+
+        p {
+          font-size: 17px;
+
+          span {
+            font-weight: bold;
+            font-size: 20px;
+            color: #6439ff;
+          }
+        }
+      }
+    }
+  }
+}

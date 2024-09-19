@@ -10,7 +10,7 @@ import {
 
 const initialState = {
   movies: [],
-  series:[],
+  series: [],
   singleMovie: null,
   status: "idle",
   error: null,
@@ -47,8 +47,7 @@ const movieSlice = createSlice({
         state.status = "succeeded";
         if (query === "movies") {
           state.movies = data;
-        } 
-        else if (query === "webseries") {
+        } else if (query === "series") {
           state.series = data;
         }
       })

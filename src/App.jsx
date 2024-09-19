@@ -10,13 +10,15 @@ import { DarkModeContext } from "./context/darkModeContext";
 import NewMovie from "./pages/newMovie/NewMovie";
 import SingleMovie from "./pages/SingleMovie/SingleMovie";
 import SingleList from "./pages/SingleList/SingleList";
-import { movieColumns, MovieListColumns, userColumns } from "./datatablesource";
+import { movieColumns, MovieListColumns, SubscriptionsColumns, userColumns } from "./datatablesource";
 import NewList from "./pages/NewList/NewList";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Register from "./pages/Register/Register";
 import { useDispatch, useSelector } from "react-redux";
 import Profile from "./pages/Profile/Profile";
+import UpdatePassword from "./pages/UpdatePassword/UpdatePassword";
+import SingleSubscriptions from "./pages/SingleSubscriptions/SingleSubscriptions";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -38,6 +40,7 @@ function App() {
           <Route path="/">
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
+            <Route path="changepassword" element={<UpdatePassword />}/>
 
             <Route
               index
@@ -90,7 +93,7 @@ function App() {
                 }
               />
               <Route
-                path=":moivieId"
+                path=":movieId"
                 element={
                   <RequireAuth>
                     <SingleMovie />
@@ -108,22 +111,22 @@ function App() {
             </Route>
 
             {/* webseries */}
-            <Route path="webseries">
+            <Route path="series">
               <Route
                 index
                 element={
                   <RequireAuth>
                     <List
                       title="Add New Webseries"
-                      type="webseries"
+                      type="series"
                       listColumns={movieColumns}
-                      movieType="webseries"
+                      movieType="series"
                     />
                   </RequireAuth>
                 }
               />
               <Route
-                path=":moivieId"
+                path=":seriesId"
                 element={
                   <RequireAuth>
                     <SingleMovie />
@@ -134,7 +137,7 @@ function App() {
                 path="new"
                 element={
                   <RequireAuth>
-                    <NewMovie inputs={movieInputs} title="Add New Webseries" />
+                    <NewMovie inputs={movieInputs} title="Add New Series" />
                   </RequireAuth>
                 }
               />
@@ -172,6 +175,32 @@ function App() {
                 }
               />
             </Route>
+
+  {/* subscriptions */}
+  <Route path="subscriptions">
+              <Route
+                index
+                element={
+                  <RequireAuth>
+                    <List
+                      title="Subscriptions"
+                      type="subscriptions"
+                      listColumns={SubscriptionsColumns}
+                      movieType="subscriptions"
+                    />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path=":subscriptionId"
+                element={
+                  <RequireAuth>
+                   <SingleSubscriptions />
+                  </RequireAuth>
+                }
+              />
+            </Route>  
+
           </Route>
         </Routes>
       </BrowserRouter>

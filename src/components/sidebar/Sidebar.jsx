@@ -67,10 +67,10 @@ const Sidebar = () => {
               <span>Movies</span>
             </li>
           </Link>
-          <Link to="/webseries" style={{ textDecoration: "none" }}>
+          <Link to="/series" style={{ textDecoration: "none" }}>
             <li>
               <OndemandVideoIcon className="icon" />
-              <span>Webseries</span>
+              <span>Series</span>
             </li>
           </Link>
           <Link to="/lists" style={{ textDecoration: "none" }}>
@@ -79,6 +79,13 @@ const Sidebar = () => {
               <span>Lists</span>
             </li>
           </Link>
+          <Link to="/subscriptions" style={{ textDecoration: "none" }}>
+            <li>
+              <ViewListIcon className="icon" />
+              <span>Subscriptions</span>
+            </li>
+          </Link>
+
 
           <p className="title">USEFUL</p>
           <li>
@@ -88,10 +95,6 @@ const Sidebar = () => {
           <li>
             <InsertChartIcon className="icon" />
             <span>Stats</span>
-          </li>
-          <li>
-            <NotificationsNoneIcon className="icon" />
-            <span>Notifications</span>
           </li>
           <p className="title">SERVICE</p>
         

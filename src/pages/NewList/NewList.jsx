@@ -160,7 +160,7 @@ const NewList = ({ title }) => {
                   <option value="default" disabled>
                     Select Type
                   </option>
-                  <option value="movie">Movie</option>
+                  <option value="movies">Movie</option>
                   <option value="series">Series</option>
                 </select>
               </div>

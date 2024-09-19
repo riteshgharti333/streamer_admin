@@ -4,12 +4,14 @@ import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import PersonIcon from "@mui/icons-material/Person";
 
+import { format } from "date-fns";
+
 export const userColumns = [
   { field: "_id", headerName: "ID", width: 100 },
 
   {
     field: "name",
-    headerName: "User",
+    headerName: "User", 
     width: 300,
     renderCell: (params) => {
       return (
@@ -182,11 +184,88 @@ export const ListofListSColumns = [
   },
 ];
 
+export const SubscriptionsColumns = [
+  { field: "_id", headerName: "ID", width: 70 },
+
+  {
+    field: "plan",
+    headerName: "Plan",
+    width: 230,
+  },
+
+  {
+    field: "name",
+    headerName: "Customer Name",
+    width: 150,
+  },
+
+  {
+    field: "startDate",
+    headerName: "Start Date",
+    width: 200,
+    renderCell: (params) => {
+      // Format the date using date-fns
+      return format(new Date(params.value), "MM/dd/yyyy");
+    },
+  },
+  {
+    field: "endDate",
+    headerName: "Expire Date",
+    width: 200,
+    renderCell: (params) => {
+      // Format the date using date-fns
+      return format(new Date(params.value), "MM/dd/yyyy");
+    },
+  },
+];
+
+
+export const TransactionsColumns = [
+  { field: "_id", headerName: "ID", width: 150 },
+
+  {
+    field: "plan",
+    headerName: "Plan",
+    width: 230,
+  },
+
+  {
+    field: "name",
+    headerName: "Customer Name",
+    width: 150,
+  },
+
+  {
+    field: "price",
+    headerName: "Price",
+    width: 100,
+  },
+
+  {
+    field: "startDate",
+    headerName: "Start Date",
+    width: 100,
+    renderCell: (params) => {
+      // Format the date using date-fns
+      return format(new Date(params.value), "MM/dd/yyyy");
+    },
+  },
+  {
+    field: "endDate",
+    headerName: "Expire Date",
+    width: 100,
+    renderCell: (params) => {
+      // Format the date using date-fns
+      return format(new Date(params.value), "MM/dd/yyyy");
+    },
+  },
+];
+
 export const widgetData = [
   {
-    type: "user",
+    type: "users",
     title: "USERS",
-    link: "See all users",
+    link: "View all users",
     query: "users",
     icon: (
       <PersonOutlinedIcon
@@ -214,10 +293,10 @@ export const widgetData = [
     ),
   },
   {
-    type: "webseries",
-    title: "WEB SERIES",
+    type: "series",
+    title: "SERIES",
     link: "View all web series",
-    query: "webseries",
+    query: "series",
     icon: (
       <OndemandVideoIcon
         className="icon"
@@ -226,11 +305,10 @@ export const widgetData = [
     ),
   },
   {
-    type: "earnings",
-    title: "EARNINGS",
-    isMoney: true,
-    link: "See details",
-    query: "earnings",
+    type: "subscriptions",
+    title: "TOTAL SUBSCRIPTIONS",
+    link: "See all subscriptions",
+    query: "subscriptions",
     icon: (
       <AccountBalanceWalletOutlinedIcon
         className="icon"
@@ -252,7 +330,8 @@ export const genre = [
   "Documentaries",
   "Horror",
   "Romantic",
-  "Sci-fi & Fantasy",
+  "Sci-fi",
+  "Fantasy",
   "Sports",
   "Thrillers",
 ];

@@ -18,7 +18,10 @@ import {
 } from "../../redux/asyncThunks/listThunks.jsx";
 import { toast } from "react-toastify";
 
-
+import {
+  deleteSubscriptionAsync,
+  getAllSubscriptionAsync,
+} from "../../redux/asyncThunks/subscriptionThunks.jsx";
 
 const Datatable = ({ title, type, listColumns, movieType }) => {
   const location = useLocation();
@@ -27,11 +30,13 @@ const Datatable = ({ title, type, listColumns, movieType }) => {
 
   const movies = useSelector((state) => state.movies.movies);
 
-  const webseries = useSelector((state) => state.movies.series);
+  const series = useSelector((state) => state.movies.series);
 
   const users = useSelector((state) => state.users.users);
 
   const lists = useSelector((state) => state.lists.lists);
+
+  const subscriptions = useSelector((state) => state.subscription);
 
   // Fetching the data
   useEffect(() => {
@@ -41,10 +46,12 @@ const Datatable = ({ title, type, listColumns, movieType }) => {
           await dispatch(getQueryAsyncMovies(movieType)).unwrap();
         } else if (movieType === "users") {
           await dispatch(getAsyncUsers()).unwrap();
-        } else if (movieType === "webseries") {
-          await dispatch(getQueryAsyncMovies(movieType)).unwrap()
+        } else if (movieType === "series") {
+          await dispatch(getQueryAsyncMovies(movieType)).unwrap();
         } else if (movieType === "lists") {
           await dispatch(getAsyncLists(movieType)).unwrap();
+        } else if (movieType === "subscriptions") {
+          await dispatch(getAllSubscriptionAsync()).unwrap();
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -58,15 +65,18 @@ const Datatable = ({ title, type, listColumns, movieType }) => {
   const handleDelete = async (id) => {
     try {
       let response;
-  
+
+
       if (movieType === "movies") {
         response = await dispatch(deleteAsyncSigleMovie(id)).unwrap();
       } else if (movieType === "users") {
         response = await dispatch(deleteAsyncSingleUser(id)).unwrap();
-      } else if (movieType === "webseries") {
+      } else if (movieType === "series") {
         response = await dispatch(deleteAsyncSigleMovie(id)).unwrap();
       } else if (movieType === "lists") {
         response = await dispatch(deleteAsyncSingleList(id)).unwrap();
+      } else if (movieType === "subscriptions") {
+        response = await dispatch(deleteSubscriptionAsync(id)).unwrap();
       }
       toast.success("Item Deleted");
     } catch (error) {
@@ -74,7 +84,6 @@ const Datatable = ({ title, type, listColumns, movieType }) => {
       console.log(error);
     }
   };
-  
 
   const actionColumn = [
     {
@@ -83,6 +92,7 @@ const Datatable = ({ title, type, listColumns, movieType }) => {
       width: 200,
       renderCell: (params) => {
         const { _id } = params.row;
+        const { subscriptionId } = params.row;
         return (
           <div className="cellAction">
             <Link
@@ -91,9 +101,18 @@ const Datatable = ({ title, type, listColumns, movieType }) => {
             >
               <div className="viewButton">View</div>
             </Link>
-            <div className="deleteButton" onClick={() => handleDelete(_id)}>
-              Delete
-            </div>
+            {path == "/subscriptions" ? (
+              <div
+                className="deleteButton"
+                onClick={() => handleDelete(subscriptionId)}
+              >
+                Delete
+              </div>
+            ) : (
+              <div className="deleteButton" onClick={() => handleDelete(_id)}>
+                Delete
+              </div>
+            )}
           </div>
         );
       },
@@ -104,12 +123,14 @@ const Datatable = ({ title, type, listColumns, movieType }) => {
   let rows;
   if (movieType === "movies") {
     rows = movies.movies;
-  } else if (movieType === "webseries") {
-    rows = webseries.movies;
+  } else if (movieType === "series") {
+    rows = series.movies;
   } else if (movieType === "users") {
     rows = users.users;
   } else if (movieType === "lists") {
     rows = lists.lists;
+  } else if (movieType === "subscriptions") {
+    rows = subscriptions?.subscription?.subscriptionData;
   } else {
     rows = [];
   }
@@ -118,9 +139,9 @@ const Datatable = ({ title, type, listColumns, movieType }) => {
     <div className="datatable">
       <div className="datatableTitle">
         {title}
-        {path !== "/users" && (
+        {path == "/users" || path == "/subscriptions" ? null : (
           <Link to={`/${movieType}/new`} className="link">
-            Add New
+            Add New <span className="newType">{movieType}</span>
           </Link>
         )}
       </div>

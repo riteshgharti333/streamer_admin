@@ -201,7 +201,7 @@ const SingleList = () => {
                   <label>Type</label>
 
                   <select name="type" value={list.type} onChange={handleChange}>
-                    <option value="movie">Movie</option>
+                    <option value="movies">Movie</option>
                     <option value="series">Series</option>
                   </select>
                 </div>

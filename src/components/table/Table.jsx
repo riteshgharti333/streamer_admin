@@ -1,101 +1,83 @@
 import "./table.scss";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+import { DataGrid } from "@mui/x-data-grid";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { getAllSubscriptionAsync } from "../../redux/asyncThunks/subscriptionThunks";
+import { format, parseISO } from "date-fns"; // Import parseISO for parsing date strings
+import { Link } from "react-router-dom";
 
-const List = () => {
-  const rows = [
+const List = ({ transactionsColumns }) => {
+  const dispatch = useDispatch();
+  const subscriptions = useSelector((state) => state.subscription);
+
+  const [transactions, setTransactions] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch subscription data
+        const res = await dispatch(getAllSubscriptionAsync()).unwrap();
+
+        // Format and sort data by latest start date first
+        const formattedData = res.subscriptionData.map((subscription) => ({
+          ...subscription,
+          startDate: parseISO(subscription.startDate), // Convert date string to Date object
+        }));
+
+        // console.log(formattedData);
+   
+
+        // Sort data by latest start date
+        formattedData.sort((a, b) => b.startDate - a.startDate);
+
+        // Optionally, format dates for display if needed
+        const dataToDisplay = formattedData.map((subscription) => ({
+          ...subscription,
+          startDate: format(subscription.startDate, "MMMM dd, yyyy"), // Format date for display
+        }));
+
+        // Update state with sorted and formatted data
+        // Assuming you set this data to a state or similar
+        // For example: setSortedData(dataToDisplay);
+
+        setTransactions(dataToDisplay);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [dispatch]);
+
+  const actionColumn = [
     {
-      id: 1143155,
-      product: "Acer Nitro 5",
-      img: "https://m.media-amazon.com/images/I/81bc8mA3nKL._AC_UY327_FMwebp_QL65_.jpg",
-      customer: "John Smith",
-      date: "1 March",
-      amount: 785,
-      method: "Cash on Delivery",
-      status: "Approved",
-    },
-    {
-      id: 2235235,
-      product: "Playstation 5",
-      img: "https://m.media-amazon.com/images/I/31JaiPXYI8L._AC_UY327_FMwebp_QL65_.jpg",
-      customer: "Michael Doe",
-      date: "1 March",
-      amount: 900,
-      method: "Online Payment",
-      status: "Pending",
-    },
-    {
-      id: 2342353,
-      product: "Redragon S101",
-      img: "https://m.media-amazon.com/images/I/71kr3WAj1FL._AC_UY327_FMwebp_QL65_.jpg",
-      customer: "John Smith",
-      date: "1 March",
-      amount: 35,
-      method: "Cash on Delivery",
-      status: "Pending",
-    },
-    {
-      id: 2357741,
-      product: "Razer Blade 15",
-      img: "https://m.media-amazon.com/images/I/71wF7YDIQkL._AC_UY327_FMwebp_QL65_.jpg",
-      customer: "Jane Smith",
-      date: "1 March",
-      amount: 920,
-      method: "Online",
-      status: "Approved",
-    },
-    {
-      id: 2342355,
-      product: "ASUS ROG Strix",
-      img: "https://m.media-amazon.com/images/I/81hH5vK-MCL._AC_UY327_FMwebp_QL65_.jpg",
-      customer: "Harold Carol",
-      date: "1 March",
-      amount: 2000,
-      method: "Online",
-      status: "Pending",
+      field: "action",
+      headerName: "Action",
+      width: 200,
+      renderCell: (params) => {
+        const { subscriptionId } = params.row;
+        return (
+          <div className="cellAction">
+            <Link to={`/subscriptions/${subscriptionId}`}>
+              <div className="viewButton">View</div>
+            </Link>
+          </div>
+        );
+      },
     },
   ];
+
   return (
-    <TableContainer component={Paper} className="table">
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell className="tableCell">Tracking ID</TableCell>
-            <TableCell className="tableCell">Product</TableCell>
-            <TableCell className="tableCell">Customer</TableCell>
-            <TableCell className="tableCell">Date</TableCell>
-            <TableCell className="tableCell">Amount</TableCell>
-            <TableCell className="tableCell">Payment Method</TableCell>
-            <TableCell className="tableCell">Status</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell className="tableCell">{row.id}</TableCell>
-              <TableCell className="tableCell">
-                <div className="cellWrapper">
-                  <img src={row.img} alt="" className="image" />
-                  {row.product}
-                </div>
-              </TableCell>
-              <TableCell className="tableCell">{row.customer}</TableCell>
-              <TableCell className="tableCell">{row.date}</TableCell>
-              <TableCell className="tableCell">{row.amount}</TableCell>
-              <TableCell className="tableCell">{row.method}</TableCell>
-              <TableCell className="tableCell">
-                <span className={`status ${row.status}`}>{row.status}</span>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <div className="table">
+      <DataGrid
+        className="datagrid"
+        rows={transactions}
+        columns={transactionsColumns.concat(actionColumn)}
+        pageSize={9}
+        getRowId={(row) => row._id}
+        rowsPerPageOptions={[9]}
+      />
+    </div>
   );
 };
 

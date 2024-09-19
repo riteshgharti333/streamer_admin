@@ -3,6 +3,7 @@ import {
   deleteAsyncSingleUser,
   getAsyncSingleUser,
   getAsyncUsers,
+  updateAsyncSingleUser,
 } from "../asyncThunks/userThunks";
 
 const initialState = {
@@ -56,9 +57,9 @@ const userSlice = createSlice({
 
       .addCase(deleteAsyncSingleUser.fulfilled, (state, action) => {
         state.status = "idle";
-        const {id} = action.payload;
+        const { id } = action.payload;
         console.log(id);
-      
+
         if (Array.isArray(state.users.users)) {
           state.users.users = state.users.users.filter(
             (user) => user._id !== id
@@ -66,6 +67,22 @@ const userSlice = createSlice({
         }
       })
       .addCase(deleteAsyncSingleUser.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      });
+
+    // Update Single User
+    builder
+      .addCase(updateAsyncSingleUser.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(updateAsyncSingleUser.fulfilled, (state, action) => {
+        state.status = "idle";
+        const updateUser = action.payload.updatedUser;
+
+      })
+      .addCase(updateAsyncSingleUser.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       });

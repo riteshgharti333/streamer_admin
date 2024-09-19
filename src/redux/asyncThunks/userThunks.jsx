@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { deleteSingleUser, getSingleUser, getUsers } from "../api/userAPI";
+import { deleteSingleUser, getSingleUser, getUsers, updateSingleUser } from "../api/userAPI";
+import { updateUser } from "../../../../streamer_backend/controllers/UserController";
 
 //GET ALL USER
 export const getAsyncUsers = createAsyncThunk(
@@ -39,6 +40,20 @@ export const deleteAsyncSingleUser = createAsyncThunk(
     } catch (error) {
       // Return backend error message if available, or a default message
       return rejectWithValue(error.response.data || "Failed to delete user.");
+    }
+  }
+);
+
+//UPDATE SINGLE USER
+export const updateAsyncSingleUser = createAsyncThunk(
+  "users/updateUser",
+  async ({id,updatedUser}, { rejectWithValue }) => {
+    try {
+      const res = await updateSingleUser(id,updatedUser);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.response.data || "Failed to fetch user");
     }
   }
 );

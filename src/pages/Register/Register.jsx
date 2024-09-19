@@ -37,7 +37,6 @@ export default function Register() {
         try {
           const response = await dispatch(registerAsyncUser(values)).unwrap();
           if (response && response.message) {
-            console.log(response);
             toast.success(response.message);
             navigate("/login");
           }
