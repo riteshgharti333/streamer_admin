@@ -1,0 +1,145 @@
+.earnings {
+  width: 100%;
+  display: flex;
+  .earningsContainer {
+    flex: 6;
+
+    .earningsBottom {
+      padding: 20px;
+
+      .top {
+        display: flex;
+        justify-content: space-between;
+        height: 200px;
+        .topLeft {
+          -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+          box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+          flex: 1;
+          margin-right: 10px;
+          padding: 10px;
+          font-family: "Poppins", sans-serif;
+
+          .topLeftInfo {
+            display: flex;
+            justify-content: space-between;
+       
+            .items {
+              
+          
+
+              p {
+                font-weight: bold;
+                font-size: 20px;
+                color: rgb(160, 160, 160);
+              }
+
+              span {
+                font-family: "Poppins", sans-serif;
+                font-size: 30px;
+                font-weight: 800;
+                color: #6439ff;
+              }
+            }
+          }
+          .leftBottomInfo {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+
+            .items {
+              p {
+                font-weight: bold;
+              }
+
+              span {
+                font-family: "Poppins", sans-serif;
+                font-size: 16px;
+                font-weight: 800;
+                color: #6439ff;
+              }
+            }
+          }
+        }
+        .topRight {
+          -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+          box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+          flex: 1;
+          padding: 10px;
+
+          .topRightInfo {
+            display: flex;
+            .pieInfo {
+              p {
+                font-weight: bold;
+                font-size: 20px;
+                color: rgb(160, 160, 160);
+                flex: 5;
+              }
+              .plans {
+                margin-top: 30px;
+                p {
+                  font-family: "Poppins", sans-serif;
+                  font-size: 14px;
+                  font-weight: 500;
+                  display: flex;
+                  align-items: center;
+                  color: #00c49f;
+
+                  &:first-child {
+                    color: #0088fe;
+                    .dot {
+                      background-color: #0088fe;
+                    }
+                  }
+
+                  &:last-child {
+                    color: #ffbb28;
+                    .dot {
+                      background-color: #ffbb28;
+                    }
+                  }
+                  .dot {
+                    background-color: #00c49f;
+                    height: 5px;
+                    width: 5px;
+                    display: inline-block;
+                    margin-right: 6px;
+                    border-radius: 50%;
+                  }
+                }
+              }
+            }
+
+            .pieChart {
+              flex: 5;
+            }
+          }
+        }
+      }
+
+      .center {
+        // margin-top: 20px;
+
+        .widgets {
+          .widgetsInfo {
+            display: flex;
+            overflow: hidden;
+            gap: 10px;
+          }
+        }
+      }
+
+      .bottom {
+        height: 400px;
+        padding: 10px;
+        .charts {
+          p {
+            font-weight: bold;
+            font-size: 20px;
+            color: rgb(160, 160, 160);
+          }
+        }
+      }
+    }
+  }
+}

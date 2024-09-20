@@ -1,0 +1,21 @@
+.stats {
+  display: flex;
+  width: 100%;
+
+  .statsContainer {
+    flex: 6;
+
+    .statsBottom {
+      padding: 10px;
+
+      .top {
+        display: flex;
+
+        .left,
+        .right {
+          flex: 1;
+        }
+      }
+    }
+  }
+}

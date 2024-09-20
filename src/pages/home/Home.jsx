@@ -26,7 +26,7 @@ const Home = () => {
         </div>
         <div className="listContainer">
           <div className="listTitle">Latest Transactions</div>
-          <Table  transactionsColumns={TransactionsColumns}/>
+        <Table  transactionsColumns={TransactionsColumns}/>
         </div>
       </div>
     </div>

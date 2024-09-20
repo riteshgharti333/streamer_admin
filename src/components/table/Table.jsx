@@ -55,10 +55,10 @@ const List = ({ transactionsColumns }) => {
       headerName: "Action",
       width: 200,
       renderCell: (params) => {
-        const { subscriptionId } = params.row;
+        const { _id } = params.row;
         return (
           <div className="cellAction">
-            <Link to={`/subscriptions/${subscriptionId}`}>
+            <Link to={`/subscriptions/${_id}`}>
               <div className="viewButton">View</div>
             </Link>
           </div>

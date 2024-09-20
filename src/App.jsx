@@ -19,6 +19,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Profile from "./pages/Profile/Profile";
 import UpdatePassword from "./pages/UpdatePassword/UpdatePassword";
 import SingleSubscriptions from "./pages/SingleSubscriptions/SingleSubscriptions";
+import Earnings from "./pages/Earnings/Earnings";
+import Stats from "./pages/Stats/Stats";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -38,9 +40,11 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/">
-            <Route path="login" element={<Login />} />
-            <Route path="register" element={<Register />} />
-            <Route path="changepassword" element={<UpdatePassword />}/>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/changepassword" element={<UpdatePassword />}/>
+            <Route path="/earnings" element={<Earnings />}/>
+            <Route path="/stats" element={<Stats />}/>
 
             <Route
               index

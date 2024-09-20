@@ -16,7 +16,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
 import { useDispatch } from "react-redux";
-import { logoutAsyncUser } from "../../redux/asyncThunks/authThunks"
+import { logoutAsyncUser } from "../../redux/asyncThunks/authThunks";
 
 const Sidebar = () => {
   const { dispatch } = useContext(DarkModeContext);
@@ -27,14 +27,13 @@ const Sidebar = () => {
   const handleLogout = () => {
     // Dispatch the logout action
     dispatchAuth(logoutAsyncUser());
-    
+
     // Remove user data from local storage
     localStorage.removeItem("user");
 
     // Redirect to login page
     navigate("/login");
   };
-
 
   return (
     <div className="sidebar">
@@ -86,30 +85,34 @@ const Sidebar = () => {
             </li>
           </Link>
 
-
           <p className="title">USEFUL</p>
-          <li>
-            <AccountBalanceWalletOutlinedIcon className="icon" />
-            <span>Earnings</span>
-          </li>
-          <li>
-            <InsertChartIcon className="icon" />
-            <span>Stats</span>
-          </li>
+          <Link to="/earnings" style={{ textDecoration: "none" }}>
+            <li>
+              <AccountBalanceWalletOutlinedIcon className="icon" />
+              <span>Earnings</span>
+            </li>
+          </Link>
+          <Link to={"/stats"}>
+            <li>
+              <InsertChartIcon className="icon" />
+              <span>Stats</span>
+            </li>
+          </Link>
+
           <p className="title">SERVICE</p>
-        
+
           <li>
             <SettingsApplicationsIcon className="icon" />
             <span>Settings</span>
           </li>
           <p className="title">USER</p>
           <Link to={"/profile"}>
-          <li>
-            <AccountCircleOutlinedIcon className="icon" />
-            <span>Profile</span>
-          </li>
+            <li>
+              <AccountCircleOutlinedIcon className="icon" />
+              <span>Profile</span>
+            </li>
           </Link>
-          
+
           <li onClick={handleLogout} style={{ cursor: "pointer" }}>
             <ExitToAppIcon className="icon" />
             <span>Logout</span>

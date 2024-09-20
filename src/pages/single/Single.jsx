@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 import { DataGrid } from "@mui/x-data-grid";
 import { getAllSubscriptionAsync } from "../../redux/asyncThunks/subscriptionThunks";
 import { format, parseISO } from "date-fns";
+import UserChart from "../../components/UserChart/UserChart";
 
 const Single = () => {
   const [data, setData] = useState({});
@@ -99,6 +100,7 @@ const Single = () => {
     }
   };
 
+
   const AdminRole = () => {
     return (
       <div className="admin">
@@ -124,10 +126,10 @@ const Single = () => {
       headerName: "Action",
       width: 200,
       renderCell: (params) => {
-        const { subscriptionId } = params.row;
+        const { _id } = params.row;
         return (
           <div className="cellAction">
-            <Link to={`/subscriptions/${subscriptionId}`}>
+            <Link to={`/subscriptions/${_id}`}>
               <div className="viewButton">View</div>
             </Link>
           </div>
@@ -180,19 +182,19 @@ const Single = () => {
             </div>
           </div>
           <div className="right">
-            <Chart aspect={3 / 1} title="User Spending (Last 6 Months)" />
+            <UserChart aspect={3 / 1} title="User Spending" userId={data._id} />
           </div>
         </div>
         <div className="bottom">
           <h1 className="title">Last Transactions</h1>
-          <DataGrid
+          {/* <DataGrid
             className="datagrid"
             rows={transactions}
             columns={SubscriptionsColumns.concat(actionColumn)}
             pageSize={9}
             getRowId={(row) => row._id}
             rowsPerPageOptions={[9]}
-          />
+          /> */}
         </div>
       </div>
     </div>
