@@ -2,16 +2,31 @@ import "./EarningWidget.scss";
 import { Link } from "react-router-dom";
 import CountUp from "react-countup";
 
-const EarningWidget = () => {
-  const totalRevenue = 20483844;
+const EarningWidget = ({
+  title,
+  smTitle,
+  price,
+  totalNo,
+  desc,
+  unique,
+  link,
+}) => {
+  const titleStyle = {
+    fontSize: unique ? "17px" : "20px",
+    height: "30px",
+  };
+
+  
 
   return (
     <div className="earningWidget">
-      <p className="title">Movies</p>
+      <p className="title" style={titleStyle}>
+        {title}
+      </p>
       <span>
         <CountUp
           start={0}
-          end={totalRevenue}
+          end={price}
           duration={2.5}
           separator=","
           decimals={2}
@@ -26,12 +41,12 @@ const EarningWidget = () => {
         />
       </span>
       <div className="noInfo">
-      <p className="totalType">Total Movies </p>
-      <p className="totalNo">5</p>
+        <p className="totalType">{smTitle} </p>
+        <p className="totalNo">{totalNo}</p>
       </div>
-     
+
       <span className="link">
-        <Link>See All Users</Link>
+        <Link to={`/${link}`}>{desc}</Link>
       </span>
     </div>
   );

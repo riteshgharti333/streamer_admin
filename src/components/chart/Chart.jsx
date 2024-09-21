@@ -11,28 +11,34 @@ import {
   ResponsiveContainer,
   YAxis,
 } from "recharts";
-import { getAllSubscriptionAsync } from "../../redux/asyncThunks/subscriptionThunks"; 
+import { getAllSubscriptionAsync } from "../../redux/asyncThunks/subscriptionThunks";
 
 const monthsOrder = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 
-const Chart = ({ aspect, title }) => {
+const Chart = ({ aspect, title, dataArray }) => {
+
   const dispatch = useDispatch();
   const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
     const fetchSubscriptionData = async () => {
       try {
-        const res = await dispatch(getAllSubscriptionAsync()).unwrap();
-        const prices = res.subscriptionData || [];
-
-        // Initialize a map to accumulate totals for each month
         const monthMap = new Map();
 
-        // Iterate through the subscription data
-        prices.forEach((subscription) => {
+        dataArray.forEach((subscription) => {
           const date = new Date(subscription.startDate);
           const monthName = format(date, "MMMM"); // Get full month name (e.g., 'January')
 
@@ -61,7 +67,7 @@ const Chart = ({ aspect, title }) => {
 
         // Ensure all months are present in the data
         monthsOrder.forEach((month) => {
-          if (!formattedData.some(data => data.name === month)) {
+          if (!formattedData.some((data) => data.name === month)) {
             formattedData.push({ name: month, Total: 0, Subscriptions: 0 });
           }
         });
@@ -79,7 +85,7 @@ const Chart = ({ aspect, title }) => {
     };
 
     fetchSubscriptionData();
-  }, [dispatch]);
+  }, [dispatch,dataArray]);
 
   return (
     <div className="chart">
@@ -106,8 +112,8 @@ const Chart = ({ aspect, title }) => {
           <XAxis
             dataKey="name"
             stroke="gray"
-            interval={0} 
-            tick={{ angle: -45, textAnchor: 'end' }} 
+            interval={0}
+            tick={{ angle: -45, textAnchor: "end" }}
             // Ensures all months are displayed
             height={70}
           />

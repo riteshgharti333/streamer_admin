@@ -1,6 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { deleteSingleUser, getSingleUser, getUsers, updateSingleUser } from "../api/userAPI";
-import { updateUser } from "../../../../streamer_backend/controllers/UserController";
 
 //GET ALL USER
 export const getAsyncUsers = createAsyncThunk(
