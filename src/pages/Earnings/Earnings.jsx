@@ -63,7 +63,7 @@ const Earnings = () => {
 
         //movies
         const moviesData = prices.filter((item) => {
-          return item.priceId === "price_1Pt0FASGN61YzC6ZVsLPr87B";
+          return item.priceId === import.meta.env.VITE_MOVIE_KEY;
         });
 
         const totalMoviesPrice = moviesData.reduce((acc, subscription) => {
@@ -74,7 +74,7 @@ const Earnings = () => {
 
         //series
         const seriesData = prices.filter((item) => {
-          return item.priceId === "price_1Pt0D9SGN61YzC6Za7Por7Fy";
+          return item.priceId === import.meta.env.VITE_SERIES_KEY;
         });
 
         const totalSeriesPrice = seriesData.reduce((acc, subscription) => {
@@ -85,7 +85,7 @@ const Earnings = () => {
 
         //movies + series
         const MSData = prices.filter((item) => {
-          return item.priceId === "price_1Pt0G5SGN61YzC6ZzRoweliJ";
+          return item.priceId === import.meta.env.VITE_MOVIE_SERIES_KEY;
         });
 
         const totalMSPrice = MSData.reduce((acc, subscription) => {
