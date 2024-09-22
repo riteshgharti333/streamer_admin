@@ -289,13 +289,6 @@ const Earnings = () => {
               </div>
             </div>
           </div>
-
-          <div className="bottom">
-            <div className="charts">
-              <p>This Year Revenue</p>
-              <Chart aspect={3 / 1} />
-            </div>
-          </div>
         </div>
       </div>
     </div>

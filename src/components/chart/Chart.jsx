@@ -28,64 +28,77 @@ const monthsOrder = [
   "December",
 ];
 
-const Chart = ({ aspect, title, dataArray }) => {
+const Chart = ({ aspect, title, dataArray = [] }) => {
 
   const dispatch = useDispatch();
   const [chartData, setChartData] = useState([]);
 
+
   useEffect(() => {
     const fetchSubscriptionData = async () => {
       try {
+
+        const array = dataArray 
+
         const monthMap = new Map();
+  
+        // Ensure dataArray is an array before proceeding
+        if (Array.isArray(array)) {
+          dataArray.forEach((subscription) => {
 
-        dataArray.forEach((subscription) => {
-          const date = new Date(subscription.startDate);
-          const monthName = format(date, "MMMM"); // Get full month name (e.g., 'January')
+      
 
-          // If the month is not already in the map, initialize it
-          if (!monthMap.has(monthName)) {
-            monthMap.set(monthName, { Total: 0, Subscriptions: 0 });
-          }
-
-          // Get current month data from the map
-          const monthData = monthMap.get(monthName);
-
-          // Increment the total price and subscription count
-          const price = parseFloat(subscription.price) || 0;
-          monthData.Total += price;
-          monthData.Subscriptions += 1; // Count each subscription
-
-          // Update the map with the new data
-          monthMap.set(monthName, monthData);
-        });
-
-        // Convert the map to an array suitable for recharts
-        let formattedData = Array.from(monthMap, ([name, values]) => ({
-          name,
-          ...values,
-        }));
-
-        // Ensure all months are present in the data
-        monthsOrder.forEach((month) => {
-          if (!formattedData.some((data) => data.name === month)) {
-            formattedData.push({ name: month, Total: 0, Subscriptions: 0 });
-          }
-        });
-
-        // Sort the data by the month order
-        formattedData.sort((a, b) => {
-          return monthsOrder.indexOf(a.name) - monthsOrder.indexOf(b.name);
-        });
-
-        // Update the state with the formatted data
-        setChartData(formattedData);
+            const date = new Date(subscription.startDate);
+            const monthName = format(date, "MMMM"); // Get full month name (e.g., 'January')
+  
+            // If the month is not already in the map, initialize it
+            if (!monthMap.has(monthName)) {
+              monthMap.set(monthName, { Total: 0, Subscriptions: 0 });
+            }
+  
+            // Get current month data from the map
+            const monthData = monthMap.get(monthName);
+  
+            // Increment the total price and subscription count
+            const price = parseFloat(subscription.price) || 0;
+            monthData.Total += price;
+            monthData.Subscriptions += 1; // Count each subscription
+  
+            // Update the map with the new data
+            monthMap.set(monthName, monthData);
+          });
+  
+          // Convert the map to an array suitable for recharts
+          let formattedData = Array.from(monthMap, ([name, values]) => ({
+            name,
+            ...values,
+          }));
+  
+          // Ensure all months are present in the data
+          monthsOrder.forEach((month) => {
+            if (!formattedData.some((data) => data.name === month)) {
+              formattedData.push({ name: month, Total: 0, Subscriptions: 0 });
+            }
+          });
+  
+          // Sort the data by the month order
+          formattedData.sort((a, b) => {
+            return monthsOrder.indexOf(a.name) - monthsOrder.indexOf(b.name);
+          });
+  
+          // Update the state with the formatted data
+          setChartData(formattedData);
+        } else {
+          console.error("dataArray is not an array:", dataArray);
+        }
       } catch (error) {
         console.error("Failed to fetch subscription data:", error);
       }
     };
-
+  
     fetchSubscriptionData();
-  }, [dispatch,dataArray]);
+  }, [dispatch, dataArray]);
+  
 
   return (
     <div className="chart">

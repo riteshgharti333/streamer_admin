@@ -199,10 +199,18 @@ export const SubscriptionsColumns = [
     width: 150,
   },
 
+  
+  {
+    field: "price",
+    headerName: "Price",
+    width: 100,
+  },
+
+
   {
     field: "startDate",
     headerName: "Start Date",
-    width: 200,
+    width: 150,
     renderCell: (params) => {
       // Format the date using date-fns
       return format(new Date(params.value), "MM/dd/yyyy");
@@ -211,7 +219,7 @@ export const SubscriptionsColumns = [
   {
     field: "endDate",
     headerName: "Expire Date",
-    width: 200,
+    width: 150,
     renderCell: (params) => {
       // Format the date using date-fns
       return format(new Date(params.value), "MM/dd/yyyy");
@@ -244,7 +252,7 @@ export const TransactionsColumns = [
   {
     field: "startDate",
     headerName: "Start Date",
-    width: 100,
+    width: 160,
     renderCell: (params) => {
       // Format the date using date-fns
       return format(new Date(params.value), "MM/dd/yyyy");
@@ -253,7 +261,7 @@ export const TransactionsColumns = [
   {
     field: "endDate",
     headerName: "Expire Date",
-    width: 100,
+    width: 150,
     renderCell: (params) => {
       // Format the date using date-fns
       return format(new Date(params.value), "MM/dd/yyyy");

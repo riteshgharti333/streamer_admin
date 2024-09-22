@@ -62,20 +62,20 @@ const Stats = () => {
         <div className="statsBottom">
           <div className="top">
             <div className="left">
-              <Chart title="Last 6 Months Movies (Revenue)" aspect={2 / 1} dataArray={subData.moviesData} />
+              <Chart title="Movies (Revenue)" aspect={2 / 1} dataArray={subData.moviesData} />
             </div>
 
             <div className="right">
-              <Chart title="Last 6 Months Series (Revenue)" aspect={2 / 1} dataArray={subData.seriesData} />
+              <Chart title="Series (Revenue)" aspect={2 / 1} dataArray={subData.seriesData} />
             </div>
 
             <div className="right">
-              <Chart title="Last 6 Months Movies Series (Revenue)" aspect={2 / 1} dataArray={subData.MSData}  />
+              <Chart title="Movies +  Series (Revenue)" aspect={2 / 1} dataArray={subData.MSData}  />
             </div>
           </div>
 
           <div className="center">
-            <Chart title="Last 6 Months Series (Revenue)" aspect={3 / 1}  dataArray={subData.totalData}/>
+            <Chart title="All Subscriptions (Revenue)" aspect={3 / 1}  dataArray={subData.totalData}/>
           </div>
 
           <div className="bottom">

@@ -36,7 +36,6 @@ const renderCustomizedLabel = ({
 };
 
 const RevenuePieChart = ({ data }) => {
-  console.log(data);
   return (
     <div className="revenuePieChartContainer">
       <div className="pieInfo">

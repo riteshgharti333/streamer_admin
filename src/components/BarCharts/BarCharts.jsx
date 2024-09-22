@@ -66,7 +66,6 @@ export default function BarCharts({ title }) {
           "July", "August", "September", "October", "November", "December"
         ];
         data.sort((a, b) => monthsOrder.indexOf(a.date) - monthsOrder.indexOf(b.date));
-console.log(data)
       } catch (error) {
         console.log(error);
       }
