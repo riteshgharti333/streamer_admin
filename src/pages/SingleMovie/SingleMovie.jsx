@@ -19,7 +19,6 @@ const SingleMovie = () => {
   const [featureImg, setFeatureImg] = useState(null);
   const [featureSmImg, setFeatureSmImg] = useState(null);
   const [smImg, setSmImg] = useState(null);
-  const [per, setPer] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
 
   const dispatch = useDispatch();

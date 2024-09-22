@@ -15,7 +15,7 @@ import NewList from "./pages/NewList/NewList";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Register from "./pages/Register/Register";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Profile from "./pages/Profile/Profile";
 import UpdatePassword from "./pages/UpdatePassword/UpdatePassword";
 import SingleSubscriptions from "./pages/SingleSubscriptions/SingleSubscriptions";

@@ -15,7 +15,7 @@ const NewMovie = ({ title }) => {
   const [featureImg, setFeatureImg] = useState(null);
   const [featureSmImg, setFeatureSmImg] = useState(null);
   const [smImg, setSmImg] = useState(null);
-  const [video, setVideo] = useState(null);
+  // const [video, setVideo] = useState(null);
   const [uploaded, setUploaded] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
   const [videoLink, setVideoLink] = useState(""); 
@@ -86,7 +86,7 @@ const NewMovie = ({ title }) => {
         { file: featureImg, label: "featureImg" },
         { file: featureSmImg, label: "featureSmImg" },
         { file: smImg, label: "smImg" },
-        { file: video, label: "video" },
+        // { file: video, label: "video" },
       ]);
     }
 

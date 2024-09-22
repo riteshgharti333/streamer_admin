@@ -3,7 +3,7 @@ import { useState } from "react";
 import { IoMdMail } from "react-icons/io";
 import { BiSolidLock, BiShow, BiHide } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { loginAsyncUser } from "../../redux/asyncThunks/authThunks";
 import { toast } from "react-toastify";
 

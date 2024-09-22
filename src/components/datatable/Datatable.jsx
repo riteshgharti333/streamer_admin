@@ -23,7 +23,7 @@ import {
   getAllSubscriptionAsync,
 } from "../../redux/asyncThunks/subscriptionThunks.jsx";
 
-const Datatable = ({ title, type, listColumns, movieType }) => {
+const Datatable = ({ title, listColumns, movieType }) => {
   const location = useLocation();
   const path = location.pathname;
   const dispatch = useDispatch();
@@ -64,6 +64,7 @@ const Datatable = ({ title, type, listColumns, movieType }) => {
   // deleting from datatable
   const handleDelete = async (id) => {
     try {
+      
       let response;
 
 

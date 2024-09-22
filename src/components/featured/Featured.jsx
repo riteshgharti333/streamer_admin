@@ -4,27 +4,17 @@ import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpOutlinedIcon from "@mui/icons-material/KeyboardArrowUpOutlined";
-import { Children, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { getAllSubscriptionAsync } from "../../redux/asyncThunks/subscriptionThunks";
 
-import { format, subDays } from "date-fns";
+import { subDays } from "date-fns";
 
-import {
-  endOfMonth,
-  isWithinInterval,
-  startOfMonth,
-  subMonths,
-} from "date-fns";
+import { isWithinInterval } from "date-fns";
 
 const Featured = () => {
-  const [totalAmount, setTotalAmount] = useState(0);
-
-  const subscriptions = useSelector((state) => state.subscription);
-
   const dispatch = useDispatch();
 
-  const [lastMonthRevenue, setLastMonthRevenue] = useState(0);
   const [currentMonthRevenue, setCurrentMonthRevenue] = useState(0);
   const [currentWeekRevenue, setCurrentWeekRevenue] = useState(0);
   const [currentHalfMonthRevenue, setCurrentHalfMonthRevenue] = useState(0);
@@ -184,7 +174,6 @@ const Featured = () => {
 
         const calHalftMonth = currentHalfMonthTotal > lastHalfMonthTotal;
         const calWeek = currentWeekTotal > lastWeekTotal;
-
 
         setCalWeek(calWeek);
         setCalHalfMonth(calHalftMonth);

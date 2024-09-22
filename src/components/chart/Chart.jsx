@@ -11,7 +11,6 @@ import {
   ResponsiveContainer,
   YAxis,
 } from "recharts";
-import { getAllSubscriptionAsync } from "../../redux/asyncThunks/subscriptionThunks";
 
 const monthsOrder = [
   "January",

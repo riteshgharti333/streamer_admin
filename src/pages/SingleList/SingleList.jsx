@@ -4,7 +4,6 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import "./SingleList.scss";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { DataGrid } from "@mui/x-data-grid";
-import AddIcon from "@mui/icons-material/Add";
 import { ListofListColumns } from "../../datatablesource";
 import { ListofListSColumns } from "../../datatablesource";
 import { useDispatch, useSelector } from "react-redux";

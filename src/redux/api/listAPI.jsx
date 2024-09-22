@@ -8,7 +8,7 @@ export const getLists = () => {
 };
 
 //GET QUERY LITS
-export const getQueryLists = () => {
+export const getQueryLists = (query) => {
   return axios.get(`${baseUrl}/list?type=${query}`, { withCredentials: true });
 };
 

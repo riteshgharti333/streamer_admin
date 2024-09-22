@@ -79,6 +79,7 @@ const authSlice = createSlice({
       .addCase(updateProfileAsync.fulfilled, (state, action) => {
         state.status = "succeeded";
         const updatedProfile = action.payload.updateProfile;
+        state.profile = updatedProfile;
       })
       .addCase(updateProfileAsync.rejected, (state, action) => {
         state.status = "failed";
@@ -90,9 +91,9 @@ const authSlice = createSlice({
       .addCase(updatePasswordAsync.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(updatePasswordAsync.fulfilled, (state, action) => {
+      .addCase(updatePasswordAsync.fulfilled, (state) => {
         state.status = "succeeded";
-        const updatedPassword = action.payload.passwordData;
+        // const updatedPassword = action.payload.passwordData;
       })
       .addCase(updatePasswordAsync.rejected, (state, action) => {
         state.status = "failed";

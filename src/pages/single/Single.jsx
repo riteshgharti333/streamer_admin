@@ -27,8 +27,6 @@ const Single = () => {
 
   const [roleAdmin, setRoleAdmin] = useState(false);
 
-  const subscriptions = useSelector((state) => state.subscription);
-
   const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
@@ -95,7 +93,6 @@ const Single = () => {
       console.log(error);
     }
   };
-
 
   const AdminRole = () => {
     return (

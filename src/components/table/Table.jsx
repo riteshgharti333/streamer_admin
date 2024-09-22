@@ -1,6 +1,6 @@
 import "./table.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { getAllSubscriptionAsync } from "../../redux/asyncThunks/subscriptionThunks";
 import { format, parseISO } from "date-fns"; // Import parseISO for parsing date strings
@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 
 const List = ({ transactionsColumns }) => {
   const dispatch = useDispatch();
-  const subscriptions = useSelector((state) => state.subscription);
 
   const [transactions, setTransactions] = useState([]);
 
@@ -25,7 +24,6 @@ const List = ({ transactionsColumns }) => {
         }));
 
         // console.log(formattedData);
-   
 
         // Sort data by latest start date
         formattedData.sort((a, b) => b.startDate - a.startDate);

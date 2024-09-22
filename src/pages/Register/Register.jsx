@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./Register.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { BiSolidLock, BiSolidUser, BiShow, BiHide } from "react-icons/bi";
 import { IoMdMail } from "react-icons/io";
 import { useFormik } from "formik";
 import { signUpSchema } from "../../schemas/index";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { registerAsyncUser } from "../../redux/asyncThunks/authThunks";
 import { toast } from "react-toastify";
 
@@ -23,7 +23,6 @@ export default function Register() {
 
   const dispatch = useDispatch();
 
-  const { user } = useSelector((state) => state.auth);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);

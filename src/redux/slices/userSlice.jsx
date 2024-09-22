@@ -79,8 +79,11 @@ const userSlice = createSlice({
       })
       .addCase(updateAsyncSingleUser.fulfilled, (state, action) => {
         state.status = "idle";
-        const updateUser = action.payload.updatedUser;
-
+        const updatedUser = action.payload.updatedUser;
+        const index = state.users.findIndex(user => user.id === updatedUser.id); // Adjust based on your state structure
+        if (index !== -1) {
+          state.users[index] = updatedUser; // Replace the old user with the updated one
+        }
       })
       .addCase(updateAsyncSingleUser.rejected, (state, action) => {
         state.status = "failed";

@@ -1,22 +1,17 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import CountUp from "react-countup";
-import Chart from "../../components/chart/Chart";
 import Navbar from "../../components/navbar/Navbar";
 import RevenuePieChart from "../../components/RevenuePieChart/RevenuePieChart";
 import Sidebar from "../../components/sidebar/Sidebar";
 import "./Earnings.scss";
 import EarningWidget from "../../components/EarningWidget/EarningWidget";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getAllSubscriptionAsync } from "../../redux/asyncThunks/subscriptionThunks";
 import { isWithinInterval, startOfMonth, subDays, subMonths } from "date-fns";
 import { getAsyncUsers } from "../../redux/asyncThunks/userThunks";
 
 const Earnings = () => {
-  const totalRevenue = 20483844;
-
   const dispatch = useDispatch();
-
-  const subscriptions = useSelector((state) => state.subscription);
 
   const [revenueData, setRevenueData] = useState({
     totalPrice: "",
@@ -152,23 +147,20 @@ const Earnings = () => {
           totalMSSubs: totalMSData,
           revenuePerUser: totalRevenuePerUser,
           totalUsers: totalUsers,
-          pieChartData
+          pieChartData,
         });
       } catch (error) {
         console.log(error);
       }
     };
     fetchSubscriptionData();
-  }, []);
-
+  }, [dispatch]);
 
   const pieChartData = [
     { name: "Movies Subcriptions", value: revenueData.moviesTotalPrice },
     { name: "Series Subcriptions", value: revenueData.seriesTotalPrice },
     { name: "Movies + Series Subcriptions", value: revenueData.MSTotalPrice },
   ];
-
-
 
   return (
     <div className="earnings">

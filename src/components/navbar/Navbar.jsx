@@ -3,7 +3,6 @@ import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
 import LightModeIcon from "@mui/icons-material/LightMode";
-import { useSelector } from "react-redux";
 import PersonIcon from "@mui/icons-material/Person";
 import { Link } from "react-router-dom";
 

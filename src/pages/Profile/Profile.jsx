@@ -58,16 +58,6 @@ export default function Profile() {
         }
       },
     });
-
-  const formatDate = (time) => {
-    const newDate = new Date(time).toLocaleDateString(undefined, {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
-    return newDate;
-  };
-
  
 
   return (

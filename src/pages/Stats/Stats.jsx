@@ -52,7 +52,7 @@ const Stats = () => {
       }
     };
     fetchSubscriptionData();
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="stats">

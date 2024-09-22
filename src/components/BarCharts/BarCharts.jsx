@@ -1,6 +1,6 @@
 import "./BarCharts.scss";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import {
   BarChart,
   Bar,
@@ -16,7 +16,7 @@ import { format } from "date-fns"; // Import date-fns for date formatting
 
 export default function BarCharts({ title }) {
   const dispatch = useDispatch();
-  const subscriptionData = useSelector((state) => state.subscription.data); // Assuming you have subscription data in your Redux store
+
   const data = [];
 
   useEffect(() => {
@@ -72,7 +72,7 @@ export default function BarCharts({ title }) {
     };
 
     fetchSubscriptionData();
-  }, [dispatch]);
+  }, [dispatch, data]);
 
   // Function to format the month in full name (e.g., "January")
   const monthTickFormatter = (tick) => tick;

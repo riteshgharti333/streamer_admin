@@ -8,7 +8,7 @@ import Table from "../../components/table/Table";
 import { TransactionsColumns } from "../../datatablesource";
 import { getAllSubscriptionAsync } from "../../redux/asyncThunks/subscriptionThunks";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getAsyncMovies } from "../../redux/asyncThunks/movieThunks";
 import { getAsyncUsers } from "../../redux/asyncThunks/userThunks";
 
@@ -16,11 +16,6 @@ const Home = () => {
   const dispatch = useDispatch();
 
   const [subscriptionData, setSubscriptionData] = useState([]);
-  const movies = useSelector((state) => state.movies.movies);
-
-  const webseries = useSelector((state) => state.movies.series);
-
-  const users = useSelector((state) => state.users.users);
 
   const [totalData, setTotalData] = useState({
     totalSubs: "",
