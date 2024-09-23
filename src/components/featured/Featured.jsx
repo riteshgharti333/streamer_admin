@@ -167,7 +167,7 @@ const Featured = () => {
         setGrowth(percentageGrowth.toFixed(2));
 
         setCurrentMonthRevenue(currentMonthTotal);
-        setLastMonthRevenue(lastMonthTotal);
+        // setLastMonthRevenue(lastMonthTotal);
 
         setCurrentHalfMonthRevenue(currentHalfMonthTotal);
         setCurrentWeekRevenue(currentWeekTotal);
@@ -188,7 +188,7 @@ const Featured = () => {
             return acc;
           }
         }, 0);
-        setTotalAmount(total);
+        // setTotalAmount(total);
       } catch (error) {
         console.error("Failed to fetch subscription data:", error);
       }

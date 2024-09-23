@@ -72,7 +72,7 @@ export default function BarCharts({ title }) {
     };
 
     fetchSubscriptionData();
-  }, [dispatch, data]);
+  }, [dispatch]);
 
   // Function to format the month in full name (e.g., "January")
   const monthTickFormatter = (tick) => tick;
