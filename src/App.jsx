@@ -1,7 +1,4 @@
-import Home from "./pages/home/Home";
-import Login from "./pages/Login/Login";
-import List from "./pages/list/List";
-import Single from "./pages/single/Single";
+
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { movieInputs } from "./formSource";
 import "./style/dark.scss";
@@ -26,6 +23,10 @@ import UpdatePassword from "./pages/UpdatePassword/UpdatePassword";
 import SingleSubscriptions from "./pages/SingleSubscriptions/SingleSubscriptions";
 import Earnings from "./pages/Earnings/Earnings";
 import Stats from "./pages/Stats/Stats";
+import Home from "./pages/home/Home";
+import Login from "./pages/Login/Login";
+import List from "./pages/list/List";
+import Single from "./pages/single/Single";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -33,7 +34,7 @@ function App() {
   const { user } = useSelector((state) => state.auth);
 
   const RequireAuth = ({ children }) => {
-    return user ? children : <Navigate to="/login" />;
+    return user ? children : <Navigate to="login" />;
   };
 
   return (
