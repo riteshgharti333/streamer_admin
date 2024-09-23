@@ -200,8 +200,7 @@ const Featured = () => {
   return (
     <div className="featured">
       <div className="top">
-        <h1 className="title">Total Revenue</h1>
-        <MoreVertIcon fontSize="small" />
+        <span className="title">Total Revenue</span>
       </div>
       <div className="bottom">
         <p className="growth">Last 28 Days Growth</p>

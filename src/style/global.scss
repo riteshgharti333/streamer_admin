@@ -7,11 +7,48 @@ a{
 }
 
 .app{
-    background-color: #F0F8FF;
+  background-color: #9ed9d9;
+    padding: 10px;
 }
 
 .cellAction{
     .viewButton{
         color: darkblue;
     }
+}
+
+.primary-btn{
+    
+        border-radius: 5px;
+        cursor: pointer;
+        align-items: center;
+        background-clip: padding-box;
+        border: 1px solid transparent;
+        box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+        box-sizing: border-box;
+        color: #fff;
+        display: inline-flex;
+        justify-content: center;
+        margin: 0;
+        position: relative;
+        transition: all 250ms;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        vertical-align: baseline;
+        width: auto;
+  
+        &:hover,
+        &:focus {
+          box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+        }
+  
+        &:hover {
+          transform: translateY(-1px);
+        }
+  
+        &:active {
+          box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+          transform: translateY(0);
+        }
 }

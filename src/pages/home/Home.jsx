@@ -1,5 +1,3 @@
-import Sidebar from "../../components/sidebar/Sidebar";
-import Navbar from "../../components/navbar/Navbar";
 import "./home.scss";
 import Widget from "../../components/widget/Widget";
 import Featured from "../../components/featured/Featured";
@@ -62,9 +60,6 @@ const Home = () => {
 
   return (
     <div className="home">
-      <Sidebar />
-      <div className="homeContainer">
-        <Navbar />
         <div className="widgets">
           <Widget type="users" totalNo={totalData.totalUsers} />
           <Widget type="movies" totalNo={totalData.totalMovies} />
@@ -74,17 +69,15 @@ const Home = () => {
         <div className="charts">
           <Featured />
           <Chart
-            title="Last 6 Months (Revenue)"
+            title="All Months (Revenue)"
             aspect={2 / 1}
             dataArray={subscriptionData}
           />
         </div>
         <div className="listContainer">
-          <div className="listTitle">Latest Transactions</div>
-          <Table transactionsColumns={TransactionsColumns} />
+          <Table transactionsColumns={TransactionsColumns} listTitle= "Latest Transactions"/>
         </div>
       </div>
-    </div>
   );
 };
 

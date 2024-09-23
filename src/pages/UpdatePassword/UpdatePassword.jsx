@@ -6,8 +6,6 @@ import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { updatePasswordAsync } from "../../redux/asyncThunks/authThunks";
-import Sidebar from "../../components/sidebar/Sidebar";
-import Navbar from "../../components/navbar/Navbar";
 
 const initialvalues = {
   current_password: "",
@@ -48,15 +46,6 @@ const UpdatePassword = () => {
 
   return (
     <div className="updatePassword">
-      <Sidebar />
-
-      <div className="updatePasswordWrapper">
-        <Navbar />
-        <div className="updatePasswordBack">
-          <Link to="#" onClick={goBack}>
-            <BsArrowLeft className="backArrow" />
-          </Link>
-        </div>
         <div className="updatePasswordContainer">
           <div className="updatePasswordContainerWrapper bg-primary">
             <h1>Change Password</h1>
@@ -108,7 +97,6 @@ const UpdatePassword = () => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 

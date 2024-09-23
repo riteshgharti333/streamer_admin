@@ -1,6 +1,4 @@
 import "./single.scss";
-import Sidebar from "../../components/sidebar/Sidebar";
-import Navbar from "../../components/navbar/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { SubscriptionsColumns } from "../../datatablesource";
@@ -103,8 +101,8 @@ const Single = () => {
             role?
           </p>
           <div className="adminButton">
-            <button onClick={() => setRoleAdmin(false)}>No</button>
-            <button onClick={() => handleAdminUpdate(!data.isAdmin)}>
+            <button  className="primary-btn" onClick={() => setRoleAdmin(false)}>No</button>
+            <button className="primary-btn" onClick={() => handleAdminUpdate(!data.isAdmin)}>
               Yes
             </button>
           </div>
@@ -134,15 +132,11 @@ const Single = () => {
   return (
     <div className="single">
       {roleAdmin && <AdminRole />}
-
-      <Sidebar />
-      <div className="singleContainer">
-        <Navbar />
         <div className="top">
           <div className="left">
             <div className="leftTop">
               <h1 className="leftTitle">Information</h1>
-              <button className="editButton" onClick={handleDelete}>
+              <button className="editButton primary-btn" onClick={handleDelete}>
                 Delete User
               </button>
             </div>
@@ -190,7 +184,6 @@ const Single = () => {
           />
         </div>
       </div>
-    </div>
   );
 };
 

@@ -61,22 +61,9 @@ export default function Profile() {
  
 
   return (
-    <div className="settingsContainer">
-        <Sidebar />
-
-      <div className="settingsContainerWrapper">
-      <Navbar />
-
-      <div className="prevIcon">
-        <Link to="#" onClick={goBack}>
-          <BsArrowLeft className="backIcon" />
-        </Link>
-      </div>
-
-      <div className="settings">
-      <h1>Profile</h1>
-
+    <div className="settings">
         <div className="settingsWrapper">
+      <h1>Profile</h1>
           
           <div className="profileData">
             <div className="right">
@@ -143,8 +130,5 @@ export default function Profile() {
           </div>
         </div>
       </div>
-      </div>
-
-    </div>
   );
 }

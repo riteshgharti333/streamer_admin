@@ -27,6 +27,7 @@ import Home from "./pages/home/Home";
 import Login from "./pages/SignIn/Login";
 import List from "./pages/list/List";
 import Single from "./pages/single/Single";
+import DashboardLayout from "./components/DashboardLayout/DashboardLayout";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -41,9 +42,12 @@ function App() {
     <div className={darkMode ? "app dark" : "app"}>
       <BrowserRouter>
         <Routes>
-          <Route path="/">
-            <Route path="register" element={<Register />} />
-            <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
+        <Route path="login" element={<Login />} />
+        <Route path="/" element={<DashboardLayout/>}>
+  
+          {/* <Route path="/"> */}
+           
             <Route path="changepassword" element={<UpdatePassword />} />
             <Route path="earnings" element={<Earnings />} />
             <Route path="stats" element={<Stats />} />
@@ -207,6 +211,7 @@ function App() {
               />
             </Route>
           </Route>
+          {/* </Route> */}
         </Routes>
       </BrowserRouter>
       <ToastContainer

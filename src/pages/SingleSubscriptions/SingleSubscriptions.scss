@@ -1,10 +1,6 @@
 .singleSubscriptions {
-  display: flex;
-  width: 100%;
   font-family: "Gabarito", sans-serif;
 
-  .singleSubscriptionsContainer {
-    flex: 6;
 
     .prevIcon {
       margin: 20px;
@@ -54,5 +50,5 @@
         }
       }
     }
-  }
+  
 }

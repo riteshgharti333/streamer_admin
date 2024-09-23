@@ -1,24 +1,20 @@
 .single {
-  display: flex;
-  width: 100%;
   z-index: 0;
   position: relative;
 
   .admin {
     position: absolute;
-    background-color: rgba(0, 0, 0, 0.274);
     width: 100%;
     height: 100%;
     z-index: 5;
 
     .adminInfo {
-      background-color: white;
+      background-color: aquamarine;
       padding: 40px;
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -100%);
       border-radius: 5px;
+      top: 50px;
+      left: 20px;
 
       p {
         font-size: 20px;
@@ -48,21 +44,25 @@
     }
   }
 
-  .singleContainer {
-    flex: 6;
 
     .top {
-      padding: 20px;
       display: flex;
-      gap: 20px;
+      gap: 10px;
 
       .left {
         flex: 1;
-        -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
-        box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
-        padding: 20px;
+        padding: 10px;
         position: relative;
-
+        background-color: white;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+        transition: all 0.2s ease-in;
+        border-radius: 10px;
+      
+        &:hover {
+          transform: scale(1.0.5);
+          box-shadow: 10px 10px 10px #bebebe, -1px -1px 15px #ffffff;
+          transition: 0.2s ease-in-out;
+        }
         .leftTop {
           display: flex;
           justify-content: space-between;
@@ -70,7 +70,8 @@
 
           .leftTitle {
             font-size: 20px;
-            color: lightgray;
+            color: gray;
+            text-transform: uppercase;
           }
           .editButton {
             border: none;
@@ -141,17 +142,25 @@
     }
 
     .bottom {
-      -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
-      box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
-      padding: 20px;
-      margin: 10px 20px;
+      padding: 20px 20px 60px 20px;
       height: 500px;
+      background-color: white;
+      border-radius: 10px;
+      margin-top: 10px;
+
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+      transition: all 0.2s ease-in;
+    
+      &:hover {
+        transform: scale(1.0.5);
+        box-shadow: 10px 10px 10px #bebebe, -1px -1px 15px #ffffff;
+        transition: 0.2s ease-in-out;
+      }
     }
 
     .title {
       font-size: 16px;
-      color: lightgray;
+      color: gray;
       margin-bottom: 20px;
     }
   }
-}

@@ -27,11 +27,6 @@
   }
 
   .newList {
-    width: 100%;
-    display: flex;
-
-    .newListContainer {
-      flex: 6;
 
       .bottom {
         padding: 20px;
@@ -100,5 +95,4 @@
         }
       }
     }
-  }
 }
