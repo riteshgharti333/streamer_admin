@@ -24,7 +24,7 @@ import SingleSubscriptions from "./pages/SingleSubscriptions/SingleSubscriptions
 import Earnings from "./pages/Earnings/Earnings";
 import Stats from "./pages/Stats/Stats";
 import Home from "./pages/home/Home";
-import Login from "./pages/Login/Login";
+import Login from "./pages/SignIn/Login";
 import List from "./pages/list/List";
 import Single from "./pages/single/Single";
 
