@@ -33,7 +33,7 @@ function App() {
   const { user } = useSelector((state) => state.auth);
 
   const RequireAuth = ({ children }) => {
-    return user ? children : <Navigate to="login" />;
+    return user ? children : <Navigate to="/login" />;
   };
 
   return (
