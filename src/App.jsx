@@ -1,5 +1,5 @@
 import Home from "./pages/home/Home";
-import Login from "./pages/Login/Login";
+// import Login from "./pages/Login/Login";
 import List from "./pages/list/List";
 import Single from "./pages/single/Single";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
@@ -32,6 +32,7 @@ function App() {
   const RequireAuth = ({ children }) => {
     return user ? children : <Navigate to="login" />;
   };
+  // <Route path="/login" element={<Login />} />
 
 
   return (
@@ -40,7 +41,6 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/">
-            <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/changepassword" element={<UpdatePassword />}/>
             <Route path="/earnings" element={<Earnings />}/>
