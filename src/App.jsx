@@ -1,5 +1,5 @@
 import Home from "./pages/home/Home";
-// import Login from "./pages/Login/Login";
+import Login from "./pages/Login/Login";
 import List from "./pages/list/List";
 import Single from "./pages/single/Single";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
@@ -10,7 +10,12 @@ import { DarkModeContext } from "./context/darkModeContext";
 import NewMovie from "./pages/newMovie/NewMovie";
 import SingleMovie from "./pages/SingleMovie/SingleMovie";
 import SingleList from "./pages/SingleList/SingleList";
-import { movieColumns, MovieListColumns, SubscriptionsColumns, userColumns } from "./datatablesource";
+import {
+  movieColumns,
+  MovieListColumns,
+  SubscriptionsColumns,
+  userColumns,
+} from "./datatablesource";
 import NewList from "./pages/NewList/NewList";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -25,26 +30,22 @@ import Stats from "./pages/Stats/Stats";
 function App() {
   const { darkMode } = useContext(DarkModeContext);
 
-
-  const { user } = useSelector((state) => state.auth)
-
+  const { user } = useSelector((state) => state.auth);
 
   const RequireAuth = ({ children }) => {
     return user ? children : <Navigate to="login" />;
   };
-  // <Route path="/login" element={<Login />} />
-
 
   return (
     <div className={darkMode ? "app dark" : "app"}>
-
       <BrowserRouter>
         <Routes>
           <Route path="/">
-            <Route path="/register" element={<Register />} />
-            <Route path="/changepassword" element={<UpdatePassword />}/>
-            <Route path="/earnings" element={<Earnings />}/>
-            <Route path="/stats" element={<Stats />}/>
+            <Route path="register" element={<Register />} />
+            <Route path="login" element={<Login />} />
+            <Route path="changepassword" element={<UpdatePassword />} />
+            <Route path="earnings" element={<Earnings />} />
+            <Route path="stats" element={<Stats />} />
 
             <Route
               index
@@ -180,8 +181,8 @@ function App() {
               />
             </Route>
 
-  {/* subscriptions */}
-  <Route path="subscriptions">
+            {/* subscriptions */}
+            <Route path="subscriptions">
               <Route
                 index
                 element={
@@ -199,12 +200,11 @@ function App() {
                 path=":subscriptionId"
                 element={
                   <RequireAuth>
-                   <SingleSubscriptions />
+                    <SingleSubscriptions />
                   </RequireAuth>
                 }
               />
-            </Route>  
-
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>
