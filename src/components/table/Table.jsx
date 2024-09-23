@@ -51,7 +51,7 @@ const List = ({ transactionsColumns }) => {
     {
       field: "action",
       headerName: "Action",
-      width: 150,
+      width: 80,
       renderCell: (params) => {
         const { _id } = params.row;
         return (

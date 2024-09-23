@@ -252,7 +252,7 @@ export const TransactionsColumns = [
   {
     field: "startDate",
     headerName: "Start Date",
-    width: 160,
+    width: 150,
     renderCell: (params) => {
       // Format the date using date-fns
       return format(new Date(params.value), "MM/dd/yyyy");
