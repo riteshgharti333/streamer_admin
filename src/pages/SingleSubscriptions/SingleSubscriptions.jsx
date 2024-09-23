@@ -1,6 +1,4 @@
 import { BsArrowLeft } from "react-icons/bs";
-import Navbar from "../../components/navbar/Navbar";
-import Sidebar from "../../components/sidebar/Sidebar";
 import "./SingleSubscriptions.scss";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -54,9 +52,6 @@ const SingleSubscriptions = () => {
 
   return (
     <div className="singleSubscriptions">
-      <Sidebar />
-      <div className="singleSubscriptionsContainer">
-        <Navbar />
         <div className="prevIcon">
           <Link to="#" onClick={() => navigate(-1)}>
             <BsArrowLeft className="backIcon" />
@@ -80,7 +75,6 @@ const SingleSubscriptions = () => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 

@@ -164,9 +164,6 @@ const SingleList = () => {
   return (
     <div className={`mainContainer ${add ? "blur" : ""}`}>
       <div className="singleList">
-        <Sidebar />
-        <div className="singleListContainer">
-          <Navbar />
           <div className="bottom">
             <div className="singleListButton">
               <button onClick={() => deleteList(list._id)}>Delete</button>
@@ -243,7 +240,6 @@ const SingleList = () => {
             </form>
           </div>
         </div>
-      </div>
       {add && (
         <div className="AddMovies">
           <DataGrid

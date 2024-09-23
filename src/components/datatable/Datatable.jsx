@@ -139,10 +139,11 @@ const Datatable = ({ title, listColumns, movieType }) => {
   return (
     <div className="datatable">
       <div className="datatableTitle">
-        {title}
+        <p>{title}</p>
+
         {path == "/users" || path == "/subscriptions" ? null : (
           <Link to={`/${movieType}/new`} className="link">
-            Add New <span className="newType">{movieType}</span>
+            Add New  <span className="newType">{movieType}</span>
           </Link>
         )}
       </div>

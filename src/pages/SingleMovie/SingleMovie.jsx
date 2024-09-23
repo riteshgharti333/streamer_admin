@@ -155,9 +155,6 @@ const SingleMovie = () => {
 
   return (
     <div className="singleMovie">
-      <Sidebar />
-      <div className="singleMovieContainer">
-        <Navbar />
         <div className="bottom">
           <div className="singleMovieButton">
             <button onClick={handleDelete}>Delete</button>
@@ -342,7 +339,6 @@ const SingleMovie = () => {
           </form>
         </div>
       </div>
-    </div>
   );
 };
 

@@ -116,9 +116,6 @@ const NewList = ({ title }) => {
   return (
     <div className={`mainNewList ${add ? "blur" : ""}`}>
       <div className="newList">
-        <Sidebar />
-        <div className="newListContainer">
-          <Navbar />
           <div className="bottom">
             <h1>{title}</h1>
             <form>
@@ -202,7 +199,6 @@ const NewList = ({ title }) => {
             </form>
           </div>
         </div>
-      </div>
       {add && (
         <div className="AddMovies">
           <DataGrid

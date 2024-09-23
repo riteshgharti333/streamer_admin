@@ -1,8 +1,17 @@
 .earningWidget {
   flex: 1;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   padding: 10px;
-  margin: 20px 1px;
+  background-color: white;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  transition: all 0.2s ease-in;
+  border-radius: 10px;
+
+  &:hover {
+    transform: scale(1.0.5);
+    box-shadow: 10px 10px 10px #bebebe, -1px -1px 15px #ffffff;
+    transition: 0.2s ease-in-out;
+  }
+
   .title {
     font-weight: bold;
     font-size: 20px;

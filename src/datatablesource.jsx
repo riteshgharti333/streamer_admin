@@ -12,7 +12,7 @@ export const userColumns = [
   {
     field: "name",
     headerName: "User", 
-    width: 300,
+    width: 200,
     renderCell: (params) => {
       return (
         <div className="cellWithImg">
@@ -196,21 +196,21 @@ export const SubscriptionsColumns = [
   {
     field: "name",
     headerName: "Customer Name",
-    width: 150,
+    width: 130,
   },
 
   
   {
     field: "price",
     headerName: "Price",
-    width: 100,
+    width: 80,
   },
 
 
   {
     field: "startDate",
     headerName: "Start Date",
-    width: 150,
+    width: 130,
     renderCell: (params) => {
       // Format the date using date-fns
       return format(new Date(params.value), "MM/dd/yyyy");
@@ -219,7 +219,7 @@ export const SubscriptionsColumns = [
   {
     field: "endDate",
     headerName: "Expire Date",
-    width: 150,
+    width: 130,
     renderCell: (params) => {
       // Format the date using date-fns
       return format(new Date(params.value), "MM/dd/yyyy");
@@ -229,7 +229,7 @@ export const SubscriptionsColumns = [
 
 
 export const TransactionsColumns = [
-  { field: "_id", headerName: "ID", width: 150 },
+  { field: "_id", headerName: "ID", width: 100 },
 
   {
     field: "plan",

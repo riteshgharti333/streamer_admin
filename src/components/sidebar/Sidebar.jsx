@@ -1,3 +1,5 @@
+// src/components/Sidebar.js
+import React, { useContext, useState } from 'react';
 import "./sidebar.scss";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
@@ -10,26 +12,50 @@ import ViewListIcon from "@mui/icons-material/ViewList";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Link, useNavigate } from "react-router-dom";
-import { DarkModeContext } from "../../context/darkModeContext";
-import { useContext } from "react";
 import { useDispatch } from "react-redux";
 import { logoutAsyncUser } from "../../redux/asyncThunks/authThunks";
+import {DarkModeContext} from "../../context/darkModeContext";
+import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
 
 const Sidebar = () => {
-  const { dispatch } = useContext(DarkModeContext);
-
+  const [activeLink, setActiveLink] = useState("/");
   const dispatchAuth = useDispatch();
   const navigate = useNavigate();
 
+const { dispatch } = useContext(DarkModeContext);
+
+
   const handleLogout = () => {
-    // Dispatch the logout action
     dispatchAuth(logoutAsyncUser());
-
-    // Remove user data from local storage
     localStorage.removeItem("user");
-
-    // Redirect to login page
     navigate("/login");
+  };
+
+  const links = {
+    Main: [
+      { path: "/", label: "Dashboard", icon: <DashboardIcon className="icon" /> },
+    ],
+    Lists: [
+      { path: "/users", label: "Users", icon: <PersonOutlineIcon className="icon" /> },
+      { path: "/movies", label: "Movies", icon: <LocalMoviesIcon className="icon" /> },
+      { path: "/series", label: "Series", icon: <OndemandVideoIcon className="icon" /> },
+      { path: "/lists", label: "Lists", icon: <ViewListIcon className="icon" /> },
+      { path: "/subscriptions", label: "Subscriptions", icon: <SubscriptionsIcon className="icon" /> },
+    ],
+    Useful: [
+      { path: "/earnings", label: "Earnings", icon: <AccountBalanceWalletOutlinedIcon className="icon" /> },
+      { path: "/stats", label: "Stats", icon: <InsertChartIcon className="icon" /> },
+    ],
+    Service: [
+      { path: "/settings", label: "Settings", icon: <SettingsApplicationsIcon className="icon" /> },
+    ],
+    User: [
+      { path: "/profile", label: "Profile", icon: <AccountCircleOutlinedIcon className="icon" /> },
+    ],
+  };
+
+  const handleLinkClick = (path) => {
+    setActiveLink(path);
   };
 
   return (
@@ -39,77 +65,29 @@ const Sidebar = () => {
           <span className="logo">Streamer</span>
         </Link>
       </div>
-      <hr />
       <div className="center">
         <ul>
-          <p className="title">MAIN</p>
-          <Link to={"/"} style={{ textDecoration: "none" }}>
-            <li>
-              <DashboardIcon className="icon" />
-              <span>Dashboard</span>
-            </li>
-          </Link>
+          {Object.entries(links).map(([title, items]) => (
+            <React.Fragment key={title}>
+              <p className="title">{title.toUpperCase()}</p>
+              {items.map(({ path, label, icon }) => (
+                 <Link
+                 to={path}
+                 key={path}
+                 onClick={() => handleLinkClick(path)}
+                 className={activeLink === path ? 'active' : ''}
+                 style={{ textDecoration: "none" }}
+               >
+                <li key={path}>
+                 
+                    {icon}
+                    <span>{label}</span>
+                </li>
+                </Link>
 
-          <p className="title">LISTS</p>
-          <Link to="/users" style={{ textDecoration: "none" }}>
-            <li>
-              <PersonOutlineIcon className="icon" />
-              <span>Users</span>
-            </li>
-          </Link>
-          <Link to="/movies" style={{ textDecoration: "none" }}>
-            <li>
-              <LocalMoviesIcon className="icon" />
-              <span>Movies</span>
-            </li>
-          </Link>
-          <Link to="/series" style={{ textDecoration: "none" }}>
-            <li>
-              <OndemandVideoIcon className="icon" />
-              <span>Series</span>
-            </li>
-          </Link>
-          <Link to="/lists" style={{ textDecoration: "none" }}>
-            <li>
-              <ViewListIcon className="icon" />
-              <span>Lists</span>
-            </li>
-          </Link>
-          <Link to="/subscriptions" style={{ textDecoration: "none" }}>
-            <li>
-              <ViewListIcon className="icon" />
-              <span>Subscriptions</span>
-            </li>
-          </Link>
-
-          <p className="title">USEFUL</p>
-          <Link to="/earnings" style={{ textDecoration: "none" }}>
-            <li>
-              <AccountBalanceWalletOutlinedIcon className="icon" />
-              <span>Earnings</span>
-            </li>
-          </Link>
-          <Link to={"/stats"}>
-            <li>
-              <InsertChartIcon className="icon" />
-              <span>Stats</span>
-            </li>
-          </Link>
-
-          <p className="title">SERVICE</p>
-
-          <li>
-            <SettingsApplicationsIcon className="icon" />
-            <span>Settings</span>
-          </li>
-          <p className="title">USER</p>
-          <Link to={"/profile"}>
-            <li>
-              <AccountCircleOutlinedIcon className="icon" />
-              <span>Profile</span>
-            </li>
-          </Link>
-
+              ))}
+            </React.Fragment>
+          ))}
           <li onClick={handleLogout} style={{ cursor: "pointer" }}>
             <ExitToAppIcon className="icon" />
             <span>Logout</span>

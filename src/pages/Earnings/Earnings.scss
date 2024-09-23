@@ -1,22 +1,30 @@
 .earnings {
-  width: 100%;
-  display: flex;
-  .earningsContainer {
-    flex: 6;
-
     .earningsBottom {
-      padding: 20px;
-
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
       .top {
         display: flex;
         justify-content: space-between;
         height: 200px;
+
+        .topLeft , .topRight {
+          background-color: white;
+          box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+          transition: all 0.2s ease-in;
+          padding: 10px;
+          border-radius: 10px;
+        
+          &:hover {
+            transform: scale(1.0.5);
+            box-shadow: 10px 10px 10px #bebebe, -1px -1px 15px #ffffff;
+            transition: 0.2s ease-in-out;
+          }
+        }
+
         .topLeft {
-          -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
-          box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
           flex: 1;
           margin-right: 10px;
-          padding: 10px;
           font-family: "Poppins", sans-serif;
 
           .topLeftInfo {
@@ -41,7 +49,6 @@
           .leftBottomInfo {
             display: flex;
             justify-content: space-between;
-            margin-top: 30px;
 
             .items {
               p {
@@ -58,10 +65,7 @@
           }
         }
         .topRight {
-          -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
-          box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
           flex: 1;
-          padding: 10px;
 
           .topRightInfo {
           }
@@ -69,20 +73,18 @@
       }
 
       .center {
-        // margin-top: 20px;
-
         .widgets {
           .widgetsInfo {
             display: flex;
             overflow: hidden;
             gap: 10px;
+
           }
         }
       }
 
       .bottom {
-        height: 400px;
-        padding: 10px;
+        // height: 400px;
         .charts {
           p {
             font-weight: bold;
@@ -93,4 +95,3 @@
       }
     }
   }
-}

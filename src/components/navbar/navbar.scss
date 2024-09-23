@@ -1,34 +1,13 @@
 .navbar {
-  height: 50px;
-  border-bottom: 0.5px solid rgb(231, 228, 228);
   display: flex;
   align-items: center;
   font-size: 14px;
-  color: #555;
 
   .wrapper {
     width: 100%;
-    padding: 20px;
     display: flex;
     align-items: center;
     justify-content: end;
-
-    .search {
-      display: flex;
-      align-items: center;
-      border: 0.5px solid lightgray;
-      padding: 3px;
-
-      input {
-        border: none;
-        outline: none;
-        background: transparent;
-
-        &::placeholder {
-          font-size: 12px;
-        }
-      }
-    }
 
     .items {
       display: flex;
@@ -37,14 +16,69 @@
       .item {
         display: flex;
         align-items: center;
-        margin-right: 20px;
+        margin-left: 20px;
         position: relative;
+        cursor: pointer;
+        padding: 5px;
+          --clr-font-main: hsla(0 0% 20% / 100);
+          --btn-bg-1: hsla(194 100% 69% / 1);
+          --btn-bg-2: hsla(217 100% 56% / 1);
+          --btn-bg-color: hsla(360 100% 100% / 1);
+          --radii: 0.5em;
+          cursor: pointer;
+          font-size: var(--size, 1rem);
+          font-weight: 500;
+          transition: 0.8s;
+          background-size: 280% auto;
+          background-image: linear-gradient(
+            325deg,
+            var(--btn-bg-2) 0%,
+            var(--btn-bg-1) 55%,
+            var(--btn-bg-2) 90%
+          );
+          border: none;
+          border-radius: 5px;
+          color: var(--btn-bg-color);
+          box-shadow:
+            0px 0px 20px rgba(241, 250, 255, 0.5),
+            0px 5px 5px -1px rgba(235, 243, 255, 0.25),
+            inset 4px 4px 8px rgba(175, 230, 255, 0.5),
+            inset -4px -4px 8px rgba(213, 225, 245, 0.35);
+  
+        
+        &:hover {
+          background-position: right top;
+        }
+        
+        &:is(:focus, :focus-visible, :active) {
+          outline: none;
+          box-shadow:
+            0 0 0 3px var(--btn-bg-color),
+            0 0 0 6px var(--btn-bg-2);
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+          
+            transition: linear;
+          
+        }
+        
+        .profileName {
+          display: flex;
+          align-items: center;
 
-        .userIcon{
-           background-color: aqua;
-           padding: 1px;
-           border-radius: 3px;
-           color: white;
+          p {
+            margin-left: 5px;
+            font-size: 18px;
+            font-family: "Poppins", sans-serif;
+            font-weight: 500;
+          }
+        }
+
+        .userIcon {
+          padding: 1px;
+          border-radius: 3px;
+          color: white;
         }
 
         .icon {

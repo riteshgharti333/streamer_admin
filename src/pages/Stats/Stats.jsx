@@ -56,10 +56,6 @@ const Stats = () => {
 
   return (
     <div className="stats">
-      <Sidebar />
-      <div className="statsContainer">
-        <Navbar />
-        <div className="statsBottom">
           <div className="top">
             <div className="left">
               <Chart title="Movies (Revenue)" aspect={2 / 1} dataArray={subData.moviesData} />
@@ -82,8 +78,6 @@ const Stats = () => {
             <BarCharts title="Subscriptions Revenue" />
           </div>
         </div>
-      </div>
-    </div>
   );
 };
 

@@ -164,9 +164,6 @@ const Earnings = () => {
 
   return (
     <div className="earnings">
-      <Sidebar />
-      <div className="earningsContainer">
-        <Navbar />
         <div className="earningsBottom">
           <div className="top">
             <div className="topLeft">
@@ -283,7 +280,6 @@ const Earnings = () => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 

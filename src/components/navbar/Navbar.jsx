@@ -5,14 +5,18 @@ import { useContext } from "react";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import PersonIcon from "@mui/icons-material/Person";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const { darkMode, dispatch } = useContext(DarkModeContext);
 
+  const { user } = useSelector((state) => state.auth.user);
+
+  
+
   return (
     <div className="navbar">
       <div className="wrapper">
-    
         <div className="items">
           <div className="item">
             {darkMode ? (
@@ -28,8 +32,9 @@ const Navbar = () => {
             )}
           </div>
           <div className="item">
-            <Link to={"/profile"}>
+            <Link to={"/profile"} className="profileName">
               <PersonIcon className="userIcon" />
+              <p>{user?.name}</p>
             </Link>
           </div>
         </div>

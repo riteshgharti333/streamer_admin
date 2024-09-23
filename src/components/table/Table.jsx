@@ -6,7 +6,7 @@ import { getAllSubscriptionAsync } from "../../redux/asyncThunks/subscriptionThu
 import { format, parseISO } from "date-fns"; // Import parseISO for parsing date strings
 import { Link } from "react-router-dom";
 
-const List = ({ transactionsColumns }) => {
+const List = ({ transactionsColumns , listTitle }) => {
   const dispatch = useDispatch();
 
   const [transactions, setTransactions] = useState([]);
@@ -51,7 +51,11 @@ const List = ({ transactionsColumns }) => {
     {
       field: "action",
       headerName: "Action",
+<<<<<<< HEAD
       width: 80,
+=======
+      width: 50,
+>>>>>>> ui-design
       renderCell: (params) => {
         const { _id } = params.row;
         return (
@@ -67,6 +71,7 @@ const List = ({ transactionsColumns }) => {
 
   return (
     <div className="table">
+      <p className="listTitle">{listTitle}</p>
       <DataGrid
         className="datagrid"
         rows={transactions}
