@@ -23,7 +23,6 @@ export default function Register() {
 
   const dispatch = useDispatch();
 
-
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -40,7 +39,7 @@ export default function Register() {
             navigate("/login");
           }
         } catch (error) {
-            toast.error(error.message);
+          toast.error(error.message);
           console.error("Error Response:", error);
         }
       },
@@ -49,12 +48,7 @@ export default function Register() {
   return (
     <div className="register">
       <div className="top">
-        <div className="wrapper">
-          <h1>
-            <span className="f">STRE</span>
-            <span className="s">AMER</span>
-          </h1>
-        </div>
+          <h1 className="logo">STREAMER DASHBOARD</h1>
       </div>
       <form className="input" onSubmit={handleSubmit}>
         <h1>Sign Up</h1>

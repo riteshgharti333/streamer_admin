@@ -22,10 +22,11 @@ export default function Login() {
     e.preventDefault();
 
     try {
-     const response = await dispatch(loginAsyncUser({ email, password })).unwrap();
+      const response = await dispatch(
+        loginAsyncUser({ email, password })
+      ).unwrap();
       toast.success(response.message);
       navigate("/");
-
     } catch (error) {
       toast.error(error.message);
       console.log(error);
@@ -36,10 +37,7 @@ export default function Login() {
     <div className="login">
       <div className="top">
         <div className="wrapper">
-          <h1>
-            <span className="f">STRE</span>
-            <span className="s">AMER</span>
-          </h1>
+          <h1>STREAMER DASHBOARD</h1>
         </div>
       </div>
       <div className="container">

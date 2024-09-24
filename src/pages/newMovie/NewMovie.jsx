@@ -118,7 +118,7 @@ const NewMovie = ({ title }) => {
       <div className="top">
         <h1>{title}</h1>
       </div>
-      <div className="bottom">
+      <div className="center">
         <form>
           <div className="left">
             <div className="formInput">
@@ -240,6 +240,7 @@ const NewMovie = ({ title }) => {
               />
               <label>Year</label>
             </div>
+
             <div className="formInput">
               <input
                 type="text"
@@ -250,8 +251,11 @@ const NewMovie = ({ title }) => {
               />
               <label>Video</label>
             </div>
+          
+          </div>
 
-            <div className="formInput">
+          <div className="bottom">
+            <div className="bottomInput">
               <label>Genre</label>
               <select
                 id="genre"
@@ -270,7 +274,7 @@ const NewMovie = ({ title }) => {
               </select>
             </div>
 
-            <div className="formInput">
+            <div className="bottomInput">
               <label>Age</label>
               <select
                 id="age"
@@ -289,7 +293,7 @@ const NewMovie = ({ title }) => {
               </select>
             </div>
 
-            <div className="formInput">
+            <div className="bottomInput">
               <label>Type</label>
               <select
                 id="isSeries"
@@ -304,21 +308,19 @@ const NewMovie = ({ title }) => {
                 <option value="true">Series</option>
               </select>
             </div>
-
-            
-
-            <button
-              className="addProductButton"
-              onClick={handleUploadAndSubmit}
-              disabled={isUploading} // Disable when uploading
-            >
-              {isUploading
-                ? "Uploading..."
-                : uploaded === 4
-                ? "Create"
-                : "Upload"}
-            </button>
           </div>
+
+          <button
+            className="addProductButton primary-btn"
+            onClick={handleUploadAndSubmit}
+            disabled={isUploading} // Disable when uploading
+          >
+            {isUploading
+              ? "Uploading..."
+              : uploaded === 4
+              ? "Create"
+              : "Upload"}
+          </button>
         </form>
       </div>
     </div>

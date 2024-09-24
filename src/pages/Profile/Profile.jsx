@@ -62,9 +62,9 @@ export default function Profile() {
 
   return (
     <div className="settings">
-        <div className="settingsWrapper">
       <h1>Profile</h1>
-          
+
+        <div className="settingsWrapper">
           <div className="profileData">
             <div className="right">
               {updateMode ? (
@@ -102,10 +102,10 @@ export default function Profile() {
                     ) : null}
                   </div>
                   <div className="profileEditBtn">
-                    <button onClick={() => setUpdateMode(!updateMode)}>
+                    <button className="primary-btn" onClick={() => setUpdateMode(!updateMode)}>
                       Cancel
                     </button>
-                    <button type="submit">Update</button>
+                    <button className="primary-btn" type="submit">Update</button>
                   </div>
                 </form>
               ) : (
@@ -117,7 +117,7 @@ export default function Profile() {
                     <p>{user.email}</p>
                   </div>
                   <div className="profileEditBtn">
-                    <button onClick={() => setUpdateMode(!updateMode)}>
+                    <button className="primary-btn" onClick={() => setUpdateMode(!updateMode)}>
                       Edit
                     </button>
                   </div>

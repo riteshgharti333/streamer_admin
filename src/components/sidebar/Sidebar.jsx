@@ -46,9 +46,9 @@ const { dispatch } = useContext(DarkModeContext);
       { path: "/earnings", label: "Earnings", icon: <AccountBalanceWalletOutlinedIcon className="icon" /> },
       { path: "/stats", label: "Stats", icon: <InsertChartIcon className="icon" /> },
     ],
-    Service: [
-      { path: "/settings", label: "Settings", icon: <SettingsApplicationsIcon className="icon" /> },
-    ],
+    // Service: [
+    //   { path: "/settings", label: "Settings", icon: <SettingsApplicationsIcon className="icon" /> },
+    // ],
     User: [
       { path: "/profile", label: "Profile", icon: <AccountCircleOutlinedIcon className="icon" /> },
     ],

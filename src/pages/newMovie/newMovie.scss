@@ -11,7 +11,7 @@
       text-transform: uppercase;
     }
   }
-  .bottom {
+  .center {
     background-color: #ffffff;
     padding: 10px;
     border-radius: 10px;
@@ -86,105 +86,125 @@
       }
 
       .right {
-        flex: 2;
         margin-top: 30px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 30px;
-
-       
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 60px;
 
         .formInput {
           position: relative;
           padding: 10px 0 0;
-          width: 50%;
+          width: 100%;
 
           p {
             margin-bottom: 10px;
             font-weight: bold;
           }
 
-
-        input {
-          font-family: inherit;
-          width: 100%;
-          border: none;
-          border-bottom: 2px solid #9b9b9b;
-          outline: 0;
-          font-size: 17px;
-          padding: 7px 0;
-          background: transparent;
-          transition: border-color 0.2s;
-
-          &::placeholder {
-            color: transparent;
-          }
-
-          &:placeholder-shown ~ label {
+          input {
+            font-family: inherit;
+            width: 100%;
+            border: none;
+            border-bottom: 2px solid #9b9b9b;
+            outline: 0;
             font-size: 17px;
-            cursor: text;
-            top: 20px;
+            padding: 7px 0;
+            background: transparent;
+            transition: border-color 0.2s;
+
+            &::placeholder {
+              color: transparent;
+            }
+
+            &:placeholder-shown ~ label {
+              font-size: 17px;
+              cursor: text;
+              top: 20px;
+            }
+
+            &:focus {
+              padding-bottom: 6px;
+              font-weight: 700;
+              border-width: 3px;
+              border-image: linear-gradient(to right, #116399, #38caef);
+              border-image-slice: 1;
+            }
+
+            &:focus ~ label {
+              position: absolute;
+              top: 0;
+              display: block;
+              transition: 0.2s;
+              font-size: 17px;
+              color: #38caef;
+              font-weight: 700;
+            }
+
+            &:required,
+            &:invalid {
+              box-shadow: none;
+            }
           }
 
-          &:focus {
-            padding-bottom: 6px;
-            font-weight: 700;
-            border-width: 3px;
-            border-image: linear-gradient(to right, #116399, #38caef);
-            border-image-slice: 1;
-          }
-
-          &:focus ~ label {
+          label {
             position: absolute;
-            top: 0;
+            top: -10px;
             display: block;
             transition: 0.2s;
             font-size: 17px;
-            color: #38caef;
-            font-weight: 700;
+            font-weight: bold;
+            pointer-events: none;
           }
+          
 
-          &:required,
-          &:invalid {
-            box-shadow: none;
+        }
+      
+      }
+
+      .bottom {
+        display: flex;
+        margin: 20px 0px;
+        .bottomInput {
+          display: flex;
+          flex-direction: column;
+          margin-right: 50px;
+          label{
+            font-weight: bold;
           }
-        }
+          select {
+            padding: 10px;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: normal;
 
-        label {
-          position: absolute;
-          top: 0;
-          display: block;
-          transition: 0.2s;
-          font-size: 17px;
-          font-weight: bold;
-          pointer-events: none;
-        }
-
-        select{
-          margin-top: 15px;
-
-          option{
-
-          }
-        }
-
-        button {
-          width: 150px;
-          padding: 10px;
-          border: none;
-          background-color: teal;
-          color: white;
-          font-weight: bold;
-          cursor: pointer;
-          margin-top: 10px;
-
-          &:disabled {
-            background-color: rgba(0, 128, 128, 0.459);
-            cursor: not-allowed;
+            option {
+              font-weight: bold;
+              font-size: 15px;
+            }
           }
         }
       }
+      
+      button {
+        width: 150px;
+        padding: 10px;
+        border: none;
+        background-color: green;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 10px;
+        font-size: 16px;
+        &:disabled {
+          background-color: rgba(0, 128, 128, 0.459);
+          cursor: not-allowed;
+        }
+      }
     }
-  }
   }
 }

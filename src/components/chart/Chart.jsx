@@ -101,7 +101,7 @@ const Chart = ({ aspect, title, dataArray = [] }) => {
 
   return (
     <div className="chart">
-      <div className="title">{title}</div>
+      <span className="title">{title}</span>
       <ResponsiveContainer width="100%" aspect={aspect}>
         <AreaChart
           width={730}

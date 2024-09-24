@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
-import Navbar from "../../components/navbar/Navbar";
-import Sidebar from "../../components/sidebar/Sidebar";
 import {
   genre,
   ListofListColumns,
@@ -116,18 +114,20 @@ const NewList = ({ title }) => {
   return (
     <div className={`mainNewList ${add ? "blur" : ""}`}>
       <div className="newList">
+      <h1>{title}</h1>
           <div className="bottom">
-            <h1>{title}</h1>
             <form>
               <div className="addlistItem">
-                <label>Title</label>
                 <input
                   type="text"
                   placeholder="Popular movies"
                   name="title"
                   onChange={handleInput}
                 />
+                <label>Title</label>
+
               </div>
+
               <div className="addlistItem">
                 <label>Genre</label>
                 <select
@@ -186,13 +186,13 @@ const NewList = ({ title }) => {
               </div>
               <div className="formBtn">
                 <button
-                  className="addlistButton"
+                  className="addlistButton primary-btn"
                   type="button"
                   onClick={() => setAdd(true)}
                 >
                   Add
                 </button>
-                <button className="addlistButton" type="button" onClick={createList}>
+                <button className="addlistButton primary-btn" type="button" onClick={createList}>
                   Create List
                 </button>
               </div>
@@ -219,8 +219,8 @@ const NewList = ({ title }) => {
             onRowSelectionModelChange={handleRowSelection}
           />
           <div className="AddMoviesBtn">
-            <button onClick={handleAddMovies}>Add</button>
-            <button onClick={() => setAdd(false)}>Cancel</button>
+            <button className="primary-btn" onClick={handleAddMovies}>Add</button>
+            <button className="primary-btn"  onClick={() => setAdd(false)}>Cancel</button>
           </div>
         </div>
       )}

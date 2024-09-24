@@ -46,57 +46,57 @@ const UpdatePassword = () => {
 
   return (
     <div className="updatePassword">
-        <div className="updatePasswordContainer">
-          <div className="updatePasswordContainerWrapper bg-primary">
-            <h1>Change Password</h1>
-            <form onSubmit={handleSubmit}>
-              <div className="formData">
-                <label htmlFor="currentPassword">Add Current Password</label>
-                <input
-                  type="password"
-                  name="current_password"
-                  placeholder="Add Current Password"
-                  value={values.current_password}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                {errors.current_password && touched.current_password ? (
-                  <p className="formError">{errors.current_password}</p>
-                ) : null}
-              </div>
-              <div className="formData">
-                <label htmlFor="newPassword">Add New Password</label>
-                <input
-                  type="password"
-                  name="new_password"
-                  placeholder="Add New Password"
-                  value={values.new_password}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                {errors.new_password && touched.new_password ? (
-                  <p className="formError">{errors.new_password}</p>
-                ) : null}
-              </div>
-              <div className="formData">
-                <label htmlFor="confirmPassword">Confirm New Password</label>
-                <input
-                  type="password"
-                  name="confirm_password"
-                  placeholder="Confirm New Password"
-                  value={values.confirm_password}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                {errors.confirm_password && touched.confirm_password ? (
-                  <p className="formError">{errors.confirm_password}</p>
-                ) : null}
-              </div>
-              <button type="submit">Change Password</button>
-            </form>
-          </div>
+      <h1>Change Password</h1>
+      <div className="updatePasswordContainer">
+        <div className="updatePasswordContainerWrapper bg-primary">
+          <form onSubmit={handleSubmit}>
+            <div className="formData">
+              <label htmlFor="currentPassword">Add Current Password</label>
+              <input
+                type="password"
+                name="current_password"
+                placeholder="Add Current Password"
+                value={values.current_password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              {errors.current_password && touched.current_password ? (
+                <p className="formError">{errors.current_password}</p>
+              ) : null}
+            </div>
+            <div className="formData">
+              <label htmlFor="newPassword">Add New Password</label>
+              <input
+                type="password"
+                name="new_password"
+                placeholder="Add New Password"
+                value={values.new_password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              {errors.new_password && touched.new_password ? (
+                <p className="formError">{errors.new_password}</p>
+              ) : null}
+            </div>
+            <div className="formData">
+              <label htmlFor="confirmPassword">Confirm New Password</label>
+              <input
+                type="password"
+                name="confirm_password"
+                placeholder="Confirm New Password"
+                value={values.confirm_password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              {errors.confirm_password && touched.confirm_password ? (
+                <p className="formError">{errors.confirm_password}</p>
+              ) : null}
+            </div>
+            <button className="primary-btn" type="submit">Change Password</button>
+          </form>
         </div>
       </div>
+    </div>
   );
 };
 

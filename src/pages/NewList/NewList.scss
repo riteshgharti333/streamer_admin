@@ -1,7 +1,7 @@
 .mainNewList {
   position: relative;
 
-  .deleteIcon{
+  .deleteIcon {
     color: red;
     cursor: pointer;
   }
@@ -26,73 +26,150 @@
     }
   }
 
+  h1 {
+    background-color: #fff;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    text-transform: uppercase;
+  }
+
   .newList {
+    .bottom {
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
 
-      .bottom {
-        padding: 20px;
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        .addlistItem {
+          position: relative;
+          padding: 10px 0 0;
+          width: 100%;
 
-        h1 {
-        }
+          input {
+            font-family: inherit;
+            width: 50%;
+            border: none;
+            border-bottom: 2px solid #9b9b9b;
+            outline: 0;
+            font-size: 17px;
+            padding: 7px 0;
+            background: transparent;
+            transition: border-color 0.2s;
 
-        form {
-          .addlistItem {
-            margin: 10px 0px;
-            label {
-              margin-right: 10px;
+            &::placeholder {
+              color: transparent;
+            }
+
+            &:placeholder-shown ~ label {
+              font-size: 17px;
+              cursor: text;
+              top: 20px;
+            }
+
+            &:focus {
+              padding-bottom: 6px;
+              font-weight: 700;
+              border-width: 3px;
+              border-image: linear-gradient(to right, #116399, #38caef);
+              border-image-slice: 1;
+            }
+
+            &:focus ~ label {
+              position: absolute;
+              top: 0;
+              display: block;
+              transition: 0.2s;
+              font-size: 17px;
+              color: #38caef;
+              font-weight: 700;
+            }
+
+            &:required,
+            &:invalid {
+              box-shadow: none;
             }
           }
 
-          .formBtn {
-            button {
-              background-color: aqua;
-              border: none;
-              padding: 10px;
-              font-size: 15px;
-              font-weight: bold;
-              color: white;
-              cursor: pointer;
+          label {
+            position: absolute;
+            top: -15px;
+            display: block;
+            transition: 0.2s;
+            font-size: 17px;
+            font-weight: bold;
+            pointer-events: none;
+          }
 
-              &:first-child {
-                margin-right: 10px;
-              }
+          select {
+            padding: 10px;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: normal;
+
+            option {
+              font-weight: bold;
+              font-size: 15px;
+            }
+          }
+        }
+
+        .formBtn {
+          button {
+            background-color: aqua;
+            border: none;
+            padding: 10px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+
+            &:last-child {
+              margin-left: 10px;
+              background-color: green;
             }
           }
         }
       }
     }
   }
-  .AddMovies {
-    position: fixed; /* Use fixed positioning to keep it in view */
-    top: 50%; /* Center vertically */
-    left: 50%; /* Center horizontally */
-    transform: translate(
-      -50%,
-      -50%
-    ); /* Adjust the position to truly center the element */
-    width: 55%;
-    background-color: aquamarine;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: Add shadow for better visibility */
-    padding: 20px; /* Optional: Add padding inside the box */
-    z-index: 1000; /* Ensure it's on top of other content */
-    border-radius: 8px; /* Optional: Add rounded corners */
+}
+.AddMovies {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 55%;
+  background-color: aquamarine;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  z-index: 1000;
+  border-radius: 8px;
 
-    .AddMoviesBtn {
-      margin-top: 5px;
-      display: flex;
-      flex-direction: row-reverse;
-      button {
-        background-color: red;
-        border: none;
-        font-size: 15px;
-        padding: 5px;
-        font-weight: bold;
-        color: white;
-        cursor: pointer;
+  .AddMoviesBtn {
+    margin-top: 5px;
+    display: flex;
+    flex-direction: row-reverse;
+    button {
+      background-color: red;
+      border: none;
+      font-size: 15px;
+      padding: 10px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
 
-        &:first-child {
-          background-color: green;
-          margin-left: 10px;
-        }
+      &:first-child {
+        background-color: green;
+        margin-left: 10px;
       }
     }
+  }
 }

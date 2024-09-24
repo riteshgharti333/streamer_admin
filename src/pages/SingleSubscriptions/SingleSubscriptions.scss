@@ -1,54 +1,45 @@
 .singleSubscriptions {
-  font-family: "Gabarito", sans-serif;
+  .subDeleteBtn {
+    display: flex;
+    justify-content: end;
+    button {
+      background-color: red;
+      border: none;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      padding: 10px;
+      cursor: pointer;
+    }
+  }
+}
+.singleSubscriptionsWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
+  h1 {
+    font-size: 40px;
+    font-family: "Gabarito", sans-serif;
+  }
 
-    .prevIcon {
-      margin: 20px;
-      display: flex;
-      justify-content: space-between;
+  .subInfo {
+    margin-top: 20px;
+    background-color: #8ec5fc;
+    background-image: linear-gradient(62deg, #8ec5fc 0%, #e0c3fc 100%);
+    padding: 30px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius:10px;
 
-      .backIcon {
-        font-size: 30px;
-        cursor: pointer;
-      }
+    p {
+      font-size: 17px;
+      font-weight: bold;
 
-      button {
-        background-color: red;
-        border: none;
-        color: white;
+      span {
         font-weight: bold;
-        font-size: 16px;
-        cursor: pointer;
-        border-radius: 3px;
+        font-size: 20px;
+        color: #6439ff;
       }
     }
-    .singleSubscriptionsWrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      h1 {
-        font-size: 40px;
-      }
-
-      .subInfo {
-        margin-top: 20px;
-        background-color: #8ec5fc;
-        background-image: linear-gradient(62deg, #8ec5fc 0%, #e0c3fc 100%);
-        padding: 30px;
-        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-        border-radius: 5px;
-
-        p {
-          font-size: 17px;
-
-          span {
-            font-weight: bold;
-            font-size: 20px;
-            color: #6439ff;
-          }
-        }
-      }
-    }
-  
+  }
 }

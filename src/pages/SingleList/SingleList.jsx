@@ -98,14 +98,13 @@ const SingleList = () => {
 
   const deleteList = async (id) => {
     try {
-      await  dispatch(deleteAsyncSingleList(id)).unwrap();
+      await dispatch(deleteAsyncSingleList(id)).unwrap();
       toast.success("list deleted");
       navigate(-1);
     } catch (error) {
       toast.error(error.message);
-     console.log(error) 
+      console.log(error);
     }
- 
   };
 
   const handleRowSelection = (selectionModel) => {
@@ -164,82 +163,80 @@ const SingleList = () => {
   return (
     <div className={`mainContainer ${add ? "blur" : ""}`}>
       <div className="singleList">
-          <div className="bottom">
-            <div className="singleListButton">
-              <button onClick={() => deleteList(list._id)}>Delete</button>
+        <div className="top">
+          <h1 className="addlistTitle ">Update List</h1>
+          <button className="primary-btn" onClick={() => deleteList(list._id)}>
+            Delete
+          </button>
+        </div>
+        <div className="bottom">
+          <form className="addlistForm" onChange={handleChange}>
+            <div className="addlistItem">
+              <input
+                type="text"
+                placeholder="popular movies"
+                name="title"
+                value={list.title || ""}
+                onChange={handleChange}
+              />
+              <label>Title</label>
             </div>
-            <form className="addlistForm" onChange={handleChange}>
-              <h1 className="addlistTitle">New List</h1>
-              <div className="formLeft">
-                <div className="addlistItem">
-                  <label>Title</label>
-                  <input
-                    type="text"
-                    placeholder="popular movies"
-                    name="title"
-                    value={list.title || ""}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="addlistItem">
-                  <label>Genre</label>
-                  <select
-                    name="genre"
-                    value={list.genre}
-                    onChange={handleChange}
-                  >
-                    {genre.map((g) => (
-                      <option key={g}>{g}</option>
-                    ))}
-                  </select>
-                </div>
-                <div className="addlistItem">
-                  <label>Type</label>
+            <div className="addlistItem">
+              <label>Genre</label>
+              <select name="genre" value={list.genre} onChange={handleChange}>
+                {genre.map((g) => (
+                  <option key={g}>{g}</option>
+                ))}
+              </select>
+            </div>
+            <div className="addlistItem">
+              <label>Type</label>
 
-                  <select name="type" value={list.type} onChange={handleChange}>
-                    <option value="movies">Movie</option>
-                    <option value="series">Series</option>
-                  </select>
-                </div>
-                <div className="addlistItem">
-                  <label>Content</label>
-                  <div className="datagridContainer">
-                    <DataGrid
-                      className="datagrid"
-                      rows={rows}
-                      columns={ListofListColumns.concat(actionColumn)}
-                      initialState={{
-                        pagination: {
-                          paginationModel: {
-                            pageSize: 5,
-                          },
-                        },
-                      }}
-                      getRowId={(row) => row._id}
-                      pageSizeOptions={[5, 10, 20]}
-                      checkboxSelection
-                    />
-                  </div>
-                </div>
+              <select name="type" value={list.type} onChange={handleChange}>
+                <option value="movies">Movie</option>
+                <option value="series">Series</option>
+              </select>
+            </div>
+            <div className="addlistItem">
+              <label>Content</label>
+              <div className="datagridContainer">
+                <DataGrid
+                  className="datagrid"
+                  rows={rows}
+                  columns={ListofListColumns.concat(actionColumn)}
+                  initialState={{
+                    pagination: {
+                      paginationModel: {
+                        pageSize: 5,
+                      },
+                    },
+                  }}
+                  getRowId={(row) => row._id}
+                  pageSizeOptions={[5, 10, 20]}
+                  checkboxSelection
+                />
               </div>
+            </div>
 
+            <div className="listButton">
               <button
-                className="addlistButton"
+                className="addlistButton primary-btn"
                 type="button"
                 onClick={handleOpen}
               >
                 Add
               </button>
               <button
-                className="addlistButton"
+                className="addlistButton primary-btn"
                 type="button"
                 onClick={updateList}
               >
                 Update
               </button>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
+      </div>
       {add && (
         <div className="AddMovies">
           <DataGrid
@@ -260,8 +257,8 @@ const SingleList = () => {
             onRowSelectionModelChange={handleRowSelection}
           />
           <div className="AddMoviesBtn">
-            <button onClick={handleAddMovies}>Add</button>
-            <button onClick={handleOpen}>Cancel</button>
+            <button className="primary-btn" onClick={handleAddMovies}>Add</button>
+            <button className="primary-btn" onClick={handleOpen}>Cancel</button>
           </div>
         </div>
       )}

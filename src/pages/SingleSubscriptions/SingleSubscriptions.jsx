@@ -45,18 +45,15 @@ const SingleSubscriptions = () => {
         toast.error('Failed to delete subscription');
       }
     } catch (error) {
-      toast.error('Error deleting subscription');
+      toast.error(error.message);
       console.error('Error:', error);
     }
   };
 
   return (
     <div className="singleSubscriptions">
-        <div className="prevIcon">
-          <Link to="#" onClick={() => navigate(-1)}>
-            <BsArrowLeft className="backIcon" />
-          </Link>
-          <button onClick={() => deleteSubs(subscriptionId)}>Delete Subscription</button>
+        <div className="subDeleteBtn">
+          <button className="primary-btn" onClick={() => deleteSubs(subscriptionId)}>Delete Subscription</button>
         </div>
         <div className="singleSubscriptionsWrapper">
           <h1>Subscription Information</h1>
