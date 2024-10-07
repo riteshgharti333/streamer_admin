@@ -1,6 +1,5 @@
-import { BsArrowLeft } from "react-icons/bs";
 import "./UpdatePassword.scss";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { updatePasswordSchema } from "../../schemas";
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
@@ -17,10 +16,6 @@ const UpdatePassword = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const goBack = () => {
-    navigate(-1);
-  };
-
   const { values, errors, handleBlur, touched, handleChange, handleSubmit } =
     useFormik({
       initialValues: initialvalues,
@@ -33,7 +28,7 @@ const UpdatePassword = () => {
           };
 
           const response = await dispatch(
-            updatePasswordAsync(payload)
+            updatePasswordAsync(payload),
           ).unwrap();
           toast.success(response.message);
           navigate("/profile");
@@ -46,7 +41,7 @@ const UpdatePassword = () => {
 
   return (
     <div className="updatePassword">
-      <h1>Change Password</h1>
+      <h1>Update Password</h1>
       <div className="updatePasswordContainer">
         <div className="updatePasswordContainerWrapper bg-primary">
           <form onSubmit={handleSubmit}>
@@ -92,7 +87,9 @@ const UpdatePassword = () => {
                 <p className="formError">{errors.confirm_password}</p>
               ) : null}
             </div>
-            <button className="primary-btn" type="submit">Change Password</button>
+            <button className="primary-btn" type="submit">
+              Change Password
+            </button>
           </form>
         </div>
       </div>

@@ -14,8 +14,18 @@ import {
 import { getAsyncSingleUser } from "../../redux/asyncThunks/userThunks";
 
 const monthsOrder = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 
 const UserChart = ({ userId, aspect, title }) => {
@@ -92,10 +102,6 @@ const UserChart = ({ userId, aspect, title }) => {
     fetchSubscriptionData();
   }, [dispatch, users]);
 
-  if (!userId) {
-    return <div>Loading...</div>; 
-  }
-
   return (
     <div className="chart">
       <div className="title">{title}</div>
@@ -121,7 +127,7 @@ const UserChart = ({ userId, aspect, title }) => {
             dataKey="name"
             stroke="gray"
             interval={0}
-            tick={{ angle: -45, textAnchor: 'end' }}
+            tick={{ angle: -45, textAnchor: "end" }}
             height={70}
           />
 

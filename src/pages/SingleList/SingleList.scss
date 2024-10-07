@@ -134,7 +134,7 @@
         }
       }
 
-      .listButton{
+      .listButton {
         .addlistButton {
           padding: 10px;
           border: none;
@@ -145,16 +145,12 @@
           font-weight: bold;
           margin-right: 10px;
           cursor: pointer;
-  
 
-          &:last-child{
+          &:last-child {
             background-color: green;
           }
-        
         }
       }
-
-      
     }
   }
 
@@ -164,19 +160,16 @@
   }
 
   .AddMovies {
-    position: fixed; 
-    top: 50%; 
-    left: 50%; 
-    transform: translate(
-      -50%,
-      -50%
-    );
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 55%;
     background-color: aquamarine;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     padding: 20px;
-    z-index: 1000; 
-    border-radius: 8px; 
+    z-index: 1000;
+    border-radius: 8px;
 
     .AddMoviesBtn {
       margin-top: 5px;

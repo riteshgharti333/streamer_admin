@@ -12,8 +12,6 @@ const Navbar = () => {
 
   const { user } = useSelector((state) => state.auth.user);
 
-  
-
   return (
     <div className="navbar">
       <div className="wrapper">

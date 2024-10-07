@@ -3,7 +3,9 @@
   background-color: white;
   width: 170px;
   border-radius: 15px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  box-shadow:
+    rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 
   .top {
     height: 50px;
@@ -27,29 +29,27 @@
       margin: 0;
       padding: 0;
 
+      .active {
+        li {
+          background-color: red;
+          box-shadow: rgb(155, 26, 22) 0px 10px 30px -10px;
 
-        .active {
-          li{
+          &:hover {
             background-color: red;
-            box-shadow: rgb(155, 26, 22) 0px 10px 30px -10px;
-
-            &:hover{
-              background-color: red;
-            }
           }
-          .icon {
-            font-size: 18px;
-            color: white;
-          }
-  
-          span {
-            font-size: 15px;
-            font-weight: 600;
-            margin-left: 5px;
-            color: white;
-
-          } 
         }
+        .icon {
+          font-size: 18px;
+          color: white;
+        }
+
+        span {
+          font-size: 15px;
+          font-weight: 600;
+          margin-left: 5px;
+          color: white;
+        }
+      }
 
       .title {
         font-size: 10px;
@@ -58,8 +58,6 @@
         margin-top: 15px;
         margin-bottom: 5px;
       }
-
-     
 
       li {
         display: flex;

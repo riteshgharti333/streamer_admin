@@ -59,12 +59,12 @@ const subscriptionSlice = createSlice({
       .addCase(deleteSubscriptionAsync.fulfilled, (state, action) => {
         state.loading = false;
 
-        const {subscriptionId } = action.payload;
+        const { subscriptionId } = action.payload;
 
         if (Array.isArray(state.subscription.subscriptionData)) {
           state.subscription.subscriptionData =
             state.subscription.subscriptionData.filter(
-              (sub) => sub.subscriptionId !== subscriptionId 
+              (sub) => sub.subscriptionId !== subscriptionId,
             );
         }
       })

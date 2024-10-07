@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
 import CountUp from "react-countup";
-import Navbar from "../../components/navbar/Navbar";
 import RevenuePieChart from "../../components/RevenuePieChart/RevenuePieChart";
-import Sidebar from "../../components/sidebar/Sidebar";
 import "./Earnings.scss";
 import EarningWidget from "../../components/EarningWidget/EarningWidget";
 import { useDispatch } from "react-redux";
 import { getAllSubscriptionAsync } from "../../redux/asyncThunks/subscriptionThunks";
 import { isWithinInterval, startOfMonth, subDays, subMonths } from "date-fns";
 import { getAsyncUsers } from "../../redux/asyncThunks/userThunks";
+import Skeleton from "react-loading-skeleton";
 
 const Earnings = () => {
   const dispatch = useDispatch();
+
+  const [isLoading, setIsLoading] = useState(true);
 
   const [revenueData, setRevenueData] = useState({
     totalPrice: "",
@@ -47,6 +48,7 @@ const Earnings = () => {
 
   useEffect(() => {
     const fetchSubscriptionData = async () => {
+      setIsLoading(true);
       try {
         const res = await dispatch(getAllSubscriptionAsync()).unwrap();
 
@@ -102,7 +104,7 @@ const Earnings = () => {
         const last_3_months_Revenue = calculateRevenue(
           startOfCurrentPeriod,
           endOfCurrentPeriod,
-          prices
+          prices,
         );
 
         //Last 6 month
@@ -117,7 +119,7 @@ const Earnings = () => {
         const last_6_months_Revenue = calculateRevenue(
           startOfCurrent_6Period,
           endOfCurrent_6Period,
-          prices
+          prices,
         );
 
         // set_Total_6_Months_Price(last_6_months_Revenue);
@@ -149,7 +151,9 @@ const Earnings = () => {
           totalUsers: totalUsers,
           pieChartData,
         });
+        setIsLoading(false);
       } catch (error) {
+        setIsLoading(false);
         console.log(error);
       }
     };
@@ -164,122 +168,150 @@ const Earnings = () => {
 
   return (
     <div className="earnings">
-        <div className="earningsBottom">
-          <div className="top">
+      <div className="earningsBottom">
+        <div className="top">
+          {isLoading ? (
             <div className="topLeft">
-              <div className="topLeftInfo">
-                <div className="items">
-                  <p>Total Revenue</p>
-                  <span>
-                    <CountUp
-                      start={0}
-                      end={revenueData.totalPrice}
-                      duration={2.5}
-                      separator=","
-                      decimals={2}
-                      prefix="₹"
-                      formattingFn={(value) =>
-                        new Intl.NumberFormat("en-IN", {
-                          style: "currency",
-                          currency: "INR",
-                          maximumFractionDigits: 2,
-                        }).format(value)
-                      }
-                    />
-                  </span>
-                </div>
-              </div>
+              <Skeleton width={200} />
+              <Skeleton width={150} height={50} />
 
-              <div className="leftBottomInfo">
+              <div className="leftBottomInfo" style={{ display: "flex" }}>
                 <div className="items">
-                  <p>Last 3 Months Revenue</p>
-                  <span>
-                    <CountUp
-                      start={0}
-                      end={revenueData.total_3_Months_Price}
-                      duration={2.5}
-                      separator=","
-                      decimals={2}
-                      prefix="₹"
-                      formattingFn={(value) =>
-                        new Intl.NumberFormat("en-IN", {
-                          style: "currency",
-                          currency: "INR",
-                          maximumFractionDigits: 2,
-                        }).format(value)
-                      }
-                    />
-                  </span>
+                  <Skeleton width={200} />
+                  <Skeleton width={200} />
                 </div>
 
-                <div className="items">
-                  <p>Last 6 Months Revenue</p>
-                  <span>
-                    <CountUp
-                      start={0}
-                      end={revenueData.total_6_Months_Price}
-                      duration={2.5}
-                      separator=","
-                      decimals={2}
-                      prefix="₹"
-                      formattingFn={(value) =>
-                        new Intl.NumberFormat("en-IN", {
-                          style: "currency",
-                          currency: "INR",
-                          maximumFractionDigits: 2,
-                        }).format(value)
-                      }
-                    />
-                  </span>
+                <div className="leftBottomInfo">
+                  <div className="items">
+                    <Skeleton width={200} />
+                    <Skeleton width={200} />
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="topRight">
-              <div className="pieChart">
-                <RevenuePieChart data={pieChartData} />
+          ) : (
+            <>
+              <div className="topLeft">
+                <div className="topLeftInfo">
+                  <div className="items">
+                    <p>Total Revenue</p>
+                    <span>
+                      <CountUp
+                        start={0}
+                        end={revenueData.totalPrice}
+                        duration={2.5}
+                        separator=","
+                        decimals={2}
+                        prefix="₹"
+                        formattingFn={(value) =>
+                          new Intl.NumberFormat("en-IN", {
+                            style: "currency",
+                            currency: "INR",
+                            maximumFractionDigits: 2,
+                          }).format(value)
+                        }
+                      />
+                    </span>
+                  </div>
+                </div>
+
+                <div className="leftBottomInfo">
+                  <div className="items">
+                    <p>Last 3 Months Revenue</p>
+                    <span>
+                      <CountUp
+                        start={0}
+                        end={revenueData.total_3_Months_Price}
+                        duration={2.5}
+                        separator=","
+                        decimals={2}
+                        prefix="₹"
+                        formattingFn={(value) =>
+                          new Intl.NumberFormat("en-IN", {
+                            style: "currency",
+                            currency: "INR",
+                            maximumFractionDigits: 2,
+                          }).format(value)
+                        }
+                      />
+                    </span>
+                  </div>
+
+                  <div className="items">
+                    <p>Last 6 Months Revenue</p>
+                    <span>
+                      <CountUp
+                        start={0}
+                        end={revenueData.total_6_Months_Price}
+                        duration={2.5}
+                        separator=","
+                        decimals={2}
+                        prefix="₹"
+                        formattingFn={(value) =>
+                          new Intl.NumberFormat("en-IN", {
+                            style: "currency",
+                            currency: "INR",
+                            maximumFractionDigits: 2,
+                          }).format(value)
+                        }
+                      />
+                    </span>
+                  </div>
+                </div>
               </div>
+            </>
+          )}
+
+          <div className="topRight">
+            <div className="pieChart">
+              <RevenuePieChart data={pieChartData} isLoading={isLoading} />
             </div>
           </div>
+        </div>
 
-          <div className="center">
-            <div className="widgets">
-              <div className="widgetsInfo">
-                <EarningWidget
-                  title="Revenue/User"
-                  price={revenueData.revenuePerUser}
-                  smTitle="Total Users"
-                  totalNo={revenueData.totalUsers}
-                  desc="See All Users"
-                  link="users"
-                />
-                <EarningWidget
-                  title="Movies Subcriptions"
-                  price={revenueData.moviesTotalPrice}
-                  smTitle="Total Movies Subcriptions"
-                  totalNo={revenueData.totalMovesSubs}
-                  desc="See All Movies"
-                  link="movies"
-                />
-                <EarningWidget
-                  title="Series Subcriptions"
-                  price={revenueData.seriesTotalPrice}
-                  smTitle="Total Series Subcriptions"
-                  totalNo={revenueData.totalSeriesSubs}
-                  desc="See All Series"
-                  link="series"
-                />
-                <EarningWidget
-                  title="Movies + Series Subcriptions"
-                  price={revenueData.MSTotalPrice}
-                  smTitle="Total Movies + Series Subcriptions"
-                  totalNo={revenueData.totalMSSubs}
-                  unique={true}
-                />
-              </div>
+        <div className="center">
+          <div className="widgets">
+            <div className="widgetsInfo">
+              <EarningWidget
+                title="Revenue/User"
+                price={revenueData.revenuePerUser}
+                smTitle="Total Users"
+                totalNo={revenueData.totalUsers}
+                desc="See All Users"
+                link="users"
+                isLoading={isLoading}
+              />
+              <EarningWidget
+                title="Movies Subcriptions"
+                price={revenueData.moviesTotalPrice}
+                smTitle="Total Movies Subcriptions"
+                totalNo={revenueData.totalMovesSubs}
+                desc="See All Movies"
+                link="movies"
+                isLoading={isLoading}
+              />
+              <EarningWidget
+                title="Series Subcriptions"
+                price={revenueData.seriesTotalPrice}
+                smTitle="Total Series Subcriptions"
+                totalNo={revenueData.totalSeriesSubs}
+                desc="See All Series"
+                link="series"
+                isLoading={isLoading}
+              />
+              <EarningWidget
+                title="Movies + Series Subcriptions"
+                price={revenueData.MSTotalPrice}
+                smTitle="Total Movies + Series Subcriptions"
+                totalNo={revenueData.totalMSSubs}
+                unique={true}
+                isLoading={isLoading}
+              />
             </div>
           </div>
         </div>
       </div>
+    </div>
   );
 };
 

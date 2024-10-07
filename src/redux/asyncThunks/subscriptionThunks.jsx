@@ -5,8 +5,6 @@ import {
   getSubscription,
 } from "../api/subscriptionAPI";
 
-
-
 // GET ALL SUBSCRIPTIONS
 export const getAllSubscriptionAsync = createAsyncThunk(
   "subscription/getAllSubscriptions",
@@ -18,29 +16,28 @@ export const getAllSubscriptionAsync = createAsyncThunk(
     } catch (error) {
       console.log(error);
       return rejectWithValue(
-        error.response.data || "Failed to get all subscriptions"
+        error.response.data || "Failed to get all subscriptions",
       );
     }
-  }
+  },
 );
 
 // DELETE SUBSCRIPTION
 export const deleteSubscriptionAsync = createAsyncThunk(
   "subscription/deleteSubscription",
-  async (subscriptionId , { rejectWithValue }) => {
+  async (subscriptionId, { rejectWithValue }) => {
     try {
       const response = await deleteSubscription(subscriptionId);
       console.log(response);
-      return {data : response.data , subscriptionId};
+      return { data: response.data, subscriptionId };
     } catch (error) {
       console.log(error);
       return rejectWithValue(
-        error.response.data || "Failed to delete subscription"
+        error.response.data || "Failed to delete subscription",
       );
     }
-  }
+  },
 );
-
 
 // GET SUBSCRIPTION
 export const getSubscriptionAsync = createAsyncThunk(
@@ -52,8 +49,8 @@ export const getSubscriptionAsync = createAsyncThunk(
     } catch (error) {
       console.log(error);
       return rejectWithValue(
-        error.response.data || "Failed to delete subscription"
+        error.response.data || "Failed to delete subscription",
       );
     }
-  }
+  },
 );

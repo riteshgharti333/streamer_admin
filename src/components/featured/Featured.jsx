@@ -1,5 +1,4 @@
 import "./featured.scss";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -7,12 +6,14 @@ import KeyboardArrowUpOutlinedIcon from "@mui/icons-material/KeyboardArrowUpOutl
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { getAllSubscriptionAsync } from "../../redux/asyncThunks/subscriptionThunks";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 import { subDays } from "date-fns";
 
 import { isWithinInterval } from "date-fns";
 
-const Featured = () => {
+const Featured = ({ isLoading }) => {
   const dispatch = useDispatch();
 
   const [currentMonthRevenue, setCurrentMonthRevenue] = useState(0);
@@ -110,7 +111,7 @@ const Featured = () => {
             const price = parseFloat(subscription.price);
             return !isNaN(price) ? acc + price : acc;
           },
-          0
+          0,
         );
 
         const currentWeekTotal = currentWeekSubscriptions.reduce(
@@ -118,7 +119,7 @@ const Featured = () => {
             const price = parseFloat(subscription.price);
             return !isNaN(price) ? acc + price : acc;
           },
-          0
+          0,
         );
 
         const currentHalfMonthTotal = currentHalfMonthSubscriptions.reduce(
@@ -126,7 +127,7 @@ const Featured = () => {
             const price = parseFloat(subscription.price);
             return !isNaN(price) ? acc + price : acc;
           },
-          0
+          0,
         );
 
         ///////////////////////////////
@@ -137,7 +138,7 @@ const Featured = () => {
             const price = parseFloat(subscription.price);
             return !isNaN(price) ? acc + price : acc;
           },
-          0
+          0,
         );
 
         const lastWeekTotal = lastWeekSubscriptions.reduce(
@@ -145,7 +146,7 @@ const Featured = () => {
             const price = parseFloat(subscription.price);
             return !isNaN(price) ? acc + price : acc;
           },
-          0
+          0,
         );
 
         const lastHalfMonthTotal = lastHalfMonthSubscriptions.reduce(
@@ -153,7 +154,7 @@ const Featured = () => {
             const price = parseFloat(subscription.price);
             return !isNaN(price) ? acc + price : acc;
           },
-          0
+          0,
         );
 
         ////////////////////////////
@@ -179,15 +180,15 @@ const Featured = () => {
         setCalHalfMonth(calHalftMonth);
 
         // Calculating total revenue of last month
-        const total = prices.reduce((acc, subscription) => {
-          const price = parseFloat(subscription.price);
-          if (!isNaN(price)) {
-            return acc + price;
-          } else {
-            console.error("Invalid price:", subscription.price);
-            return acc;
-          }
-        }, 0);
+        // const total = prices.reduce((acc, subscription) => {
+        //   const price = parseFloat(subscription.price);
+        //   if (!isNaN(price)) {
+        //     return acc + price;
+        //   } else {
+        //     console.error("Invalid price:", subscription.price);
+        //     return acc;
+        //   }
+        // }, 0);
         // setTotalAmount(total);
       } catch (error) {
         console.error("Failed to fetch subscription data:", error);
@@ -200,54 +201,97 @@ const Featured = () => {
   return (
     <div className="featured">
       <div className="top">
-        <span className="title">Total Revenue</span>
+        {isLoading ? (
+          <Skeleton width={100} />
+        ) : (
+          <span className="title">Total Revenue</span>
+        )}
       </div>
       <div className="bottom">
-        <p className="growth">Last 28 Days Growth</p>
-        <div className="featuredChart">
-          <CircularProgressbar
-            value={growth}
-            text={`${growth}%`}
-            strokeWidth={5}
-            styles={buildStyles({
-              textSize: "16px",
-              textColor: `${growth < 0 ? "red" : "blue"}`,
-            })}
-          />
-        </div>
-        <p className="title">Last 28 Day Total Revenue </p>
-        <p className="amount">₹ {currentMonthRevenue}</p>
-        <p className="desc">Previous last week total revenue and last month</p>
-        <div className="summary">
-          <div className="item">
-            <div className="itemTitle">Last Week</div>
+        {isLoading ? (
+          <Skeleton width={100} />
+        ) : (
+          <p className="growth">Last 28 Days Growth</p>
+        )}
 
-            {calWeek ? (
-              <div className="itemResult positive">
-                <KeyboardArrowUpOutlinedIcon fontSize="small" />
-                <div className="resultAmount">₹{currentWeekRevenue}</div>
-              </div>
-            ) : (
-              <div className="itemResult negative">
-                <KeyboardArrowDownIcon fontSize="small" />
-                <div className="resultAmount">₹{currentWeekRevenue}</div>
-              </div>
-            )}
+        {isLoading ? (
+          <Skeleton circle={true} width={100} height={100} />
+        ) : (
+          <div className="featuredChart">
+            <CircularProgressbar
+              value={growth}
+              text={`${growth}%`}
+              strokeWidth={5}
+              styles={buildStyles({
+                textSize: "16px",
+                textColor: `${growth < 0 ? "red" : "blue"}`,
+              })}
+            />
           </div>
-          <div className="item">
-            <div className="itemTitle">Last 15 day</div>
-            {calHalftMonth ? (
-              <div className="itemResult positive">
-                <KeyboardArrowUpOutlinedIcon fontSize="small" />
-                <div className="resultAmount">₹{currentHalfMonthRevenue}</div>
+        )}
+        {isLoading ? (
+          <Skeleton width={100} />
+        ) : (
+          <p className="title">Last 28 Day Total Revenue </p>
+        )}
+
+        {isLoading ? (
+          <>
+            <Skeleton width={100} />
+            <Skeleton width={100} />
+          </>
+        ) : (
+          <>
+            <p className="amount">₹ {currentMonthRevenue}</p>
+            <p className="desc">
+              Previous last week total revenue and last month
+            </p>
+          </>
+        )}
+
+        <div className="summary">
+          {isLoading ? (
+            <>
+              <Skeleton width={100} />
+              <Skeleton width={100} />
+            </>
+          ) : (
+            <>
+              <div className="item">
+                <div className="itemTitle">Last Week</div>
+
+                {calWeek ? (
+                  <div className="itemResult positive">
+                    <KeyboardArrowUpOutlinedIcon fontSize="small" />
+                    <div className="resultAmount">₹{currentWeekRevenue}</div>
+                  </div>
+                ) : (
+                  <div className="itemResult negative">
+                    <KeyboardArrowDownIcon fontSize="small" />
+                    <div className="resultAmount">₹{currentWeekRevenue}</div>
+                  </div>
+                )}
               </div>
-            ) : (
-              <div className="itemResult negative">
-                <KeyboardArrowDownIcon fontSize="small" />
-                <div className="resultAmount">₹{currentHalfMonthRevenue}</div>
+              <div className="item">
+                <div className="itemTitle">Last 15 day</div>
+                {calHalftMonth ? (
+                  <div className="itemResult positive">
+                    <KeyboardArrowUpOutlinedIcon fontSize="small" />
+                    <div className="resultAmount">
+                      ₹{currentHalfMonthRevenue}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="itemResult negative">
+                    <KeyboardArrowDownIcon fontSize="small" />
+                    <div className="resultAmount">
+                      ₹{currentHalfMonthRevenue}
+                    </div>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
+            </>
+          )}
         </div>
       </div>
     </div>

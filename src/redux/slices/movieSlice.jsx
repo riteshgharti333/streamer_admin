@@ -85,7 +85,7 @@ const movieSlice = createSlice({
 
         if (Array.isArray(state.movies.movies)) {
           state.movies.movies = state.movies.movies.filter(
-            (movie) => movie._id !== deletedMovieId
+            (movie) => movie._id !== deletedMovieId,
           );
         }
 
@@ -129,7 +129,7 @@ const movieSlice = createSlice({
 
         if (Array.isArray(state.movies.movies)) {
           const index = state.movies.movies.findIndex(
-            (movie) => movie._id === updatedMovie._id
+            (movie) => movie._id === updatedMovie._id,
           );
           state.movies.movies[index] = updatedMovie;
         }

@@ -70,8 +70,7 @@ const authSlice = createSlice({
         state.error = action.payload;
       });
 
-
-      builder
+    builder
       // update profile
       .addCase(updateProfileAsync.pending, (state) => {
         state.status = "loading";

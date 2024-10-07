@@ -48,7 +48,7 @@ export default function Register() {
   return (
     <div className="register">
       <div className="top">
-          <h1 className="logo">STREAMER DASHBOARD</h1>
+        <h1 className="logo">STREAMER DASHBOARD</h1>
       </div>
       <form className="input" onSubmit={handleSubmit}>
         <h1>Sign Up</h1>

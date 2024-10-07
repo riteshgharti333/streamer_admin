@@ -1,5 +1,5 @@
 import "./single.scss";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { SubscriptionsColumns } from "../../datatablesource";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -10,8 +10,10 @@ import {
 } from "../../redux/asyncThunks/userThunks";
 import { toast } from "react-toastify";
 import { DataGrid } from "@mui/x-data-grid";
-import { format, parseISO } from "date-fns";
-import UserChart from "../../components/UserChart/UserChart";
+
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import Chart from "../../components/chart/Chart";
 
 const Single = () => {
   const [data, setData] = useState({});
@@ -21,45 +23,36 @@ const Single = () => {
   const location = useLocation();
   const path = location.pathname.split("/")[2];
 
-  const users = useSelector((state) => state.users.users);
-
   const [roleAdmin, setRoleAdmin] = useState(false);
 
   const [transactions, setTransactions] = useState([]);
-
-  useEffect(() => {
-    dispatch(getAsyncSingleUser(path));
-  }, [dispatch, path]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
-        if (users && users.userDetails && users.userDetails.subscription) {
-          setData(users.userDetails.getUser);
+        const { userDetails } = await dispatch(
+          getAsyncSingleUser(path),
+        ).unwrap();
 
-          const usersSubscriptions = users.userDetails.subscription;
+        setData(userDetails.getUser);
 
-          const formattedData = usersSubscriptions.map((subscription) => ({
-            ...subscription,
-            startDate: parseISO(subscription.startDate), // Convert date string to Date object
-          }));
+        const usersSubscriptions = userDetails.subscription;
 
-          formattedData.sort((a, b) => b.startDate - a.startDate);
+        console.log(usersSubscriptions);
 
-          const dataToDisplay = formattedData.map((subscription) => ({
-            ...subscription,
-            startDate: format(subscription.startDate, "MMMM dd, yyyy"), // Format date for display
-          }));
-
-          setTransactions(dataToDisplay);
-        }
+        setTransactions(usersSubscriptions);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchData();
-  }, [dispatch, users]);
+  }, [dispatch, path]);
 
   const handleDelete = async () => {
     try {
@@ -83,7 +76,7 @@ const Single = () => {
         isAdmin: isAdmin,
       }));
       toast.success(
-        `User has been ${isAdmin ? "granted" : "removed from"} admin role.`
+        `User has been ${isAdmin ? "granted" : "removed from"} admin role.`,
       );
       setRoleAdmin(false);
     } catch (error) {
@@ -101,8 +94,13 @@ const Single = () => {
             role?
           </p>
           <div className="adminButton">
-            <button  className="primary-btn" onClick={() => setRoleAdmin(false)}>No</button>
-            <button className="primary-btn" onClick={() => handleAdminUpdate(!data.isAdmin)}>
+            <button className="primary-btn" onClick={() => setRoleAdmin(false)}>
+              No
+            </button>
+            <button
+              className="primary-btn"
+              onClick={() => handleAdminUpdate(!data.isAdmin)}
+            >
               Yes
             </button>
           </div>
@@ -132,48 +130,86 @@ const Single = () => {
   return (
     <div className="single">
       {roleAdmin && <AdminRole />}
-        <div className="top">
-          <div className="left">
-            <div className="leftTop">
-              <h1 className="leftTitle">Information</h1>
-              <button className="editButton primary-btn" onClick={handleDelete}>
-                Delete User
-              </button>
-            </div>
-            <div className="item">
-              <div className="details">
-                <h1 className="itemTitle">{data.name}</h1>
-                <div className="detailItem">
-                  <span className="itemKey">Email:</span>
-                  <span className="itemValue">{data.email}</span>
-                </div>
-                <div className="detailItem">
-                  <span className="itemKey">Admin:</span>
-                  <span className="itemValue">
-                    {data.isAdmin ? "True" : "False"}
-                  </span>
-                  {data.isAdmin ? (
-                    <p onClick={() => setRoleAdmin(true)} className="adminRole">
-                      Remove From Admin Role
-                    </p>
-                  ) : (
-                    <p
-                      onClick={() => setRoleAdmin(true)}
-                      className="adminRole assign"
-                    >
-                      Assign Admin Role
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
+      <div className="top">
+        <div className="left">
+          <div className="leftTop">
+            {isLoading ? (
+              <>
+                <Skeleton width={100} />
+                <Skeleton width={100} />
+              </>
+            ) : (
+              <>
+                <h1 className="leftTitle">Information</h1>
+                <button
+                  className="editButton primary-btn"
+                  onClick={handleDelete}
+                >
+                  Delete User
+                </button>
+              </>
+            )}
           </div>
-          <div className="right">
-            <UserChart aspect={3 / 1} title="User Spending" userId={data._id} />
+          <div className="item">
+            <div className="details">
+              {isLoading ? (
+                <>
+                  <Skeleton height={40} width={200} count={4} />
+                </>
+              ) : (
+                <>
+                  <h1 className="itemTitle">{data.name}</h1>
+                  <div className="detailItem">
+                    <span className="itemKey">Email:</span>
+                    <span className="itemValue">{data.email}</span>
+                  </div>
+
+                  <div className="detailItem">
+                    <span className="itemKey">Admin:</span>
+                    <span className="itemValue">
+                      {data.isAdmin ? "True" : "False"}
+                    </span>
+                    {data.isAdmin ? (
+                      <p
+                        onClick={() => setRoleAdmin(true)}
+                        className="adminRole"
+                      >
+                        Remove From Admin Role
+                      </p>
+                    ) : (
+                      <p
+                        onClick={() => setRoleAdmin(true)}
+                        className="adminRole assign"
+                      >
+                        Assign Admin Role
+                      </p>
+                    )}
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         </div>
-        <div className="bottom">
-          <h1 className="title">Last Transactions</h1>
+        <div className="right">
+          {/* <UserChart aspect={3 / 1} title="User Spending" userId={data._id}   isLoading={isLoading}  /> */}
+          <Chart
+            aspect={3 / 1}
+            title="User Spending"
+            userId={data._id}
+            dataArray={transactions}
+            isLoading={isLoading}
+            sHeight={200}
+          />
+        </div>
+      </div>
+      <div className="bottom">
+        <h1 className="title">
+          {isLoading ? <Skeleton height={30} /> : "Last Transactions"}
+        </h1>
+
+        {isLoading ? (
+          <Skeleton count={9} height={50} />
+        ) : (
           <DataGrid
             className="datagrid"
             rows={transactions}
@@ -182,8 +218,9 @@ const Single = () => {
             getRowId={(row) => row._id}
             rowsPerPageOptions={[9]}
           />
-        </div>
+        )}
       </div>
+    </div>
   );
 };
 

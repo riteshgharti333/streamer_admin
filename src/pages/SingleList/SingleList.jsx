@@ -1,6 +1,4 @@
 import { useState } from "react";
-import Navbar from "../../components/navbar/Navbar";
-import Sidebar from "../../components/sidebar/Sidebar";
 import "./SingleList.scss";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { DataGrid } from "@mui/x-data-grid";
@@ -47,7 +45,7 @@ const SingleList = () => {
   useEffect(() => {
     if (movies && movies.movies) {
       const filtered = movies.movies.filter(
-        (movie) => !moviesListId.includes(movie._id)
+        (movie) => !moviesListId.includes(movie._id),
       );
       setAllMovies(filtered);
     }
@@ -81,11 +79,11 @@ const SingleList = () => {
     const fetchMovies = async () => {
       try {
         const moviePromises = moviesListId.map((id) =>
-          dispatch(getAsyncSigleMovie(id))
+          dispatch(getAsyncSigleMovie(id)),
         );
         const movieResponses = await Promise.all(moviePromises);
         const movies = movieResponses.map(
-          (response) => response.payload.getMovie
+          (response) => response.payload.getMovie,
         );
         setRows(movies);
       } catch (error) {
@@ -135,7 +133,7 @@ const SingleList = () => {
     };
     try {
       await dispatch(
-        updateAsyncSingleList({ id: list._id, updateList })
+        updateAsyncSingleList({ id: list._id, updateList }),
       ).unwrap();
       toast.success("Updated Successfully");
     } catch (error) {
@@ -257,8 +255,12 @@ const SingleList = () => {
             onRowSelectionModelChange={handleRowSelection}
           />
           <div className="AddMoviesBtn">
-            <button className="primary-btn" onClick={handleAddMovies}>Add</button>
-            <button className="primary-btn" onClick={handleOpen}>Cancel</button>
+            <button className="primary-btn" onClick={handleAddMovies}>
+              Add
+            </button>
+            <button className="primary-btn" onClick={handleOpen}>
+              Cancel
+            </button>
           </div>
         </div>
       )}

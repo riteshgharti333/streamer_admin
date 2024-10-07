@@ -3,10 +3,12 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { getAllSubscriptionAsync } from "../../redux/asyncThunks/subscriptionThunks";
-import { format, parseISO } from "date-fns"; // Import parseISO for parsing date strings
+import { format, parseISO } from "date-fns";
 import { Link } from "react-router-dom";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
-const List = ({ transactionsColumns , listTitle }) => {
+const List = ({ transactionsColumns, listTitle, isLoading }) => {
   const dispatch = useDispatch();
 
   const [transactions, setTransactions] = useState([]);
@@ -67,15 +69,24 @@ const List = ({ transactionsColumns , listTitle }) => {
 
   return (
     <div className="table">
-      <p className="listTitle">{listTitle}</p>
-      <DataGrid
-        className="datagrid"
-        rows={transactions}
-        columns={transactionsColumns.concat(actionColumn)}
-        pageSize={9}
-        getRowId={(row) => row._id}
-        rowsPerPageOptions={[9]}
-      />
+      {isLoading ? (
+        <Skeleton width={150} height={20} />
+      ) : (
+        <p className="listTitle">{listTitle}</p>
+      )}
+
+      {isLoading ? (
+        <Skeleton height={500} />
+      ) : (
+        <DataGrid
+          className="datagrid"
+          rows={transactions}
+          columns={transactionsColumns.concat(actionColumn)}
+          pageSize={9}
+          getRowId={(row) => row._id}
+          rowsPerPageOptions={[9]}
+        />
+      )}
     </div>
   );
 };

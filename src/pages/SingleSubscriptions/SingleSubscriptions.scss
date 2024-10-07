@@ -29,16 +29,25 @@
     background-image: linear-gradient(62deg, #8ec5fc 0%, #e0c3fc 100%);
     padding: 30px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    border-radius:10px;
+    border-radius: 10px;
+    width: 400px;
 
-    p {
-      font-size: 17px;
-      font-weight: bold;
+    .subSmInfo {
+      display: flex;
+      justify-content: space-between;
+
+      p {
+        font-size: 17px;
+        font-weight: bold;
+        width: 135px;
+        text-align: end;
+      }
 
       span {
         font-weight: bold;
         font-size: 20px;
         color: #6439ff;
+        width: 250px;
       }
     }
   }

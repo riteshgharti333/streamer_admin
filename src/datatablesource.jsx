@@ -11,7 +11,7 @@ export const userColumns = [
 
   {
     field: "name",
-    headerName: "User", 
+    headerName: "User",
     width: 200,
     renderCell: (params) => {
       return (
@@ -199,13 +199,11 @@ export const SubscriptionsColumns = [
     width: 130,
   },
 
-  
   {
     field: "price",
     headerName: "Price",
     width: 80,
   },
-
 
   {
     field: "startDate",
@@ -226,7 +224,6 @@ export const SubscriptionsColumns = [
     },
   },
 ];
-
 
 export const TransactionsColumns = [
   { field: "_id", headerName: "ID", width: 100 },

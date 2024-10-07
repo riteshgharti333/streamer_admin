@@ -1,6 +1,4 @@
 import "./SingleMovie.scss";
-import Sidebar from "../../components/sidebar/Sidebar";
-import Navbar from "../../components/navbar/Navbar";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -13,6 +11,7 @@ import { storage } from "../../firebase";
 import { useLocation, useNavigate } from "react-router-dom";
 import { genre, ageRestrictions } from "../../datatablesource";
 import { toast } from "react-toastify";
+import Skeleton from "react-loading-skeleton";
 
 const SingleMovie = () => {
   const [data, setData] = useState({});
@@ -20,6 +19,7 @@ const SingleMovie = () => {
   const [featureSmImg, setFeatureSmImg] = useState(null);
   const [smImg, setSmImg] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -33,9 +33,11 @@ const SingleMovie = () => {
   }, [dispatch, path]);
 
   useEffect(() => {
+    setIsLoading(true);
     if (singleMovie) {
       setData(singleMovie.getMovie);
     }
+    setIsLoading(false);
   }, [singleMovie]);
 
   const handleInput = (e) => {
@@ -79,7 +81,7 @@ const SingleMovie = () => {
           } catch (error) {
             reject(error);
           }
-        }
+        },
       );
     });
   };
@@ -132,7 +134,7 @@ const SingleMovie = () => {
       };
 
       await dispatch(
-        updateAsyncSingleMovie({ id: path, updateMovie: updatedData })
+        updateAsyncSingleMovie({ id: path, updateMovie: updatedData }),
       ).unwrap();
       toast.success("Updated Successfully");
     } catch (error) {
@@ -145,7 +147,7 @@ const SingleMovie = () => {
   const handleDelete = async () => {
     try {
       await dispatch(deleteAsyncSigleMovie(path)).unwrap();
-      // navigate(-1);
+      navigate(-1);
       toast.success("Deleted Successfully");
     } catch (error) {
       toast.error(error.message);
@@ -155,191 +157,266 @@ const SingleMovie = () => {
 
   return (
     <div className="singleMovie">
-      <div className="singleMovieContainer">
-        <form>
-          <div className="top">
-            <div className="formInput">
-              <p>Feature Image</p>
-              <label htmlFor="featureImg">
-                <input
-                  type="file"
-                  name="featureImg"
-                  id="featureImg"
-                  accept="image/*"
-                  onChange={handleInput}
-                  style={{ display: "none" }}
-                />
-                <img
-                  src={
-                    featureImg
-                      ? URL.createObjectURL(featureImg)
-                      : data.featureImg
-                  }
-                  alt=""
-                />
-              </label>
-            </div>
-
-            <div className="formInput">
-              <p>Feature Small Image</p>
-              <label htmlFor="featureSmImg">
-                <input
-                  type="file"
-                  name="featureSmImg"
-                  id="featureSmImg"
-                  accept="image/*"
-                  onChange={handleInput}
-                  style={{ display: "none" }}
-                />
-                <img
-                  src={
-                    featureSmImg
-                      ? URL.createObjectURL(featureSmImg)
-                      : data.featureSmImg
-                  }
-                  alt=""
-                />
-              </label>
-            </div>
-
-            <div className="formInput">
-              <p>Small Image</p>
-              <label htmlFor="smImg">
-                <input
-                  type="file"
-                  name="smImg"
-                  id="smImg"
-                  accept="image/*"
-                  onChange={handleInput}
-                  style={{ display: "none" }}
-                />
-                <img
-                  src={smImg ? URL.createObjectURL(smImg) : data.smImg}
-                  alt=""
-                />
-              </label>
-            </div>
-          </div>
-
-          <div className="center">
-            <div className="formInput">
-              <label>Title</label>
-              <input
-                type="text"
-                name="title"
-                value={data.title || ""}
-                onChange={handleInput}
-              />
-            </div>
-
-            <div className="formInput">
-              <label>Description</label>
-              <input
-                type="text"
-                name="desc"
-                value={data.desc || ""}
-                onChange={handleInput}
-              />
-            </div>
-
-            <div className="formInput">
-              <label>Duration</label>
-              <input
-                type="number"
-                name="duration"
-                value={data.duration || ""}
-                onChange={handleInput}
-              />
-            </div>
-
-            <div className="formInput">
-              <label>Year</label>
-              <input
-                type="number"
-                name="year"
-                placeholder="2003"
-                value={data.year || ""}
-                onChange={handleInput}
-              />
-            </div>
-
-            <div className="formInput">
-              <label>Video URL</label>
-              <input
-                type="text"
-                name="video"
-                value={data.video || ""}
-                onChange={handleInput}
-                placeholder="Enter YouTube URL"
-              />
-            </div>
-          </div>
-
-          <div className="bottom">
-            <div className="bottomInput">
-              <label>Genre</label>
-              <select
-                id="genre"
-                name="genre"
-                value={data.genre || "default"}
-                onChange={handleInput}
-              >
-                <option value="default" disabled>
-                  Select a genre
-                </option>
-                {genre.map((g) => (
-                  <option key={g} value={g}>
-                    {g}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="bottomInput">
-              <label>Age</label>
-              <select
-                id="age"
-                name="age"
-                value={data.age || "default"}
-                onChange={handleInput}
-              >
-                <option value="default" disabled>
-                  Select an Age
-                </option>
-                {ageRestrictions.map((age) => (
-                  <option key={age} value={age}>
-                    {age}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="bottomInput">
-              <label>Type</label>
-              <select
-                id="isSeries"
-                onChange={handleInput}
-                name="isSeries"
-                value={data.isSeries || "false"}
-              >
-                <option value="false">Movie</option>
-                <option value="true">Series</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="singleMovieButton">
+      <div className="singleMovieBtn">
+        {isLoading ? (
+          <>
+            <Skeleton width={150} height={30} />
+            <Skeleton width={100} height={30} />
+          </>
+        ) : (
+          <>
+            <h1 className="addlistTitle ">Update </h1>
             <button
-              className="addProductButton primary-btn"
-              onClick={handleUploadAndSubmit}
-              disabled={isUploading}
+              className="primary-btn"
+              type="button"
+              onClick={handleDelete}
             >
-              {isUploading ? "Uploading..." : "Update"}
-            </button>
-            <button className="primary-btn" type="button" onClick={handleDelete}>
               Delete
             </button>
-          </div>
+          </>
+        )}
+      </div>
+      <div className="singleMovieContainer">
+        <form>
+          {isLoading ? (
+            <div className="top">
+              <div className="formInput">
+                <Skeleton width={200} />
+                <Skeleton width={300} height={150} />
+              </div>
+
+              <div className="formInput">
+                <Skeleton width={200} />
+                <Skeleton width={300} height={150} />
+              </div>
+
+              <div className="formInput">
+                <Skeleton width={200} />
+                <Skeleton width={300} height={150} />
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="top">
+                <div className="formInput">
+                  <p>Feature Image</p>
+                  <label htmlFor="featureImg">
+                    <input
+                      type="file"
+                      name="featureImg"
+                      id="featureImg"
+                      accept="image/*"
+                      onChange={handleInput}
+                      style={{ display: "none" }}
+                    />
+                    <img
+                      src={
+                        featureImg
+                          ? URL.createObjectURL(featureImg)
+                          : data.featureImg
+                      }
+                      alt=""
+                    />
+                  </label>
+                </div>
+
+                <div className="formInput">
+                  <p>Feature Small Image</p>
+                  <label htmlFor="featureSmImg">
+                    <input
+                      type="file"
+                      name="featureSmImg"
+                      id="featureSmImg"
+                      accept="image/*"
+                      onChange={handleInput}
+                      style={{ display: "none" }}
+                    />
+                    <img
+                      src={
+                        featureSmImg
+                          ? URL.createObjectURL(featureSmImg)
+                          : data.featureSmImg
+                      }
+                      alt=""
+                    />
+                  </label>
+                </div>
+
+                <div className="formInput">
+                  <p>Small Image</p>
+                  <label htmlFor="smImg">
+                    <input
+                      type="file"
+                      name="smImg"
+                      id="smImg"
+                      accept="image/*"
+                      onChange={handleInput}
+                      style={{ display: "none" }}
+                    />
+                    <img
+                      src={smImg ? URL.createObjectURL(smImg) : data.smImg}
+                      alt=""
+                    />
+                  </label>
+                </div>
+              </div>
+            </>
+          )}
+
+          {isLoading ? (
+            <div className="center">
+              <Skeleton width={400} />
+              <Skeleton width={400} />
+              <Skeleton width={400} />
+              <Skeleton width={400} />
+              <Skeleton width={400} />
+            </div>
+          ) : (
+            <>
+              <div className="center">
+                <div className="formInput">
+                  <label>Title</label>
+                  <input
+                    type="text"
+                    name="title"
+                    value={data.title || ""}
+                    onChange={handleInput}
+                  />
+                </div>
+
+                <div className="formInput">
+                  <label>Description</label>
+                  <input
+                    type="text"
+                    name="desc"
+                    value={data.desc || ""}
+                    onChange={handleInput}
+                  />
+                </div>
+
+                <div className="formInput">
+                  <label>Duration</label>
+                  <input
+                    type="number"
+                    name="duration"
+                    value={data.duration || ""}
+                    onChange={handleInput}
+                  />
+                </div>
+
+                <div className="formInput">
+                  <label>Year</label>
+                  <input
+                    type="number"
+                    name="year"
+                    placeholder="2003"
+                    value={data.year || ""}
+                    onChange={handleInput}
+                  />
+                </div>
+
+                <div className="formInput">
+                  <label>Video URL</label>
+                  <input
+                    type="text"
+                    name="video"
+                    value={data.video || ""}
+                    onChange={handleInput}
+                    placeholder="Enter YouTube URL"
+                  />
+                </div>
+              </div>
+            </>
+          )}
+
+          {isLoading ? (
+            <div className="bottom">
+              <div className="bottomInput">
+                <Skeleton width={100} />
+              </div>
+
+              <div className="bottomInput">
+                <Skeleton width={100} />
+              </div>
+
+              <div className="bottomInput">
+                <Skeleton width={100} />
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="bottom">
+                <div className="bottomInput">
+                  <label>Genre</label>
+                  <select
+                    id="genre"
+                    name="genre"
+                    value={data.genre || "default"}
+                    onChange={handleInput}
+                  >
+                    <option value="default" disabled>
+                      Select a genre
+                    </option>
+                    {genre.map((g) => (
+                      <option key={g} value={g}>
+                        {g}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="bottomInput">
+                  <label>Age</label>
+                  <select
+                    id="age"
+                    name="age"
+                    value={data.age || "default"}
+                    onChange={handleInput}
+                  >
+                    <option value="default" disabled>
+                      Select an Age
+                    </option>
+                    {ageRestrictions.map((age) => (
+                      <option key={age} value={age}>
+                        {age}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="bottomInput">
+                  <label>Type</label>
+                  <select
+                    id="isSeries"
+                    onChange={handleInput}
+                    name="isSeries"
+                    value={data.isSeries || "false"}
+                  >
+                    <option value="false">Movie</option>
+                    <option value="true">Series</option>
+                  </select>
+                </div>
+              </div>
+            </>
+          )}
+
+          {isLoading ? (
+            <div className="singleMovieButton">
+              <Skeleton width={100} />
+            </div>
+          ) : (
+            <>
+              <div className="singleMovieButton">
+                <button
+                  className="addProductButton primary-btn"
+                  onClick={handleUploadAndSubmit}
+                  disabled={isUploading}
+                >
+                  {isUploading ? "Uploading..." : "Update"}
+                </button>
+              </div>
+            </>
+          )}
         </form>
       </div>
     </div>

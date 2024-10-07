@@ -1,8 +1,11 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 import {
   deleteAsyncSigleMovie,
@@ -28,6 +31,8 @@ const Datatable = ({ title, listColumns, movieType }) => {
   const path = location.pathname;
   const dispatch = useDispatch();
 
+  const [loading, setLoading] = useState(true);
+
   const movies = useSelector((state) => state.movies.movies);
 
   const series = useSelector((state) => state.movies.series);
@@ -41,6 +46,7 @@ const Datatable = ({ title, listColumns, movieType }) => {
   // Fetching the data
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
         if (movieType === "movies") {
           await dispatch(getQueryAsyncMovies(movieType)).unwrap();
@@ -53,7 +59,9 @@ const Datatable = ({ title, listColumns, movieType }) => {
         } else if (movieType === "subscriptions") {
           await dispatch(getAllSubscriptionAsync()).unwrap();
         }
+        setLoading(false);
       } catch (error) {
+        setLoading(false);
         console.error("Error fetching data:", error);
       }
     };
@@ -64,9 +72,7 @@ const Datatable = ({ title, listColumns, movieType }) => {
   // deleting from datatable
   const handleDelete = async (id) => {
     try {
-      
       let response;
-
 
       if (movieType === "movies") {
         response = await dispatch(deleteAsyncSigleMovie(id)).unwrap();
@@ -139,24 +145,33 @@ const Datatable = ({ title, listColumns, movieType }) => {
   return (
     <div className="datatable">
       <div className="datatableTitle">
-        <p>{title}</p>
+        {loading ? <Skeleton height={20} width={200} /> : <p>{title}</p>}
 
-        {path == "/users" || path == "/subscriptions" ? null : (
-          <Link to={`/${movieType}/new`} className="link">
-            Add New  <span className="newType">{movieType}</span>
-          </Link>
+        {loading ? (
+          <Skeleton height={20} width={200} />
+        ) : (
+          path !== "/users" &&
+          path !== "/subscriptions" && (
+            <Link to={`/${movieType}/new`} className="link">
+              Add New <span className="newType">{movieType}</span>
+            </Link>
+          )
         )}
       </div>
 
-      <DataGrid
-        className="datagrid"
-        rows={rows}
-        columns={listColumns.concat(actionColumn)}
-        pageSize={9}
-        getRowId={(row) => row._id}
-        rowsPerPageOptions={[9]}
-        checkboxSelection
-      />
+      {loading ? (
+        <Skeleton count={9} height={40} />
+      ) : (
+        <DataGrid
+          className="datagrid"
+          rows={rows}
+          columns={listColumns.concat(actionColumn)}
+          pageSize={9}
+          getRowId={(row) => row._id}
+          rowsPerPageOptions={[9]}
+          checkboxSelection
+        />
+      )}
     </div>
   );
 };

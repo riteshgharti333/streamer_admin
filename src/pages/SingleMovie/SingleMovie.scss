@@ -1,4 +1,23 @@
 .singleMovie {
+  .singleMovieBtn {
+    background-color: #fff;
+    margin-bottom: 10px;
+    display: flex;
+    padding: 10px;
+    border-radius: 10px;
+    justify-content: space-between;
+
+    h1 {
+      text-transform: uppercase;
+    }
+
+    button {
+      background-color: red;
+      font-size: 16px;
+      font-weight: bold;
+    }
+  }
+
   .singleMovieContainer {
     background-color: #ffffff;
     padding: 20px;
@@ -21,13 +40,16 @@
             border-radius: 10px;
             object-fit: cover;
 
-            box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+            box-shadow:
+              rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
               rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
             transition: all 0.2s ease-in;
 
             &:hover {
               transform: scale(1.01);
-              box-shadow: 10px 10px 10px #bebebe, -1px -1px 15px #ffffff;
+              box-shadow:
+                10px 10px 10px #bebebe,
+                -1px -1px 15px #ffffff;
               transition: 0.2s ease-in-out;
             }
           }
@@ -134,9 +156,8 @@
         }
       }
 
-      
       .singleMovieButton {
-        button{
+        button {
           border: none;
           background-color: red;
           font-size: 16px;
@@ -145,7 +166,7 @@
           font-weight: bold;
           cursor: pointer;
 
-          &:first-child{
+          &:first-child {
             background-color: green;
           }
         }

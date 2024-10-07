@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import BarCharts from "../../components/BarCharts/BarCharts";
 import Chart from "../../components/chart/Chart";
-import Navbar from "../../components/navbar/Navbar";
-import Sidebar from "../../components/sidebar/Sidebar";
 import "./Stats.scss";
 import { useDispatch } from "react-redux";
 import { getAllSubscriptionAsync } from "../../redux/asyncThunks/subscriptionThunks";
@@ -11,18 +9,21 @@ const Stats = () => {
   const dispatch = useDispatch();
 
   const [subData, setSubData] = useState({
-     moviesData: "",
-     seriesData: "",
-     MSData: "",
-     totalData:"",
+    moviesData: "",
+    seriesData: "",
+    MSData: "",
+    totalData: "",
   });
 
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchSubscriptionData = async () => {
+      setIsLoading(true);
+
       try {
         const { subscriptionData } = await dispatch(
-          getAllSubscriptionAsync()
+          getAllSubscriptionAsync(),
         ).unwrap();
 
         //movies
@@ -41,13 +42,16 @@ const Stats = () => {
         });
 
         setSubData({
-          moviesData : moviesData,
-          seriesData : seriesData,
+          moviesData: moviesData,
+          seriesData: seriesData,
           MSData: MSData,
-          totalData:subscriptionData
-        })
+          totalData: subscriptionData,
+        });
 
+        setIsLoading(false);
       } catch (error) {
+        setIsLoading(false);
+
         console.log(error);
       }
     };
@@ -56,28 +60,52 @@ const Stats = () => {
 
   return (
     <div className="stats">
-          <div className="top">
-            <div className="left">
-              <Chart title="Movies (Revenue)" aspect={2 / 1} dataArray={subData.moviesData} />
-            </div>
-
-            <div className="right">
-              <Chart title="Series (Revenue)" aspect={2 / 1} dataArray={subData.seriesData} />
-            </div>
-
-            <div className="right">
-              <Chart title="Movies +  Series (Revenue)" aspect={2 / 1} dataArray={subData.MSData}  />
-            </div>
-          </div>
-
-          <div className="center">
-            <Chart title="All Subscriptions (Revenue)" aspect={3 / 1}  dataArray={subData.totalData}/>
-          </div>
-
-          <div className="bottom">
-            <BarCharts title="Subscriptions Revenue" />
-          </div>
+      <div className="top">
+        <div className="left">
+          <Chart
+            title="Movies (Revenue)"
+            aspect={2 / 1}
+            dataArray={subData.moviesData}
+            isLoading={isLoading}
+            sHeight={200}
+          />
         </div>
+
+        <div className="right">
+          <Chart
+            title="Series (Revenue)"
+            aspect={2 / 1}
+            dataArray={subData.seriesData}
+            isLoading={isLoading}
+            sHeight={200}
+          />
+        </div>
+
+        <div className="right">
+          <Chart
+            title="Movies +  Series (Revenue)"
+            aspect={2 / 1}
+            dataArray={subData.MSData}
+            isLoading={isLoading}
+            sHeight={200}
+          />
+        </div>
+      </div>
+
+      <div className="center">
+        <Chart
+          title="All Subscriptions (Revenue)"
+          aspect={3 / 1}
+          dataArray={subData.totalData}
+          isLoading={isLoading}
+          sHeight={300}
+        />
+      </div>
+
+      <div className="bottom">
+        <BarCharts title="Subscriptions Revenue" />
+      </div>
+    </div>
   );
 };
 

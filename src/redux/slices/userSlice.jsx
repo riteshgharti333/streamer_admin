@@ -62,7 +62,7 @@ const userSlice = createSlice({
 
         if (Array.isArray(state.users.users)) {
           state.users.users = state.users.users.filter(
-            (user) => user._id !== id
+            (user) => user._id !== id,
           );
         }
       })
@@ -80,7 +80,9 @@ const userSlice = createSlice({
       .addCase(updateAsyncSingleUser.fulfilled, (state, action) => {
         state.status = "idle";
         const updatedUser = action.payload.updatedUser;
-        const index = state.users.findIndex(user => user.id === updatedUser.id); // Adjust based on your state structure
+        const index = state.users.findIndex(
+          (user) => user.id === updatedUser.id,
+        ); // Adjust based on your state structure
         if (index !== -1) {
           state.users[index] = updatedUser; // Replace the old user with the updated one
         }

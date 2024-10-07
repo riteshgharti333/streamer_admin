@@ -18,7 +18,7 @@ export const deleteSingleUser = (id) => {
 };
 
 //UPDATE USER
-export const updateSingleUser = (id,updatedUser) => {
+export const updateSingleUser = (id, updatedUser) => {
   return axios.put(`${baseUrl}/users/${id}`, updatedUser, {
     withCredentials: true,
   });

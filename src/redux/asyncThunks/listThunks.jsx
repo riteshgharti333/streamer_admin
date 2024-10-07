@@ -19,7 +19,7 @@ export const getAsyncLists = createAsyncThunk(
       console.log(error);
       return rejectWithValue(error.response.data || "Failed to fetch lists");
     }
-  }
+  },
 );
 
 //GET QUERY LITS
@@ -32,10 +32,10 @@ export const getAsyncQueryLists = createAsyncThunk(
     } catch (error) {
       console.log(error);
       return rejectWithValue(
-        error.response.data || "Failed to fetch query lists"
+        error.response.data || "Failed to fetch query lists",
       );
     }
-  }
+  },
 );
 
 //GET SINGLE LIST
@@ -48,10 +48,10 @@ export const getAsyncSingleList = createAsyncThunk(
     } catch (error) {
       console.log(error);
       return rejectWithValue(
-        error.response.data || "Failed to fetch single list"
+        error.response.data || "Failed to fetch single list",
       );
     }
-  }
+  },
 );
 
 //DELETE LISTS
@@ -66,7 +66,7 @@ export const deleteAsyncSingleList = createAsyncThunk(
       console.log(error);
       return rejectWithValue(error.response.data || "Failed to delete list");
     }
-  }
+  },
 );
 
 //UPDATE LIST
@@ -80,7 +80,7 @@ export const updateAsyncSingleList = createAsyncThunk(
       console.log(error);
       return rejectWithValue(error.response.data || "Failed to update list");
     }
-  }
+  },
 );
 
 // CREATING SINGLE LIST
@@ -102,5 +102,5 @@ export const createAsyncSingleList = createAsyncThunk(
       console.log(error);
       return rejectWithValue(error.response.data || "Failed to create movie");
     }
-  }
+  },
 );

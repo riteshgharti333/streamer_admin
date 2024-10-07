@@ -1,4 +1,3 @@
-
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { movieInputs } from "./formSource";
 import "./style/dark.scss";
@@ -42,12 +41,10 @@ function App() {
     <div className={darkMode ? "app dark" : "app"}>
       <BrowserRouter>
         <Routes>
-        <Route path="register" element={<Register />} />
-        <Route path="login" element={<Login />} />
-        <Route path="/" element={<DashboardLayout/>}>
-  
-          {/* <Route path="/"> */}
-           
+          <Route path="register" element={<Register />} />
+          <Route path="login" element={<Login />} />
+          <Route path="/" element={<DashboardLayout />}>
+
             <Route path="changepassword" element={<UpdatePassword />} />
             <Route path="earnings" element={<Earnings />} />
             <Route path="stats" element={<Stats />} />
