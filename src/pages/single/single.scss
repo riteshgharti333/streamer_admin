@@ -117,20 +117,22 @@
             }
 
             .adminRole {
-              color: red;
+              color: green;
               margin-top: 10px;
               cursor: pointer;
               font-weight: bold;
 
               &:hover {
-                color: rgb(209, 32, 32);
+                color: rgb(36, 226, 10);
+
               }
 
               &.assign {
-                color: green;
+                color: red;
 
                 &:hover {
-                  color: rgb(36, 226, 10);
+                color: rgb(209, 32, 32);
+
                 }
               }
             }

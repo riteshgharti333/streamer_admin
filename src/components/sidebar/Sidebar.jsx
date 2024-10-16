@@ -15,6 +15,8 @@ import { useDispatch } from "react-redux";
 import { logoutAsyncUser } from "../../redux/asyncThunks/authThunks";
 import { DarkModeContext } from "../../context/darkModeContext";
 import SubscriptionsIcon from "@mui/icons-material/Subscriptions";
+import { toast } from "react-toastify";
+
 
 const Sidebar = () => {
   const [activeLink, setActiveLink] = useState("/");
@@ -26,6 +28,7 @@ const Sidebar = () => {
   const handleLogout = () => {
     dispatchAuth(logoutAsyncUser());
     localStorage.removeItem("user");
+    toast.success("Logout Successfuly");
     navigate("/login");
   };
 

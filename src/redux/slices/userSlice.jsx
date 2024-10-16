@@ -79,14 +79,24 @@ const userSlice = createSlice({
       })
       .addCase(updateAsyncSingleUser.fulfilled, (state, action) => {
         state.status = "idle";
-        const updatedUser = action.payload.updatedUser;
-        const index = state.users.findIndex(
-          (user) => user.id === updatedUser.id,
-        ); // Adjust based on your state structure
-        if (index !== -1) {
-          state.users[index] = updatedUser; // Replace the old user with the updated one
+        console.log("Action payload:", action.payload); 
+        const updatedUser = action.payload.user; 
+       
+        if (Array.isArray(state.users)) {
+          const index = state.users.findIndex(
+            (user) => user._id === updatedUser._id // Match by `_id`, not `id`
+          );
+      
+          if (index !== -1) {
+            state.users[index] = updatedUser; // Update the existing user in the state
+          } else {
+            console.warn("User not found for update:", updatedUser._id);
+          }
+        } else {
+          console.error("state.users is not an array:", state.users);
         }
       })
+          
       .addCase(updateAsyncSingleUser.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;

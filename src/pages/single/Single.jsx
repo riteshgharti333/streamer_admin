@@ -32,15 +32,13 @@ const Single = () => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const { userDetails } = await dispatch(
-          getAsyncSingleUser(path),
-        ).unwrap();
+        const response = await dispatch(getAsyncSingleUser(path)).unwrap();
+        console.log(response);
+        const userDetails = response.userDetails;
 
-        setData(userDetails.getUser);
+        setData(userDetails?.getUser);
 
-        const usersSubscriptions = userDetails.subscription;
-
-        console.log(usersSubscriptions);
+        const usersSubscriptions = userDetails?.subscription;
 
         setTransactions(usersSubscriptions);
         setIsLoading(false);
@@ -66,17 +64,20 @@ const Single = () => {
   };
 
   // Function to handle updating the admin role
-  const handleAdminUpdate = async (isAdmin) => {
+  // Function to handle updating the admin role
+  const handleAdminUpdate = async (newRole) => {
     try {
-      const updatedUser = { isAdmin };
+      const updatedUser = { role: newRole }; // Use newRole directly
 
       await dispatch(updateAsyncSingleUser({ id: path, updatedUser })).unwrap();
       setData((prevData) => ({
         ...prevData,
-        isAdmin: isAdmin,
+        role: newRole, // Update the role in the state
       }));
       toast.success(
-        `User has been ${isAdmin ? "granted" : "removed from"} admin role.`,
+        `User has been ${
+          newRole === "admin" ? "granted" : "removed from"
+        } admin role.`
       );
       setRoleAdmin(false);
     } catch (error) {
@@ -90,8 +91,8 @@ const Single = () => {
       <div className="admin">
         <div className="adminInfo">
           <p>
-            Do you want to {data.isAdmin ? "remove from " : "assign the"} Admin
-            role?
+            Do you want to{" "}
+            {data.role === "admin" ? "remove from " : "assign the"} Admin role?
           </p>
           <div className="adminButton">
             <button className="primary-btn" onClick={() => setRoleAdmin(false)}>
@@ -99,7 +100,9 @@ const Single = () => {
             </button>
             <button
               className="primary-btn"
-              onClick={() => handleAdminUpdate(!data.isAdmin)}
+              onClick={() =>
+                handleAdminUpdate(data.role === "admin" ? "user" : "admin")
+              }
             >
               Yes
             </button>
@@ -160,28 +163,26 @@ const Single = () => {
                 <>
                   <h1 className="itemTitle">{data.name}</h1>
                   <div className="detailItem">
-                    <span className="itemKey">Email:</span>
+                    <span className="itemKey">Email :</span>
                     <span className="itemValue">{data.email}</span>
                   </div>
 
                   <div className="detailItem">
-                    <span className="itemKey">Admin:</span>
-                    <span className="itemValue">
-                      {data.isAdmin ? "True" : "False"}
-                    </span>
-                    {data.isAdmin ? (
+                    <span className="itemKey">Role :</span>
+                    <span className="itemValue">{data.role}</span>
+                    {data.role === "user" ? (
                       <p
                         onClick={() => setRoleAdmin(true)}
                         className="adminRole"
                       >
-                        Remove From Admin Role
+                        Assign Admin Role
                       </p>
                     ) : (
                       <p
                         onClick={() => setRoleAdmin(true)}
                         className="adminRole assign"
                       >
-                        Assign Admin Role
+                        Remove From Admin Role
                       </p>
                     )}
                   </div>
