@@ -1,25 +1,32 @@
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
-import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
-import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
+import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
+import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
+import PersonIcon from "@mui/icons-material/Person";
+
+import { format } from "date-fns";
 
 export const userColumns = [
-  { field: "id", headerName: "ID", width: 70 },
+  { field: "_id", headerName: "ID", width: 100 },
+
   {
-    field: "user",
+    field: "name",
     headerName: "User",
-    width: 230,
+    width: 200,
     renderCell: (params) => {
       return (
         <div className="cellWithImg">
-          <img className="cellImg" src={params.row.img} alt="avatar" />
-          {params.row.username}
+          {params.row.profilePic ? (
+            <img className="cellImg" src={params.row.profilePic} alt="avatar" />
+          ) : (
+            <PersonIcon style={{ fontSize: 30 }} />
+          )}
+          {params.row.name}
         </div>
       );
     },
   },
+
   {
     field: "email",
     headerName: "Email",
@@ -27,29 +34,28 @@ export const userColumns = [
   },
 
   {
-    field: "address",
-    headerName: "Address",
-    width: 100,
+    field: "isAdmin",
+    headerName: "Admin",
+    width: 200,
   },
 
-  
-  {
-    field: "country",
-    headerName: "Country",
-    width: 100,
-  },
-  {
-    field: "status",
-    headerName: "Status",
-    width: 160,
-    renderCell: (params) => {
-      return (
-        <div className={`cellWithStatus ${params.row.status}`}>
-          {params.row.status}
-        </div>
-      );
-    },
-  },
+  // {
+  //   field: "createdAt",
+  //   headerName: "",
+  //   width: 100,
+  // },
+  // {
+  //   field: "status",
+  //   headerName: "Status",
+  //   width: 160,
+  //   renderCell: (params) => {
+  //     return (
+  //       <div className={`cellWithStatus ${params.row.status}`}>
+  //         {params.row.status}
+  //       </div>
+  //     );
+  //   },
+  // },
 ];
 
 //temporary data
@@ -135,3 +141,20 @@ export const userRows = [
     age: 65,
   },
 ];
+
+export const genre = [
+  "Action",
+  "Adventure",
+  "Anime",
+  "Animation",
+  "TV Dramas",
+  "Documentaries",
+  "Horror",
+  "Romantic",
+  "Sci-fi",
+  "Fantasy",
+  "Sports",
+  "Thrillers",
+];
+
+export const ageRestrictions = ["All", "12", "15", "18"];

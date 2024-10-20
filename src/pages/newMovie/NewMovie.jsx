@@ -1,126 +1,150 @@
 import "./newMovie.scss";
-import Sidebar from "../../components/sidebar/Sidebar";
-import Navbar from "../../components/navbar/Navbar";
-import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { useEffect, useState } from "react";
-import {
-  addDoc,
-  collection,
-  doc,
-  serverTimestamp,
-  setDoc,
-} from "firebase/firestore";
-import { auth, db, storage } from "../../firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { createAsyncSingleMovie } from "../../redux/asyncThunks/movieThunks";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { storage } from "../../firebase";
 import { useNavigate } from "react-router-dom";
+import { genre, ageRestrictions } from "../../datatablesource";
+import { toast } from "react-toastify";
+import addImage from "../../assets/images/addImage.svg";
 
-const NewMovie = ({ inputs, title }) => {
-  const [featureImg, setFeatureImg] = useState("");
-  const [featureSmImg, setFeatureSmImg] = useState("");
-  const [smallImg, setSmallImg] = useState("");
-  const [video, setVideo] = useState("");
-
+const NewMovie = ({ title }) => {
   const [data, setData] = useState({});
-  const [per, setPer] = useState(null);
+  const [featureImg, setFeatureImg] = useState(null);
+  const [featureSmImg, setFeatureSmImg] = useState(null);
+  const [smImg, setSmImg] = useState(null);
+  // const [video, setVideo] = useState(null);
+  const [uploaded, setUploaded] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
+  const [videoLink, setVideoLink] = useState("");
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Adding Image
-  useEffect(() => {
-    const uploadFile = () => {
-      const name = new Date().getTime() + featureImg.name;
-
-      const storageRef = ref(storage, featureImg.name);
-      const uploadTask = uploadBytesResumable(storageRef, featureImg);
-
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Upload is " + progress + "% done");
-          setPer(progress);
-          switch (snapshot.state) {
-            case "paused":
-              console.log("Upload is paused");
-              break;
-            case "running":
-              console.log("Upload is running");
-              break;
-          }
-        },
-        (error) => {
-          console.log(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setData((prev) => ({ ...prev, img: downloadURL }));
-          });
-        }
-      );
-    };
-
-    featureImg && uploadFile();
-  }, [featureImg]);
-
   const handleInput = (e) => {
-    // e.preventdefault();
-
-    const id = e.target.id;
     const value = e.target.value;
-
-    setData({ ...data, [id]: value });
+    setData({ ...data, [e.target.name]: value });
   };
 
-  const handleAdd = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await createUserWithEmailAndPassword(
-        auth,
-        data.email,
-        data.password
+  const uploadFile = async (items) => {
+    if (!items) return;
+
+    setIsUploading(true); // Start uploading
+
+    const storageRef = ref(storage);
+
+    let uploadPromises = items.map((item) => {
+      if (!item.file) return Promise.resolve(); // Skip if no file
+
+      const fileName = new Date().getTime() + item.label + item.file.name;
+      const uploadTask = uploadBytesResumable(
+        ref(storageRef, `/items/${fileName}`),
+        item.file,
       );
 
-      await setDoc(doc(db, "users", res.user.uid), {
-        ...data,
-        timeStamp: serverTimestamp(),
+      return new Promise((resolve, reject) => {
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log(Math.round(progress));
+          },
+          (error) => {
+            console.log(error);
+            reject(error);
+          },
+          async () => {
+            try {
+              const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+              setData((prev) => ({ ...prev, [item.label]: downloadURL }));
+              setUploaded((prev) => prev + 1);
+              resolve();
+            } catch (error) {
+              console.log("Error getting download URL:", error);
+              reject(error);
+            }
+          },
+        );
       });
-      navigate(-1);
-    } catch (err) {
-      console.log(err);
+    });
+
+    try {
+      await Promise.all(uploadPromises);
+      setIsUploading(false);
+    } catch (error) {
+      setIsUploading(false);
     }
+  };
+
+  const handleUploadAndSubmit = async (e) => {
+    e.preventDefault();
+
+    if (uploaded < 3) {
+      await uploadFile([
+        { file: featureImg, label: "featureImg" },
+        { file: featureSmImg, label: "featureSmImg" },
+        { file: smImg, label: "smImg" },
+        // { file: video, label: "video" },
+      ]);
+    }
+
+    if (uploaded === 3) {
+      try {
+        const movieData = { ...data, video: videoLink }; // Add video link to data
+        await dispatch(createAsyncSingleMovie(movieData)).unwrap();
+        toast.success("Created Successfully");
+        navigate(-1);
+      } catch (error) {
+        toast.error(error.message);
+        console.log(error);
+      }
+    }
+
+    // if (uploaded === 4) {
+    //   try {
+    //     await dispatch(createAsyncSingleMovie(data)).unwrap();
+    //     toast.success("Created Successfully");
+    //     navigate(-1);
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // }
   };
 
   return (
     <div className="new">
-      <Sidebar />
-      <div className="newContainer">
-        <Navbar />
-        <div className="top">
-          <h1>{title}</h1>
-        </div>
-        <div className="bottom">
+      <div className="top">
+        <h1>{title}</h1>
+      </div>
+      <div className="center">
+        <form>
           <div className="left">
             <div className="formInput">
               <p>Feature Image</p>
               <label htmlFor="featureImg">
                 <input
                   type="file"
+                  name="featureImg"
                   id="featureImg"
                   accept="image/*"
                   onChange={(e) => setFeatureImg(e.target.files[0])}
                   style={{ display: "none" }}
                 />
-
-                <img
-                  src={
-                    featureImg
-                      ? URL.createObjectURL(featureImg)
-                      : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
-                  }
-                  alt=""
-                />
+                {featureImg ? (
+                  <img
+                    className="movieImg"
+                    src={URL.createObjectURL(featureImg)}
+                  />
+                ) : (
+                  <div className="noImage">
+                    <div className="noImageInfo">
+                      <img className="noImg" src={addImage} alt="" />
+                      <p>Add Images</p>
+                    </div>
+                  </div>
+                )}
               </label>
             </div>
 
@@ -129,20 +153,25 @@ const NewMovie = ({ inputs, title }) => {
               <label htmlFor="featureSmImg">
                 <input
                   type="file"
+                  name="featureSmImg"
                   id="featureSmImg"
                   accept="image/*"
                   onChange={(e) => setFeatureSmImg(e.target.files[0])}
                   style={{ display: "none" }}
                 />
-
-                <img
-                  src={
-                    featureSmImg
-                      ? URL.createObjectURL(featureSmImg)
-                      : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
-                  }
-                  alt=""
-                />
+                {featureSmImg ? (
+                  <img
+                    className="movieImg"
+                    src={URL.createObjectURL(featureSmImg)}
+                  />
+                ) : (
+                  <div className="noImage">
+                    <div className="noImageInfo">
+                      <img className="noImg" src={addImage} alt="" />
+                      <p>Add Images</p>
+                    </div>
+                  </div>
+                )}
               </label>
             </div>
 
@@ -151,71 +180,147 @@ const NewMovie = ({ inputs, title }) => {
               <label htmlFor="smallImg">
                 <input
                   type="file"
+                  name="smallImg"
                   id="smallImg"
                   accept="image/*"
-                  // accept="video/*"
-                  onChange={(e) => setSmallImg(e.target.files[0])}
+                  onChange={(e) => setSmImg(e.target.files[0])}
                   style={{ display: "none" }}
                 />
-
-                <img
-                  src={
-                    smallImg
-                      ? URL.createObjectURL(smallImg)
-                      : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
-                  }
-                  alt=""
-                />
+                {smImg ? (
+                  <img className="movieImg" src={URL.createObjectURL(smImg)} />
+                ) : (
+                  <div className="noImage">
+                    <div className="noImageInfo">
+                      <img className="noImg" src={addImage} alt="" />
+                      <p>Add Images</p>
+                    </div>
+                  </div>
+                )}
               </label>
             </div>
           </div>
 
           <div className="right">
-            <form onSubmit={handleAdd}>
-              {inputs.map((input) => (
-                <div className="formInput" key={input.id}>
-                  <label>{input.label}</label>
-                  <input
-                    id={input.id}
-                    type={input.type}
-                    placeholder={input.placeholder}
-                    onChange={handleInput}
-                  />
-                </div>
-              ))}
-              <div className="formInput">
-                <label htmlFor="">Genre</label>
-                <select name="" id="">
-                  <option value="">Animation</option>
-                  <option value="">Animation</option>
-                  <option value="">Animation</option>
-                  <option value="">Animation</option>
-                  <option value="">Action</option>
-                </select>
-              </div>
+            <div className="formInput">
+              <input
+                type="text"
+                name="title"
+                placeholder="Name"
+                onChange={handleInput}
+              />
+              <label>Title</label>
+            </div>
 
-              <div className="formInput">
-                <label htmlFor="">Age 18+</label>
-                <select name="" id="">
-                  <option value="">Yes</option>
-                  <option value="">No</option>
-                </select>
-              </div>
+            <div className="formInput">
+              <input
+                type="text"
+                placeholder="Name"
+                name="desc"
+                onChange={handleInput}
+              />
+              <label>Description</label>
+            </div>
 
-              <div className="formInput">
-                <label htmlFor="">Type</label>
-                <select name="" id="">
-                  <option value="">Movie</option>
-                  <option value="">Series</option>
-                </select>
-              </div>
+            <div className="formInput">
+              <input
+                type="number"
+                placeholder="Name"
+                name="duration"
+                onChange={handleInput}
+              />
+              <label>Duration</label>
+            </div>
 
-              <button type="submit" disabled={per !== null && per < 100}>
-                Send
-              </button>
-            </form>
+            <div className="formInput">
+              <input
+                type="number"
+                placeholder="Name"
+                name="year"
+                onChange={handleInput}
+              />
+              <label>Year</label>
+            </div>
+
+            <div className="formInput">
+              <input
+                type="text"
+                name="videoLink"
+                placeholder="Name"
+                value={videoLink}
+                onChange={(e) => setVideoLink(e.target.value)}
+              />
+              <label>Video</label>
+            </div>
           </div>
-        </div>
+
+          <div className="bottom">
+            <div className="bottomInput">
+              <label>Genre</label>
+              <select
+                id="genre"
+                onChange={handleInput}
+                name="genre"
+                value={data.genre || "default"}
+              >
+                <option value="default" disabled>
+                  Select a genre
+                </option>
+                {genre.map((g) => (
+                  <option key={g} value={g}>
+                    {g}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="bottomInput">
+              <label>Age</label>
+              <select
+                id="age"
+                onChange={handleInput}
+                name="age"
+                value={data.age || "default"}
+              >
+                <option value="default" disabled>
+                  Select an Age
+                </option>
+                {ageRestrictions.map((age) => (
+                  <option value={age} key={age}>
+                    {age}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="bottomInput">
+              <label>Type</label>
+              <select
+                id="isSeries"
+                onChange={handleInput}
+                name="isSeries"
+                value={data.isSeries || "default"}
+              >
+                <option value="default" disabled>
+                  Select Type
+                </option>
+                <option value="false">Movie</option>
+                <option value="true">Series</option>
+              </select>
+            </div>
+          </div>
+
+          <button
+            className="addProductButton primary-btn"
+            onClick={handleUploadAndSubmit}
+            disabled={isUploading} // Disable when uploading
+          >
+            {isUploading
+              ? "Uploading..."
+              : uploaded === 4
+                ? "Create"
+                : "Upload"}
+          </button>
+        </form>
       </div>
     </div>
   );

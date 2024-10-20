@@ -24,16 +24,12 @@
   }
 
   .sidebar {
-    background-color: #111;
-    border-color: #333;
+    background-color: #fff;
 
     .top {
       .logo {
-        color: #999;
+        color: #6439ff;
       }
-    }
-    hr {
-      border-color: #333;
     }
 
     ul {
@@ -47,6 +43,10 @@
         }
       }
     }
+  }
+
+  .table {
+    background-color: #fff;
   }
 
   .datatable {
@@ -63,7 +63,17 @@
     }
   }
 
-  input{
-      background-color: transparent;
+  input {
+    background-color: transparent;
+  }
+
+  .register,.login {
+    .input {
+      background-color: #201e1e;
+      border: 1px solid #fff;
+      .inputValid {
+        background-color: transparent;
+      }
+    }
   }
 }

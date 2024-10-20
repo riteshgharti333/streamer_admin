@@ -1,28 +1,29 @@
 .table {
-  .cellWrapper {
-    display: flex;
-    align-items: center;
+  height: 500px;
+  padding: 20px 20px 50px 20px;
 
-    .image {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      margin-right: 10px;
-      object-fit: cover;
-    }
+  border-radius: 10px;
+  background-color: white;
+
+  box-shadow:
+    rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  transition: all 0.2s ease-in;
+  border-radius: 10px;
+
+  &:hover {
+    transform: scale(1.01);
+    box-shadow:
+      10px 10px 10px #bebebe,
+      -1px -1px 15px #ffffff;
+    transition: 0.2s ease-in-out;
   }
 
-  .status {
-    padding: 5px;
-    border-radius: 5px;
-
-    &.Approved {
-      color: green;
-      background-color: rgba(0, 128, 0, 0.151);
-    }
-    &.Pending {
-      color: goldenrod;
-      background-color: rgba(189, 189, 3, 0.103);
-    }
+  .listTitle {
+    font-weight: bold;
+    font-size: 14px;
+    color: rgb(160, 160, 160);
+    text-transform: uppercase;
+    margin-bottom: 20px;
   }
 }
