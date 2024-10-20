@@ -19,7 +19,6 @@ const Widget = ({ type }) => {
   const data = widgetData.find((item) => item.type === type);
 
 
-//  console.log(data.title)
 
   useEffect(() => {
     const fetchData = async () => {
