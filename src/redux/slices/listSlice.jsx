@@ -107,6 +107,7 @@ const listSlice = createSlice({
         state.error = action.payload;
       });
 
+<<<<<<< HEAD
     //  Create Single List
     builder
       .addCase(createAsyncSingleList.pending, (state) => {
@@ -123,6 +124,22 @@ const listSlice = createSlice({
         state.status = "failed";
         state.error = action.payload;
       });
+=======
+          //  Create Single List
+    builder
+    .addCase(createAsyncSingleList.pending, (state) => {
+      state.status = "loading";
+      state.error = null;
+    })
+    .addCase(createAsyncSingleList.fulfilled, (state, action) => {
+      state.status = "idle";
+      state.lists.push(action.payload);
+    })
+    .addCase(createAsyncSingleList.rejected, (state, action) => {
+      state.status = "failed";
+      state.error = action.payload;
+    });
+>>>>>>> f9c7e66 (add create list slice)
   },
 });
 

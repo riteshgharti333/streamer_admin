@@ -56,7 +56,11 @@ const SingleMovie = () => {
   };
 
   const uploadFile = async (file, label) => {
+<<<<<<< HEAD
     if (!file) return null;
+=======
+    if (!file) return "";
+>>>>>>> f9c7e66 (add create list slice)
 
     const fileName = new Date().getTime() + label + file.name;
     const storageRef = ref(storage, `/items/${fileName}`);
@@ -68,7 +72,12 @@ const SingleMovie = () => {
         (snapshot) => {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+<<<<<<< HEAD
           console.log(Math.round(progress));
+=======
+          console.log("Upload is " + progress + "% done");
+          setPer(progress);
+>>>>>>> f9c7e66 (add create list slice)
         },
         (error) => {
           setIsUploading(false);
@@ -123,6 +132,7 @@ const SingleMovie = () => {
         uploadFile(featureImg, "featureImg"),
         uploadFile(featureSmImg, "featureSmImg"),
         uploadFile(smImg, "smImg"),
+<<<<<<< HEAD
         // uploadFile(video, "video"),
       ]);
 
@@ -155,6 +165,43 @@ const SingleMovie = () => {
     }
   };
 
+=======
+        uploadFile(video, "video"),
+      ]);
+
+      setData((prev) => ({
+        ...prev,
+        featureImg: urls[0] || prev.featureImg,
+        featureSmImg: urls[1] || prev.featureSmImg,
+        smImg: urls[2] || prev.smImg,
+        video: urls[3] || prev.video,
+      }));
+
+      setUploaded(urls.filter((url) => url).length);
+    } catch (error) {
+      console.error("Error uploading files:", error);
+    }
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await dispatch(
+        updateAsyncSingleMovie({ id: path, updateMovie: data })
+      ).unwrap();
+      dispatch(getAsyncSigleMovie(path));
+    } catch (err) {
+      console.log("Error updating movie:", err);
+    }
+  };
+
+  const handleDelete = (path) => {
+    dispatch(deleteAsyncSigleMovie(path));
+    console.log("movie deleted");
+    navigate(-1);
+  };
+
+
+>>>>>>> f9c7e66 (add create list slice)
   return (
     <div className="singleMovie">
       <div className="singleMovieBtn">
@@ -263,6 +310,7 @@ const SingleMovie = () => {
             </>
           )}
 
+<<<<<<< HEAD
           {isLoading ? (
             <div className="center">
               <Skeleton width={400} />
@@ -270,6 +318,100 @@ const SingleMovie = () => {
               <Skeleton width={400} />
               <Skeleton width={400} />
               <Skeleton width={400} />
+=======
+              <div className="formInput">
+                <label>Description</label>
+                <input
+                  type="text"
+                  name="desc"
+                  placeholder="Bih Hero 6 is doc. robot help the poor people"
+                  value={data.desc || ""}
+                  onChange={handleInput}
+                />
+              </div>
+
+              <div className="formInput">
+                <label>Year</label>
+                <input
+                  type="number"
+                  name="year"
+                  placeholder="2003"
+                  value={data.year || ""}
+                  onChange={handleInput}
+                />
+              </div>
+
+              <div className="formInput">
+                <label>Genre</label>
+                <select
+                  id="genre"
+                  name="genre"
+                  value={data.genre || "default"}
+                  onChange={handleInput}
+                >
+                  <option value="default" disabled>
+                    Select a genre
+                  </option>
+                  {genre.map((g) => (
+                    <option key={g} value={g}>
+                      {g}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="formInput">
+                <label>Age</label>
+                <select
+                  id="age"
+                  name="age"
+                  value={data.age || "default"}
+                  onChange={handleInput}
+                >
+                  <option value="default" disabled>
+                    Select an Age
+                  </option>
+                  {ageRestrictions.map((age) => (
+                    <option key={age} value={age}>
+                      {age}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="formInput">
+                <label>Type</label>
+                <select
+                  id="isSeries"
+                  onChange={handleInput}
+                  name="isSeries"
+                  value={data.isSeries}
+                >
+                  <option value="false">Movie</option>
+                  <option value="true">Series</option>
+                </select>
+              </div>
+
+              <div className="formInput">
+                <label>Video</label>
+                <input
+                  type="file"
+                  name="video"
+                  onChange={handleInput}
+                  // Note: The `value` attribute does not work for file inputs
+                />
+              </div>
+
+              {uploaded ? (
+                <button className="addProductButton" onClick={handleSubmit}>
+                  Update
+                </button>
+              ) : (
+                <button className="addProductButton" onClick={handleUpload}>
+                  Upload
+                </button>
+              )}
+>>>>>>> f9c7e66 (add create list slice)
             </div>
           ) : (
             <>

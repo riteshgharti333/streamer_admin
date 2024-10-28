@@ -83,24 +83,54 @@ export const updateAsyncSingleList = createAsyncThunk(
   },
 );
 
+<<<<<<< HEAD
 // CREATING SINGLE LIST
+=======
+// CREATING SINGLE MOVIE
+>>>>>>> f9c7e66 (add create list slice)
 export const createAsyncSingleList = createAsyncThunk(
   "movies/createSingleList",
   async (list, { rejectWithValue }) => {
     try {
+<<<<<<< HEAD
       const { title, genre, type, content } = list;
+=======
+      const {
+        title,
+        genre,
+        type,
+        content
+      } = list;
+
+      // Prepare the new movie object
+>>>>>>> f9c7e66 (add create list slice)
       const newList = {
         title,
         genre,
         type,
+<<<<<<< HEAD
         content,
+=======
+        content
+>>>>>>> f9c7e66 (add create list slice)
       };
       const response = await createSingleList(newList);
       console.log(response.data);
       return response.data;
+<<<<<<< HEAD
     } catch (error) {
       console.log(error);
       return rejectWithValue(error.response.data || "Failed to create movie");
     }
   },
 );
+=======
+  
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.message || "Failed to create movie");
+    }
+  }
+);
+
+>>>>>>> f9c7e66 (add create list slice)

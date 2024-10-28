@@ -134,6 +134,7 @@
         }
       }
 
+<<<<<<< HEAD
       .listButton {
         .addlistButton {
           padding: 10px;
@@ -148,6 +149,43 @@
 
           &:last-child {
             background-color: green;
+=======
+        .addlistForm {
+          position: relative;
+          .formLeft {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            .addlistItem {
+              label {
+                font-size: 18px;
+                margin-right: 10px;
+
+              }
+
+              input {
+                outline: none;
+              }
+
+              .datagridContainer{
+                width: 100%;
+                margin-top: 10px;
+              }
+
+            }
+          }
+
+          .addlistButton {
+            padding: 10px;
+            border: none;
+            background-color: aqua;
+            font-size: 15px;
+            margin-top: 10px;
+            color: white;
+            font-weight: bold;
+            margin-right: 10px;
+            cursor: pointer;
+>>>>>>> f9c7e66 (add create list slice)
           }
         }
       }

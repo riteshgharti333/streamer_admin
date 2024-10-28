@@ -35,3 +35,8 @@ export const createSingleList = (newList) => {
     withCredentials: true,
   });
 };
+
+//CREATE MOVIE
+export const createSingleList = (newList) => {
+  return axios.post(`${baseUrl}/list/newlist`, newList);
+};

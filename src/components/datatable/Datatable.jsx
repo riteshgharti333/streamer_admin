@@ -145,6 +145,7 @@ const Datatable = ({ title, listColumns, movieType }) => {
   return (
     <div className="datatable">
       <div className="datatableTitle">
+<<<<<<< HEAD
         {loading ? <Skeleton height={20} width={200} /> : <p>{title}</p>}
 
         {loading ? (
@@ -156,6 +157,13 @@ const Datatable = ({ title, listColumns, movieType }) => {
               Add New <span className="newType">{movieType}</span>
             </Link>
           )
+=======
+        {title}
+        {path !== "/users" && (
+          <Link to={`/${movieType}/new`} className="link">
+            Add New
+          </Link>
+>>>>>>> f9c7e66 (add create list slice)
         )}
       </div>
 

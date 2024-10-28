@@ -3,8 +3,11 @@ import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalance
 import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import PersonIcon from "@mui/icons-material/Person";
+<<<<<<< HEAD
 
 import { format } from "date-fns";
+=======
+>>>>>>> f9c7e66 (add create list slice)
 
 export const userColumns = [
   { field: "_id", headerName: "ID", width: 100 },
@@ -69,6 +72,7 @@ export const userRows = [
     age: 35,
   },
   {
+<<<<<<< HEAD
     id: 2,
     username: "Jamie Lannister",
     img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
@@ -83,14 +87,137 @@ export const userRows = [
     email: "3snow@gmail.com",
     status: "pending",
     age: 45,
+=======
+    field: "age",
+    headerName: "Age",
+    width: 100,
+  },
+  // {
+  //   field: "status",
+  //   headerName: "Status",
+  //   width: 160,
+  //   renderCell: (params) => {
+  //     return (
+  //       <div className={`cellWithStatus ${params.row.status}`}>
+  //         {params.row.status}
+  //       </div>
+  //     );
+  //   },
+  // },
+];
+
+export const MovieListColumns = [
+  { field: "_id", headerName: "ID", width: 70 },
+
+  {
+    field: "title",
+    headerName: "Title",
+    width: 230,
+  },
+
+  {
+    field: "type",
+    headerName: "Type",
+    width: 200,
   },
   {
+    field: "genre",
+    headerName: "Genre",
+    width: 200,
+  },
+  // {
+  //   field: "status",
+  //   headerName: "Status",
+  //   width: 160,
+  //   renderCell: (params) => {
+  //     return (
+  //       <div className={`cellWithStatus ${params.row.status}`}>
+  //         {params.row.status}
+  //       </div>
+  //     );
+  //   },
+  // },
+];
+
+export const ListofListColumns = [
+  { field: "_id", headerName: "ID", width: 70 },
+
+  {
+    field: "title",
+    headerName: "Title",
+    width: 230,
+  },
+
+  {
+    field: "isSeries",
+    headerName: "Web Series",
+    width: 230,
+>>>>>>> f9c7e66 (add create list slice)
+  },
+
+  // {
+  //   field: "year",
+  //   headerName: "Year",
+  //   width: 200,
+  // },
+  {
+    field: "genre",
+    headerName: "Genre",
+    width: 200,
+  },
+];
+
+export const ListofListSColumns = [
+  { field: "_id", headerName: "ID", width: 70 },
+
+  {
+    field: "title",
+    headerName: "Title",
+    width: 230,
+  },
+
+  {
+    field: "isSeries",
+    headerName: "Web Series",
+    width: 150,
+  },
+
+  // {
+  //   field: "year",
+  //   headerName: "Year",
+  //   width: 200,
+  // },
+  {
+<<<<<<< HEAD
     id: 4,
     username: "Stark",
     img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
     email: "4snow@gmail.com",
     status: "active",
     age: 16,
+=======
+    field: "genre",
+    headerName: "Genre",
+    width: 200,
+  },
+];
+
+export const widgetData = [
+  {
+    type: "user",
+    title: "USERS",
+    link: "See all users",
+    query: "users",
+    icon: (
+      <PersonOutlinedIcon
+        className="icon"
+        style={{
+          color: "crimson",
+          backgroundColor: "rgba(255, 0, 0, 0.2)",
+        }}
+      />
+    ),
+>>>>>>> f9c7e66 (add create list slice)
   },
   {
     id: 5,
